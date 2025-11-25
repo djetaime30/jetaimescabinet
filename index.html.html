@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg-dark: #0d1418; --bg-gradient: #1a242e; --text: #fcfcee; --accent: #89a2cb; --boxes: #243047;
+    --accent-glow: rgba(137,162,203,0.5);
+  }
+  body {font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark) 0%,var(--bg-gradient) 100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
+  h1 {font-size:2.6em;margin:0.5em 0;color:var(--accent);text-shadow:0 0 15px var(--accent-glow);}
+  p {line-height:1.7;margin:1.2em 0;color:var(--text);font-size:1.1em;}
+  .collage {max-width:100%;border:12px solid var(--boxes);border-radius:16px;box-shadow:0 0 50px rgba(0,0,0,0.9),0 0 30px var(--accent-glow);margin:30px auto;display:block;}
+  .words {display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:740px;}
+  button {background:var(--boxes);color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+  button:hover {background:var(--accent);color:#0d1418;transform:translateY(-3px);}
+  button.selected {background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--accent-glow);}
+  #revealBtn {background:var(--boxes);color:var(--text);border:3px solid var(--accent);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+  #revealBtn:hover {background:var(--accent);color:#0d1418;}
+  #result {margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+  #result.show {opacity:1;}
+  .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
+  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.35;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+
+<img src="https://files.catbox.moe/9zq2q5.jpg" class="collage" alt="24 November 2025 – the original warm winter">
+
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<script>
+// 24 November 2025 – the original warm-lantern winter collage
+const words = [
+  ["window",1],["candle",1],["cat",1],["hearth",1],["alone",1],["glow",1],["wooden walls",1],["frost on glass",1],
+  ["reindeer",2],["tundra",2],["aurora",2],["runes",2],["antler crown",2],["midnight sun",2],["saga",2],
+  ["snow queen",3],["onion domes",3],["sleigh bells",3],["ice palace",3],["golden key",3],["christmas eve",3],
+  ["pink sunrise on snow",4],["crescent moon",4],["silence",4],["crystalline",4],["breath visible",4],["fleeting light",4],
+  ["dried herbs",5],["candles in window",5],["embroidery",5],["lace curtains",5],["potion bottles",5],["grandmother’s house",5],
+  ["distant city lights",6],["bridge over frozen river",6],["solitary figure",6],["homesickness",6],["old country",6],
+  ["bare branches",7],["endless white",7],["single footprint",7],["meditation",7],["hush",7],["void",7]
+];
+
+const archetypes = [
+  "",
+  {name:"The Winter Hermit", text:"Secure but deeply introverted; finds profound meaning in small, warm spaces while the world freezes outside."},
+  {name:"The Reindeer Seer", text:"Connected to the ancient breath of the North. You feel the planet’s pulse beneath the ice."},
+  {name:"The Snow Child", text:"Half grown-up, half eternal child. A part of you still lives inside a frozen fairytale."},
+  {name:"The Dawn Watcher", text:"You live for the fleeting pink light on snow — the bittersweet beauty of things that cannot stay."},
+  {name:"The Hearth Witch", text:"You practice quiet, everyday magic with candles, herbs, and lace. Home is your sacred circle."},
+  {name:"The Exile at Yuletide", text:"You carry a soft ache for a homeland (real or mythic) that glows across the ice."},
+  {name:"The White Silence", text:"You find yourself most fully in vast emptiness and perfect hush."},
+  {name:"<span class='rare'>The Keeper of Winter’s Secret</span>", text:"Ultra-rare. You hold sacred solitude and cosmic wonder, childlike magic and adult longing, hearth warmth and endless silence — all in perfect balance."}
+];
+
+let selected = [];
+
+// Warm snow (original winter feel)
+const particleColour = "rgba(255,255,255,0.6)";
+
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-0.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button");
+    b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+  }else{
+    const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:30px;"><button onclick="copyShare()" style="padding:10px 20px;background:var(--accent);color:#0d1418;border:none;border-radius:8px;cursor:pointer;">Copy share text</button></p>`;
+  r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
+}
+
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew “${arch}” in Jetaime’s Cabinet of Possibilities\nglimpse the same door → ${location.href}`;
+  navigator.clipboard.writeText(text); alert("Copied — ready to post!");
+}
+
+// Gentle snow
+const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let p=[];
+function create(){for(let i=0;i<90;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1.5+0.3,o:Math.random()*0.6+0.3});}
+function fall(){ctx.clearRect(0,0,canvas.width,canvas.height);p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=particleColour;ctx.fill();e.y+=e.s;if(e.y>canvas.height)e.y=-10;e.x+=Math.sin(e.y/60)*0.6;});requestAnimationFrame(fall);}
+create();fall();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+
+init();
+</script>
+</body>
+</html>
