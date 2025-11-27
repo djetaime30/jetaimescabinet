@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PZ7MR0CBL5');
+</script>
+<style>
+  :root {
+    --bg-dark: #0f1a1f; --bg-gradient: #1e2a2f; --text: #e5f0f0; --accent: #a8c4d8; --boxes: #2e3d44;
+    --accent-glow: rgba(168,196,216,0.5);
+  }
+  body {font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark) 0%,var(--bg-gradient) 100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
+  h1 {font-size:2.6em;margin:0.5em 0;color:var(--accent);text-shadow:0 0 15px var(--accent-glow);}
+  p {line-height:1.7;margin:1.2em 0;color:var(--text);font-size:1.1em;}
+  .collage {max-width:100%;border:12px solid var(--boxes);border-radius:16px;box-shadow:0 0 50px rgba(0,0,0,0.9),0 0 30px var(--accent-glow);margin:30px auto;display:block;}
+  .words {display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:740px;}
+  button {background:var(--boxes);color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+  button:hover {background:var(--accent);color:#0d1418;transform:translateY(-3px);}
+  button.selected {background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--accent-glow);}
+  #revealBtn {background:var(--boxes);color:var(--text);border:3px solid var(--accent);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+  #revealBtn:hover {background:var(--accent);color:#0d1418;}
+  #result {margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+  #result.show {opacity:1;}
+  .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
+  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.35;}
+  .howto {background:rgba(255,255,255,0.15);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--accent);}
+  .kofi {margin:50px auto;font-size:1.3em;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+
+<img src="https://files.catbox.moe/dystgr.jpg" class="collage" alt="02 April 2025 – Collage 02-04-2025">
+
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<div class="howto">
+  <strong>How to share your result (even my mom can do it now):</strong><br><br>
+  1. Wait for your secret name to appear below<br>
+  2. Click the blue "Copy share text" button<br>
+  3. Paste it straight into Facebook, X, Instagram, or a text<br><br>
+  That's it — your friends will see your name + a link to play!
+</div>
+
+<div class="kofi">
+  Loving these daily doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--accent);text-decoration:underline;">Buy Jetaime a coffee (or a pearl necklace—she's not fussy)</a>
+</div>
+
+<script>
+// 02 April 2025 – Collage 02-04-2025
+const words = [
+  ["misty sea",1],["foggy wave",1],["ocean breath",1],["suspended horizon",1],
+  ["veiled figure",2],["lace silhouette",2],["pearl shadow",2],["soft veil",2],
+  ["pearlescent shell",3],["silver lining",3],["delicate armor",3],["quiet pearl",3],
+  ["distant shore",4],["fog memory",4],["unseen edge",4],["horizon pull",4],
+  ["lace current",5],["wave embroidery",5],["fluid thread",5],["sea stitch",5],
+  ["silver whisper",6],["thread connection",6],["quiet link",6],["sea echo",6],
+  ["breath pause",7],["sea hush",7],["suspended air",7],["ocean calm",7]
+];
+
+const archetypes = [
+  "",
+  {name:"The Tide Dreamer", text:"Flows with uncertainty; finds clarity in the spaces between waves."},
+  {name:"The Veiled Siren", text:"Reveals herself only in fragments; intimacy through gentle mystery."},
+  {name:"The Pearl Sentinel", text:"Protects tender truths with luminous boundaries."},
+  {name:"The Fog Walker", text:"Steps toward what cannot be seen; trust as the only map."},
+  {name:"The Current Weaver", text:"Crafts meaning from chaos; finds pattern in the pull of tides."},
+  {name:"The Silver Thread", text:"Holds distant loves with invisible, unbreakable lines."},
+  {name:"The Breath Keeper", text:"Masters the art of waiting; peace in the space between exhale and inhale."},
+  {name:"<span class='rare'>The Ocean Veil</span>", text:"Ultra-rare. You hold fluidity and firmness, mystery and meaning, distance and devotion in perfect, serene balance. (Jetaime suspects this one was waiting for someone just like you.)"}
+];
+
+let selected = [];
+
+// Gentle mist particles
+const particleColour = "rgba(168,196,216,0.5)";
+
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-0.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button");
+    b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+  }else{
+    const counts={}; selected.forEach(x=>counts
