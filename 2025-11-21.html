@@ -6,11 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root {
-    --bg-dark: #0b0e18;
-    --bg-gradient: #1a2333;
-    --text: #f8f5f0;
-    --accent: #c8d8e8;
-    --boxes: #2a3748;
+    --bg-dark: #0b0e18; --bg-gradient: #1a2333; --text: #f8f5f0; --accent: #c8d8e8; --boxes: #2a3748;
     --accent-glow: rgba(200,216,232,0.5);
   }
   body {font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark) 0%,var(--bg-gradient) 100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
@@ -27,6 +23,8 @@
   #result.show {opacity:1;}
   .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
   canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.35;}
+  .howto {background:rgba(255,255,255,0.07);padding:20px;border-radius:16px;margin:50px auto;max-width:600px;font-size:1.1em;line-height:1.8;}
+  .kofi {margin:50px auto;font-size:1.3em;}
 </style>
 </head>
 <body>
@@ -41,6 +39,19 @@
 <button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
 
+<div class="howto">
+  <strong>How to share your result (even my mom can do it now):</strong><br>
+  1. Wait for your secret name to appear<br>
+  2. Click the blue “Copy share text” button<br>
+  3. Paste it straight into Facebook, X, Instagram, or a text<br>
+  That’s it — your friends will see your name + a link to play!
+</div>
+
+<div class="kofi">
+  Loving these daily doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--accent);text-decoration:underline;">Buy Jetaime a coffee (or a pearl necklace—she’s not fussy)</a>
+</div>
+
 <script>
 // 21 November 2025 – Snow Lux Cream Blue Pearl White Dog
 const words = [
@@ -49,20 +60,20 @@ const words = [
   ["loyal dog",3],["faithful companion",3],["fluffy guardian",3],["snowy sidekick",3],
   ["vintage Mercedes",4],["old-world adventure",4],["luggage dreams",4],["snowy road",4],
   ["golden chandelier",5],["warm glow",5],["light in snow",5],["carousel magic",5],
-  ["Jetaime cottage",6],["cozy hood",6],["snowy sanctuary",6],["cream haven",6],
+  ["cozy hood",6],["snowy sanctuary",6],["cream haven",6],["winter retreat",6],
   ["carousel delight",7],["childlike spin",7],["winter whimsy",7],["joyful circle",7]
 ];
 
 const archetypes = [
   "",
-  {name:"The Snow Luxuriate", text:"Finds bliss in opulent simplicity; turns ordinary snow into personal paradise."},
+  {name:"The Snow Luxuriate", text:"Turns ordinary snow into personal paradise; finds bliss in opulent simplicity."},
   {name:"The Pearl Princess", text:"Embodies timeless elegance; dreams in ballgowns and moonlit dances."},
   {name:"The Devoted Companion", text:"Craves unwavering loyalty; the heart that follows through every storm."},
-  {name:"The Vintage Wanderer", text:"Romanticizes the journey; finds freedom in classic cars and open horizons."},
-  {name:"The Golden Glowkeeper", text:"Creates light and wonder in the darkest nights; whimsy as survival."},
-  {name:"The Cozy Hood Witch", text:"Builds magical retreats; home as the ultimate fairy-tale ending."},
-  {name:"The Whimsy Spinner", text:"Keeps play alive in adulthood; life as an endless, snowy merry-go-round."},
-  {name:"<span class='rare'>The Snow Luxuriate</span>", text:"Ultra-rare. You hold luxury and whimsy, companionship and escape, glow and purity—all in perfect, joyful balance."}
+  {name:"The Vintage Wanderer", text:"Romanticises the journey; finds freedom in classic cars and open horizons."},
+  {name:"The Golden Glowkeeper", text:"Creates light and wonder in the darkest nights; whimsy as quiet survival."},
+  {name:"The Cozy Hood Witch", text:"Builds magical retreats; home is the ultimate fairy-tale ending."},
+  {name:"The Whimsy Spinner", text:"Refuses to grow up; life is an endless snowy carousel of delight."},
+  {name:"<span class='rare'>The Snow Luxuriate</span>", text:"Ultra-rare. You hold luxury and whimsy, loyalty and escape, glow and purity in perfect, joyful balance. (Jetaime may have designed this one with herself in mind, but today it belongs entirely to you.)"}
 ];
 
 let selected = [];
@@ -96,17 +107,17 @@ function calculate(){
     html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
   }
   const r=document.getElementById("result");
-  r.innerHTML=html+`<p style="margin-top:30px;"><button onclick="copyShare()" style="padding:10px 20px;background:var(--accent);color:#0d1418;border:none;border-radius:8px;cursor:pointer;">Copy share text</button></p>`;
+  r.innerHTML=html+`<p style="margin-top:30px;"><button onclick="copyShare()" style="padding:12px 24px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
   r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
 }
 
 function copyShare(){
   const arch=document.querySelector("#result h2")?.innerText||"my secret name";
   const text=`I just drew “${arch}” in Jetaime’s Cabinet of Possibilities\nglimpse the same door → ${location.href}`;
-  navigator.clipboard.writeText(text); alert("Copied — ready to post!");
+  navigator.clipboard.writeText(text); alert("Copied! Just paste it anywhere.");
 }
 
-// Gentle creamy-snow particles
+// Creamy-snow particles
 const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
 let p=[];
