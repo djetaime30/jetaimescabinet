@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PZ7MR0CBL5');
+</script>
+<style>
+  :root {
+    --bg-dark: #1a0f08;        /* deep rust-brown */
+    --bg-gradient: #2b1c12;
+    --text: #f5e6d3;           /* warm cream */
+    --accent: #d4a574;         /* golden rust */
+    --boxes: #3f2a1f;
+    --accent-glow: rgba(212,165,116,0.5);
+  }
+  body {font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark) 0%,var(--bg-gradient) 100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
+  h1 {font-size:2.6em;margin:0.5em 0;color:var(--accent);text-shadow:0 0 15px var(--accent-glow);}
+  p {line-height:1.7;margin:1.2em 0;color:var(--text);font-size:1.1em;}
+  .collage {max-width:100%;border:12px solid var(--boxes);border-radius:16px;box-shadow:0 0 50px rgba(0,0,0,0.9),0 0 30px var(--accent-glow);margin:30px auto;display:block;}
+  .words {display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:740px;}
+  button {background:var(--boxes);color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+  button:hover {background:var(--accent);color:#0d1418;transform:translateY(-3px);}
+  button.selected {background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--accent-glow);}
+  #revealBtn {background:var(--boxes);color:var(--text);border:3px solid var(--accent);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+  #revealBtn:hover {background:var(--accent);color:#0d1418;}
+  #result {margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+  #result.show {opacity:1;}
+  .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
+  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.35;}
+  .howto {background:rgba(255,255,255,0.15);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--accent);}
+  .kofi {margin:50px auto;font-size:1.3em;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+
+<img src="https://files.catbox.moe/5v93lw.jpg" class="collage" alt="20 November 2025 – Thanksgiving Rust Cream Green Pies Roast Turkey Place Settings Cheers Cat">
+
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<div class="howto">
+  <strong>How to share your result (even my mom can do it now):</strong><br><br>
+  1. Wait for your secret name to appear below<br>
+  2. Click the blue “Copy share text” button<br>
+  3. Paste it straight into Facebook, X, Instagram, or a text<br><br>
+  That’s it — your friends will see your name + a link to play!
+</div>
+
+<div class="kofi">
+  Loving these daily doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--accent);text-decoration:underline;">Buy Jetaime a coffee (or a slice of pie—she’s not fussy)</a>
+</div>
+
+<script>
+// 20 November 2025 – Thanksgiving Rust Cream Green Pies Roast Turkey Place Settings Cheers Cat
+const words = [
+  ["roast turkey",1],["golden skin",1],["rosemary crown",1],["abundant feast",1],["gravy river",1],
+  ["pumpkin pie",2],["pecan lattice",2],["cream dream",2],["cinnamon kiss",2],
+  ["rust linen",3],["green velvet",3],["place setting",3],["thankful table",3],
+  ["wine cheers",4],["crystal clink",4],["gathered light",4],["family glow",4],
+  ["wreath welcome",5],["candle warmth",5],["hearth fire",5],["cozy gathering",5],
+  ["cat at table",6],["purring guest",6],["whisker watch",6],["feline blessing",6],
+  ["gratitude breath",7],["harvest heart",7],["bounty prayer",7],["full circle",7]
+];
+
+const archetypes = [
+  "",
+  {name:"The Feast Keeper", text:"Believes abundance is a sacred duty; turns every table into holy ground."},
+  {name:"The Pie Alchemist", text:"Transforms simple ingredients into memories that last for decades."},
+  {name:"The Table Weaver", text:"Creates belonging with linen, candlelight, and perfect place settings."},
+  {name:"The Toast Master", text:"Knows the real magic happens when glasses meet and eyes shine."},
+  {name:"The Hearth Guardian", text:"Makes strangers into family with nothing more than warmth and welcome."},
+  {name:"The Cat Who Blesses", text:"Understands that every feast is incomplete without a quiet feline witness."},
+  {name:"The Gratitude Bearer", text:"Carries thankfulness like a lantern through the darkest seasons."},
+  {name:"<span class='rare'>The Harvest Sovereign</span>", text:"Ultra-rare. You hold bounty and belonging, warmth and wonder, gratitude and grace in perfect balance. (Jetaime might say this one feels suspiciously like her own soul on Thanksgiving.)"}
+];
+
+let selected = [];
+
+// Warm falling leaves / candle sparks
+const particleColour = "rgba(220,160,90,0.55)";
+
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-0.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button");
+    b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+  }else{
+    const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:30px;"><button onclick="copyShare()" style="padding:12px 24px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
+  r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
+}
+
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew “${arch}” in Jetaime’s Cabinet of Possibilities\nglimpse the same door → ${location.href}`;
+  navigator.clipboard.writeText(text); alert("Copied! Just paste it anywhere.");
+}
+
+// Warm falling leaves / candle sparks
+const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let p=[];
+function create(){for(let i=0;i<90;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1.5+0.3,o:Math.random()*0.6+0.3});}
+function fall(){ctx.clearRect(0,0,canvas.width,canvas.height);p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=particleColour;ctx.fill();e.y+=e.s;if(e.y>canvas.height)e.y=-10;e.x+=Math.sin(e.y/60)*0.6;});requestAnimationFrame(fall);}
+create();fall();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+
+init();
+</script>
+</body>
+</html>
