@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Jetaime’s Cabinet of Possibilities</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -14,11 +13,7 @@
 </script>
 <style>
   :root {
-    --bg-dark: #1a0f08;        /* deep rust-brown */
-    --bg-gradient: #2b1c12;
-    --text: #f5e6d3;           /* warm cream */
-    --accent: #d4a574;         /* golden rust */
-    --boxes: #3f2a1f;
+    --bg-dark: #1a0f08; --bg-gradient: #2b1c12; --text: #f5e6d3; --accent: #d4a574; --boxes: #3f2a1f;
     --accent-glow: rgba(212,165,116,0.5);
   }
   body {font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark) 0%,var(--bg-gradient) 100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
@@ -34,7 +29,7 @@
   #result {margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
   #result.show {opacity:1;}
   .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
-  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.35;}
+  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.4;}
   .howto {background:rgba(255,255,255,0.15);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--accent);}
   .kofi {margin:50px auto;font-size:1.3em;}
 </style>
@@ -90,8 +85,8 @@ const archetypes = [
 
 let selected = [];
 
-// Warm falling leaves / candle sparks
-const particleColour = "rgba(220,160,90,0.55)";
+// Real falling autumn leaves
+const particleColour = "rgba(220,140,60,0.7)";   // amber-orange leaves
 
 function init(){
   const list=document.getElementById("wordlist");
@@ -129,12 +124,26 @@ function copyShare(){
   navigator.clipboard.writeText(text); alert("Copied! Just paste it anywhere.");
 }
 
-// Warm falling leaves / candle sparks
+// Falling autumn leaves
 const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
 let p=[];
-function create(){for(let i=0;i<90;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1.5+0.3,o:Math.random()*0.6+0.3});}
-function fall(){ctx.clearRect(0,0,canvas.width,canvas.height);p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=particleColour;ctx.fill();e.y+=e.s;if(e.y>canvas.height)e.y=-10;e.x+=Math.sin(e.y/60)*0.6;});requestAnimationFrame(fall);}
+function create(){for(let i=0;i<100;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height-100,r:Math.random()*4+2,s:Math.random()*1.2+0.4,o:Math.random()*0.7+0.3,rot:0,rotspeed:Math.random()*0.1-0.05});}
+function fall(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{
+    ctx.save();
+    ctx.translate(e.x,e.y);
+    ctx.rotate(e.rot);
+    ctx.fillStyle=particleColour;
+    ctx.fillRect(-e.r,-e.r/2,e.r*2,e.r); // simple leaf shape
+    ctx.restore();
+    e.y+=e.s; e.rot+=e.rotspeed;
+    if(e.y>canvas.height)e.y=-20;
+    e.x+=Math.sin(e.y/50)*1.5;
+  });
+  requestAnimationFrame(fall);
+}
 create();fall();
 window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
 
