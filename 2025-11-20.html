@@ -29,7 +29,7 @@
   #result {margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
   #result.show {opacity:1;}
   .rare {color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
-  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.42;}
+  canvas {position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.44;}
   .howto {background:rgba(255,255,255,0.15);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--accent);}
   .kofi {margin:50px auto;font-size:1.3em;}
 </style>
@@ -85,53 +85,73 @@ const archetypes = [
 
 let selected = [];
 
-// Realistic falling autumn leaves
+// Realistic autumn leaves in collage colours + gentle wind gusts
 const canvas=document.getElementById("leaves"); const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
-const leaves=[];
-const leafColors=["#c1440e","#d35400","#e67e22","#f39c12","#f1c40f","#d4a574"];
+
+const leafColors = ["#c1440e","#d35400","#e67e22","#d4a574","#8b6f47","#a67c52","#b8860b"];
+let leaves = [];
+let wind = 0; let windTarget = 0;
+
 function createLeaf(){
   return {
     x: Math.random()*canvas.width,
-    y: -30,
-    size: Math.random()*18+12,
-    speed: Math.random()*2+1,
-    sway: Math.random()*4-2,
+    y: -50,
+    size: Math.random()*28+18,
+    speed: Math.random()*1.8+1.2,
+    sway: Math.random()*3+1,
     spin: Math.random()*0.08-0.04,
     rot: Math.random()*Math.PI*2,
     color: leafColors[Math.floor(Math.random()*leafColors.length)]
   };
 }
-for(let i=0;i<45;i++) leaves.push(createLeaf());
+for(let i=0;i<50;i++) leaves.push(createLeaf());
 
 function drawLeaf(l){
   ctx.save();
   ctx.translate(l.x,l.y);
   ctx.rotate(l.rot);
-  ctx.fillStyle=l.color;
+  ctx.fillStyle = l.color;
+  ctx.strokeStyle = "rgba(100,40,10,0.5)";
+  ctx.lineWidth = 1.5;
+
+  // Classic maple leaf shape
   ctx.beginPath();
   ctx.moveTo(0,0);
-  ctx.quadraticCurveTo(l.size/3,-l.size/2,0,-l.size);
-  ctx.quadraticCurveTo(-l.size/3,-l.size/2,0,0);
+  ctx.quadraticCurveTo(l.size/4,-l.size/3,0,-l.size);
+  ctx.quadraticCurveTo(-l.size/4,-l.size/3,0,0);
+  ctx.quadraticCurveTo(l.size/3,-l.size/2,l.size/2,-l.size/1.2);
+  ctx.quadraticCurveTo(l.size/4,-l.size/1.5,0,-l.size/2);
+  ctx.quadraticCurveTo(-l.size/4,-l.size/1.5,0,0);
+  ctx.quadraticCurveTo(-l.size/3,-l.size/2,-l.size/2,-l.size/1.2);
+  ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle="rgba(100,50,20,0.4)";
-  ctx.lineWidth=1.5;
+  ctx.stroke();
+
+  // Vein down the middle
   ctx.beginPath();
   ctx.moveTo(0,0);
   ctx.lineTo(0,-l.size);
+  ctx.strokeStyle = "rgba(80,30,10,0.6)";
+  ctx.lineWidth = 1;
   ctx.stroke();
   ctx.restore();
 }
 
+let time=0;
 function fall(){
+  time++;
+  wind += (windTarget - wind)*0.02;
+  if(time%300===0) windTarget = (Math.random()-0.5)*6; // occasional gust
+
   ctx.clearRect(0,0,canvas.width,canvas.height);
   leaves.forEach(l=>{
     drawLeaf(l);
     l.y += l.speed;
-    l.x += Math.sin(l.y/40)*l.sway;
+    l.x += wind + Math.sin(l.y/40)*l.sway;
     l.rot += l.spin;
-    if(l.y > canvas.height+30){
-      l.y = -30;
+    if(l.y > canvas.height+50){
+      l.y = -50;
       l.x = Math.random()*canvas.width;
     }
   });
@@ -140,7 +160,7 @@ function fall(){
 fall();
 window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
 
-/* ────── All the rest of your perfect game (unchanged) ────── */
+/* ────── Rest of your perfect game (unchanged) ────── */
 function init(){
   const list=document.getElementById("wordlist");
   const shuffled=[...words].sort(()=>Math.random()-0.5);
