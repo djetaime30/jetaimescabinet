@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
+<style>
+:root{
+  --bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--gold:#b89f6e;--indigo:#1c2333;
+  --glow:rgba(184,159,110,0.4);--smoke:rgba(100,100,120,0.25);
+}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
+h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 15px var(--glow);}
+p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
+.collage{max-width:100%;border:12px solid var(--indigo);border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 30px var(--glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
+button{background:var(--indigo);color:var(--text);border:2px solid var(--gold);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--gold);color:#0b0e1a;transform:translateY(-3px);}
+button.selected{background:var(--gold);color:#0b0e1a;font-weight:bold;box-shadow:0 0 20px var(--glow);}
+#revealBtn{background:var(--indigo);color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--gold);color:#0b0e1a;}
+#result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+#result.show{opacity:1;}
+.rare{color:#ffd700;font-size:1.9em;text-shadow:0 0 25px #b89f6e;}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.3;}
+.howto{background:rgba(255,255,255,.1);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--gold);}
+.kofi{margin:50px auto;font-size:1.3em;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+<img src="https://files.catbox.moe/smzrhr.jpg" class="collage" alt="30 November 2025 – Midnight Cabinet">
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<div class="howto">
+  <strong>How to share (even my mom can do it):</strong><br><br>
+  1. Wait for your name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — your friends get your name + the door
+</div>
+<div class="kofi">
+  Loving these nightly doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or an antique key)</a>
+</div>
+
+<script>
+const words=[
+  ["midnight velvet",1],["gold candle",1],["smoke curl",1],["secret drawer",1],
+  ["antique key",2],["hidden lock",2],["forbidden shelf",2],["brass clasp",2],
+  ["owl gaze",3],["night librarian",3],["silent watcher",3],["feather quill",3],
+  ["gothic arch",4],["stained glass moon",4],["vaulted shadow",4],["cathedral hush",4],
+  ["christmas carol book",5],["ghost story",5],["winter tale",5],["victorian page",5],
+  ["blue cloak",6],["starlight embroidery",6],["indigo mantle",6],["velvet night",6],
+  ["golden door",7],["threshold light",7],["portal gleam",7],["invitation",7]
+];
+
+const archetypes=[
+  "",
+  {name:"The Candle Keeper", text:"You carry quiet light into the darkest hours. Others find their way because you refuse to let the night win."},
+  {name:"The Key Guardian", text:"You hold things closed until the exact right moment. Trust is sacred;
