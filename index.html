@@ -8,53 +8,52 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="manifest" href="data:application/manifest+json,{\"name\":\"Jetaime’s Cabinet of Possibilities\",\"short_name\":\"Cabinet\",\"start_url\":\".\",\"display\":\"standalone\",\"background_color\":\"#0b0e1a\",\"theme_color\":\"#b89f6e\",\"icons\":[{\"src\":\"favicon.ico\",\"sizes\":\"64x64\",\"type\":\"image/x-icon\"}]}">
 <style>
-:root{--bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--accent:#b89f6e;--glow:rgba(184,159,110,0.4);--particle:rgba(184,159,110,0.3);}html{scroll-behavior:smooth;}body{font-family:georgia,serif;background:var(--bg);color:var(text);margin:0;padding:20px 10px;min-height:100vh;transition:all 1.8s ease;}a{transition:opacity .4s;}a:active{opacity:0.7;}h1{font-size:2.9em;text-align:center;margin:30px 0 10px;color:var(--accent);text-shadow:0 0 15px var(--glow);transition:all 1.8s;}.subtitle,.controls input,.controls select,.tag-pill,.clear-btn,.door .caption,.footer a{color:var(--accent);transition:all 1.8s;}.controls input,.controls select,.clear-btn{border-color:var(--accent);}canvas{opacity:0.3;transition:opacity 1.8s;}.tag{background:rgba(0,0,0,0.65);transition:all 1s;}.controls{max-width:960px;margin:0 auto 50px;text-align:center;}input,select{background:rgba(28,35,51,0.9);padding:14px 18px;border:2px solid var(--accent);border-radius:12px;font-size:1.2em;margin:10px;}input{width:340px;}.active-tags{margin:20px auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}.tag-pill{background:var(--accent);color:#0b0e1a;padding:8px 16px;border-radius:20px;font-size:0.95em;cursor:pointer;}.clear-btn{background:transparent;padding:8px 16px;border:1px solid var(--accent);border-radius:20px;cursor:pointer;font-size:0.9em;}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;max-width:1440px;margin:auto;padding:20px;}.door{position:relative;overflow:hidden;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.9);transition:all .4s;}.door:hover{transform:translateY(-14px);box-shadow:0 20px 50px rgba(0,0,0,0.95);}.door img{width:100%;display:block;opacity:0.92;transition:opacity .4s;}.door:hover img{opacity:1;}.caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#0b0e1aee);padding:60px 20px 18px;color:var(--accent);font-size:1.35em;text-align:center;text-shadow:0 0 12px #000;}.tags{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;opacity:0;transition:opacity .3s;}.door:hover .tags{opacity:1;}.tag{padding:4px 10px;border-radius:12px;font-size:0.8em;}.noresults{text-align:center;padding:100px;font-size:1.6em;opacity:0.7;}footer{text-align:center;margin:100px 0 40px;font-size:0.95em;opacity:0.8;}
+:root{--bg:#0b0e1a;--text:#e8d9c0;--accent:#b89f6e;--glow:rgba(184,159,110,0.5);--particle:rgba(184,159,110,0.55);}
+html{scroll-behavior:smooth;}body{font-family:georgia,serif;background:var(--bg);color:var(--text);margin:0;padding:0;min-height:100vh;transition:all 1.8s ease;}
+a{transition:opacity .4s;}a:active{opacity:0.7;}
+h1{font-size:2.9em;text-align:center;margin:30px 0 10px;color:var(--accent);text-shadow:0 0 16px var(--glow);transition:all 1.8s;}
+.subtitle{font-size:1.35em;text-align:center;margin:0 0 30px;opacity:0.9;}
+.controls{max-width:960px;margin:0 auto 40px;text-align:center;}
+input,select{background:rgba(28,35,51,0.9);color:var(--text);border:2px solid var(--accent);padding:14px 18px;border-radius:12px;font-size:1.2em;margin:8px;}
+input{width:340px;}
+.active-tags{margin:20px auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.tag-pill{background:var(--accent);color:#0b0e1a;padding:9px 18px;border-radius:22px;font-size:0.95em;cursor:pointer;}
+.clear-btn{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:0.9em;}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:1480px;margin:auto;padding:20px;}
+.door{position:relative;overflow:hidden;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.9);transition:all .4s;height:0;padding-bottom:70%;background:#000;}
+.door:hover{transform:translateY(-16px);box-shadow:0 24px 60px rgba(0,0,0,0.95);}
+.door a{position:absolute;inset:0;display:block;}
+.door img{width:100%;height:100%;object-fit:cover;opacity:0.92;transition:opacity .4s;}
+.door:hover img{opacity:1;}
+.caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#0b0e1aee);padding:70px 20px 20px;color:var(--accent);font-size:1.4em;text-align:center;text-shadow:0 0 12px #000;}
+.tags{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;opacity:0;transition:opacity .3s;}
+.door:hover .tags{opacity:1;}
+.tag{background:rgba(0,0,0,0.7);color:#fff;padding:5px 11px;border-radius:12px;font-size:0.82em;}
+.noresults{text-align:center;padding:120px 20px;font-size:1.7em;opacity:0.8;}
+footer{text-align:center;margin:90px 0 40px;font-size:1.05em;color:#d4c19e !important;opacity:1 !important;}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:-1;opacity:0.65;}
 </style>
 </head>
 <body>
 <audio id="creak" src="creak.mp3" preload="auto"></audio>
 <canvas id="particles"></canvas>
+
 <h1 id="maintitle">Jetaime’s Cabinet of Possibilities</h1>
 <p class="subtitle">Every door you ever opened lives here forever.</p>
+
 <div class="controls">
   <input type="text" id="search" placeholder="Search moods, dates, words…" autocomplete="off">
   <select id="yearFilter"><option value="">All Years</option></select>
 </div>
+
 <div class="active-tags" id="activeTags"></div>
 <div class="gallery" id="gallery"></div>
 <div class="noresults" id="noresults" style="display:none;">No doors match… whisper another word to the Cabinet.</div>
-<footer>Eternal archive • living colour • type <em>cabinet</em> anywhere for a secret • <a href="https://ko-fi.com/jetaimes">keep the candles lit</a></footer>
+
+<footer>
+  Eternal archive • living colour • type <em>cabinet</em> anywhere for a secret • 
+  <a href="https://ko-fi.com/jetaimes">keep the candles lit</a>
+</footer>
 
 <script>
-const tagThemes={default:{bg:"#0b0e1a",grad:"#121525",accent:"#b89f6e",particle:"184,159,110"},winter:{bg:"#0b1a24",grad:"#14283a",accent:"#a8c4d8",particle:"168,196,216"},snow:{bg:"#0f1a22",grad:"#1e2f38",accent:"#d8e8f0",particle:"200,230,255"},ocean:{bg:"#0f1820",grad:"#1a2a38",accent:"#88a8c0",particle:"140,180,220"},pearl:{bg:"#13181e",grad:"#242d38",accent:"#e8e0d8",particle:"232,224,216"},gothic:{bg:"#0a0a12",grad:"#161620",accent:"#b89f6e",particle:"184,159,110"},midnight:{bg:"#080812",grad:"#101020",accent:"#b89f6e",particle:"184,159,110"},gold:{bg:"#1a1408",grad:"#2a2410",accent:"#e8c070",particle:"232,192,112"},victorian:{bg:"#120d0a",grad:"#241a14",accent:"#c0a878",particle:"192,168,120"},cozy:{bg:"#1a1208",grad:"#2a1f14",accent:"#d89f70",particle:"216,159,112"},candle:{bg:"#1a1408",grad:"#2c200c",accent:"#f0c080",particle:"240,192,128"},smoke:{bg:"#14181c",grad:"#202832",accent:"#a8a8b0",particle:"168,168,180"},christmas:{bg:"#0a1a0a",grad:"#143214",accent:"#d0a878",particle:"208,168,120"}};
-
-let allDoors=[
-  {file:"2025-11-30.html",display:"30 Nov 2025",year:"2025",img:"https://files.catbox.moe/sybbym.jpg",tags:["snow","cream","soft","moon","foxes","castle","sweater"]},
-  {file:"2025-11-24.html",display:"24 Nov 2025",year:"2025",img:"https://files.catbox.moe/9zq2q5.jpg",tags:["snow","sunset","lamps","cats","cozy"]},
-  {file:"2025-11-21.html",display:"21 Nov 2025",year:"2025",img:"https://files.catbox.moe/5oeh8m.jpg",tags:["snow","pearl","cream","lux","dog","whimsy","vintage"]},
-  {file:"2025-11-20.html",display:"20 Nov 2025",year:"2025",img:"https://files.catbox.moe/5v93lw.jpg",tags:["thanksgiving","rust","pie","roast","feast","cat"]},
-  {file:"2025-02-04.html",display:"4 Feb 2025",year:"2025",img:"https://files.catbox.moe/dystgr.jpg",tags:["ocean","misty","pearl","veil","fog","serene"]},
-  {file:"2021-12-25.html",display:"25 Dec 2021",year:"2021",img:"https://files.catbox.moe/5oeh8m.jpg",tags:["snow","blond","light","christmas","pearl","dog"]},
-  {file:"2021-12-19.html",display:"19 Dec 2021",year:"2021",img:"https://files.catbox.moe/smzrhr.jpg",tags:["gothic","midnight","gold","victorian","owl","mystical"]},
-  {file:"2019-01-05.html",display:"5 Jan 2019",year:"2019",img:"https://files.catbox.moe/w65r29.jpg",tags:["winter","pearl","frost","branch","delicate","mist"]},
-  {file:"2019-01-01.html",display:"1 Jan 2019",year:"2019",img:"https://files.catbox.moe/75zrwt.jpg",tags:["pearl","violet","rust","new year","essence"]}
-];
-
-let activeTagList=[];let currentParticleColor="184,159,110";
-function applyTheme(){const t=activeTagList.length>0&&tagThemes[activeTagList[0]]?tagThemes[activeTagList[0]]:tagThemes.default;document.documentElement.style.setProperty('--bg',t.bg);document.documentElement.style.setProperty('--grad',t.grad);document.documentElement.style.setProperty('--accent',t.accent);currentParticleColor=t.particle;const title=document.getElementById("maintitle");title.innerHTML=activeTagList.length===0?"Jetaime’s Cabinet of Possibilities":activeTagList.map(s=>s.charAt(0).toUpperCase()+s.slice(1)).join(" & ")+" doors…";}
-const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");canvas.width=innerWidth;canvas.height=innerHeight;let p=[];for(let i=0;i<110;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2.5+0.5,s:Math.random()*0.8+0.2,o:Math.random()*0.5+0.1});
-function drift(){ctx.clearRect(0,0,canvas.width,canvas.height);const[r,g,b]=currentParticleColor.split(',');p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${e.o})`;ctx.fill();e.y-=e.s;if(e.y<-10){e.y=canvas.height+10;e.x=Math.random()*canvas.width;}e.x+=Math.sin(e.y/80)*0.7;});requestAnimationFrame(drift);}drift();
-function render(doors){const g=document.getElementById("gallery");g.innerHTML="";if(doors.length===0){document.getElementById("noresults").style.display="block";return;}document.getElementById("noresults").style.display="none";doors.forEach(d=>{const div=document.createElement("div");div.className="door";const tags=d.tags.map(t=>`<span class="tag">${t}</span>`).join('');div.innerHTML=`<a href="${d.file}"><img src="${d.img}" alt="${d.display}" loading="lazy"><div class="caption">${d.display}</div><div class="tags">${tags}</div></a>`;div.querySelector("a").addEventListener("click",()=>document.getElementById("creak").play());div.querySelectorAll(".tag").forEach(s=>{s.style.cursor="pointer";s.onclick=e=>{e.preventDefault();e.stopPropagation();addTagFilter(s.textContent);};});g.appendChild(div);});}
-function addTagFilter(t){if(activeTagList.includes(t))return;activeTagList.push(t);updateTags();filter();applyTheme();}
-function removeTagFilter(t){activeTagList=activeTagList.filter(x=>x!==t);updateTags();filter();applyTheme();}
-function updateTags(){const c=document.getElementById("activeTags");if(activeTagList.length===0){c.innerHTML="";applyTheme();return;}c.innerHTML=activeTagList.map(t=>`<span class="tag-pill">${t} ×</span>`).join('')+`<button class="clear-btn" onclick="activeTagList=[];updateTags();filter();applyTheme()">Clear all</button>`;c.querySelectorAll(".tag-pill").forEach((p,i)=>p.onclick=()=>removeTagFilter(activeTagList[i]));}
-function filter(){let f=allDoors;const term=document.getElementById("search").value.toLowerCase();const year=document.getElementById("yearFilter").value;if(year)f=f.filter(d=>d.year===year);if(term)f=f.filter(d=>d.display.toLowerCase().includes(term)||d.tags.some(t=>t.toLowerCase().includes(term)));if(activeTagList.length>0)f=f.filter(d=>activeTagList.every(t=>d.tags.includes(t)));render(f);}
-applyTheme();render(allDoors);
-const years=[...new Set(allDoors.map(d=>d.year))].sort().reverse();const sel=document.getElementById("yearFilter");years.forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;sel.appendChild(o);});
-document.getElementById("search").addEventListener("input",filter);
-document.getElementById("yearFilter").addEventListener("change",filter);
-window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
-let keys="";document.addEventListener("keydown",e=>{keys=(keys+e.key).slice(-7);if(keys==="cabinet"){document.body.style.filter="brightness(1.9) sepia(0.5)";setTimeout(()=>document.body.style.filter="",3000);}});
-</script>
-</body>
-</html>
+const tagThemes={default:{bg:"#0b0e1a",accent:"#b89f6e",particle:"184,159,110"},winter:{bg:"#0b1a24",accent:"#a8c4d8",particle:"168,196,216"},snow:{bg:"#0f1a22",accent:"#d8e8f0",particle:"200,230,255"},ocean:{bg:"#0f1820",accent:"#88a8c0",particle:"140,180,220"},pearl:{bg:"#13181e",accent:"#e8e0d8",particle:"232,224,216"},gothic:{bg
