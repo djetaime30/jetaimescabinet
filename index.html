@@ -64,4 +64,27 @@ let allDoors=[
   {file:"2025-11-21.html",display:"21 Nov 2025",year:"2025",img:"https://files.catbox.moe/5oeh8m.jpg",tags:["snow","pearl","cream","lux","dog","whimsy","vintage"]},
   {file:"2025-11-20.html",display:"20 Nov 2025",year:"2025",img:"https://files.catbox.moe/5v93lw.jpg",tags:["thanksgiving","rust","pie","roast","feast","cat"]},
   {file:"2025-02-04.html",display:"4 Feb 2025",year:"2025",img:"https://files.catbox.moe/dystgr.jpg",tags:["ocean","misty","pearl","veil","fog","serene"]},
-  {file:"2021-12-25.html",display:"25 Dec 2021",year:"2021",img:"https://files.catbox.moe/5oeh8m.jpg",tags:["snow","blond","light","christmas
+  {file:"2021-12-25.html",display:"25 Dec 2021",year:"2021",img:"https://files.catbox.moe/5oeh8m.jpg",tags:["snow","blond","light","christmas","pearl","dog"]},
+  {file:"2021-12-19.html",display:"19 Dec 2021",year:"2021",img:"https://files.catbox.moe/smzrhr.jpg",tags:["gothic","midnight","gold","victorian","owl","mystical"]},
+  {file:"2019-01-05.html",display:"5 Jan 2019",year:"2019",img:"https://files.catbox.moe/w65r29.jpg",tags:["winter","pearl","frost","branch","delicate","mist"]},
+  {file:"2019-01-01.html",display:"1 Jan 2019",year:"2019",img:"https://files.catbox.moe/75zrwt.jpg",tags:["pearl","violet","rust","new year","essence"]}
+];
+
+let activeTagList=[];let currentParticleColor="184,159,110";
+function applyTheme(){const t=activeTagList.length>0&&tagThemes[activeTagList[0]]?tagThemes[activeTagList[0]]:tagThemes.default;document.documentElement.style.setProperty('--bg',t.bg);document.documentElement.style.setProperty('--accent',t.accent);currentParticleColor=t.particle;document.getElementById("maintitle").innerHTML=activeTagList.length===0?"Jetaime’s Cabinet of Possibilities":activeTagList.map(s=>s.charAt(0).toUpperCase()+s.slice(1)).join(" & ")+" doors…";}
+const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");canvas.width=innerWidth;canvas.height=innerHeight;let p=[];for(let i=0;i<130;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.2,s:Math.random()*0.9+0.3,o:Math.random()*0.5+0.4});
+function drift(){ctx.clearRect(0,0,canvas.width,canvas.height);const[r,g,b]=currentParticleColor.split(',');p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${e.o})`;ctx.fill();e.y-=e.s;if(e.y<-20){e.y=canvas.height+20;e.x=Math.random()*canvas.width;}e.x+=Math.sin(e.y/70)*0.8;});requestAnimationFrame(drift);}drift();
+function render(doors){const g=document.getElementById("gallery");g.innerHTML="";if(doors.length===0){document.getElementById("noresults").style.display="block";return;}document.getElementById("noresults").style.display="none";doors.forEach(d=>{const div=document.createElement("div");div.className="door";const tags=d.tags.map(t=>`<span class="tag">${t}</span>`).join('');div.innerHTML=`<a href="${d.file}"><img src="${d.img}" alt="${d.display}" loading="lazy"><div class="caption">${d.display}</div><div class="tags">${tags}</div></a>`;div.querySelector("a").addEventListener("click",()=>document.getElementById("creak").play());div.querySelectorAll(".tag").forEach(s=>{s.style.cursor="pointer";s.onclick=e=>{e.preventDefault();e.stopPropagation();addTagFilter(s.textContent);};});g.appendChild(div);});}
+function addTagFilter(t){if(activeTagList.includes(t))return;activeTagList.push(t);updateTags();filter();applyTheme();}
+function removeTagFilter(t){activeTagList=activeTagList.filter(x=>x!==t);updateTags();filter();applyTheme();}
+function updateTags(){const c=document.getElementById("activeTags");if(activeTagList.length===0){c.innerHTML="";applyTheme();return;}c.innerHTML=activeTagList.map(t=>`<span class="tag-pill">${t} ×</span>`).join('')+`<button class="clear-btn" onclick="activeTagList=[];updateTags();filter();applyTheme()">Clear all</button>`;c.querySelectorAll(".tag-pill").forEach((p,i)=>p.onclick=()=>removeTagFilter(activeTagList[i]));}
+function filter(){let f=allDoors;const term=document.getElementById("search").value.toLowerCase();const year=document.getElementById("yearFilter").value;if(year)f=f.filter(d=>d.year===year);if(term)f=f.filter(d=>d.display.toLowerCase().includes(term)||d.tags.some(t=>t.toLowerCase().includes(term)));if(activeTagList.length>0)f=f.filter(d=>activeTagList.every(t=>d.tags.includes(t)));render(f);}
+applyTheme();render(allDoors);
+const years=[...new Set(allDoors.map(d=>d.year))].sort((a,b)=>b-a);const sel=document.getElementById("yearFilter");years.forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;sel.appendChild(o);});
+document.getElementById("search").addEventListener("input",filter);
+document.getElementById("yearFilter").addEventListener("change",filter);
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+let keys="";document.addEventListener("keydown",e=>{keys=(keys+e.key).slice(-7);if(keys==="cabinet"){document.body.style.filter="brightness(1.9) sepia(0.5)";setTimeout(()=>document.body.style.filter="",3000);}});
+</script>
+</body>
+</html>
