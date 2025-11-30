@@ -7,10 +7,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
-:root{
-  --bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--gold:#b89f6e;--indigo:#1c2333;
-  --glow:rgba(184,159,110,0.4);--smoke:rgba(100,100,120,0.25);
-}
+:root{--bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--gold:#b89f6e;--indigo:#1c2333;--glow:rgba(184,159,110,0.4);--smoke:rgba(100,100,120,0.25);}
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
 h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 15px var(--glow);}
 p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
@@ -33,7 +30,7 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.3;}
 <canvas id="particles"></canvas>
 <h1>Jetaime’s Cabinet of Possibilities</h1>
 <p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
-<img src="https://files.catbox.moe/smzrhr.jpg" class="collage" alt="30 November 2025 – Midnight Cabinet">
+<img src="https://files.catbox.moe/smzrhr.jpg" class="collage" alt="19 December 2021 – Christmas Carol Cabinet">
 <div class="words" id="wordlist"></div>
 <button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
@@ -61,4 +58,65 @@ const words=[
 const archetypes=[
   "",
   {name:"The Candle Keeper", text:"You carry quiet light into the darkest hours. Others find their way because you refuse to let the night win."},
-  {name:"The Key Guardian", text:"You hold things closed until the exact right moment. Trust is sacred;
+  {name:"The Key Guardian", text:"You hold things closed until the exact right moment. Trust is sacred; revelation is your art."},
+  {name:"The Night Librarian", text:"You catalogue wonders no one else notices. Knowledge is your love language, silence is your home."},
+  {name:"The Cathedral Wanderer", text:"Sacred spaces live inside you. Grandeur and reverence are daily bread."},
+  {name:"The Ghost-Story Weaver", text:"Past, present, and future sit around your fire. Every ending is another beginning in disguise."},
+  {name:"The Velvet Midnight", text:"You are the soft darkness everyone secretly wants to fall into. Comfort and mystery in perfect balance."},
+  {name:"The Threshold Witch", text:"Doors obey you. You stand in every doorway between worlds and decide who may pass."},
+  {name:"<span class='rare'>The Cabinet Archivist</span>", text:"Ultra-rare. You are the living memory of every secret this collage ever kept. Past and future curators bow when you walk past the shelves."}
+];
+
+let selected=[];
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button"); b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+  }else{
+    const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--gold);color:#0b0e1a;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for X/FB)</button></p>`;
+  r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
+}
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities ➤ ${location.href}`;
+  navigator.clipboard.writeText(text); alert("Copied! Paste anywhere.");
+}
+
+// Gentle golden smoke + tiny embers
+const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let p=[]; 
+function create(){for(let i=0;i<70;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,s:Math.random()*0.8+0.2,o:Math.random()*0.4+0.1});}
+function smoke(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(180,159,110,${e.o})`;ctx.fill();
+    e.y-=e.s; if(e.y+20<0){e.y=canvas.height+20; e.x=Math.random()*canvas.width;}
+    e.x+=Math.sin(e.y/60)*0.8;
+  });
+  requestAnimationFrame(smoke);
+}
+create(); smoke();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+init();
+</script>
+</body>
+</html>
