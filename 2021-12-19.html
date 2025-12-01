@@ -7,21 +7,21 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
-:root{--bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--gold:#b89f6e;--indigo:#1c2333;--glow:rgba(184,159,110,0.4);--smoke:rgba(100,100,120,0.25);}
+:root{--bg:#0b0e1a;--grad:#121525;--text:#e8d9c0;--gold:#b89f6e;--indigo:#1c2333;--glow:rgba(184,159,110,0.5);--smoke:rgba(100,100,120,0.3);}
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
-h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 15px var(--glow);}
+h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
 p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
-.collage{max-width:100%;border:12px solid var(--indigo);border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 30px var(--glow);margin:30px auto;display:block;}
+.collage{max-width:100%;border:12px solid var(--indigo);border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
 .words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
 button{background:var(--indigo);color:var(--text);border:2px solid var(--gold);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
 button:hover{background:var(--gold);color:#0b0e1a;transform:translateY(-3px);}
-button.selected{background:var(--gold);color:#0b0e1a;font-weight:bold;box-shadow:0 0 20px var(--glow);}
+button.selected{background:var(--gold);color:#0b0e1a;font-weight:bold;box-shadow:0 0 25px var(--glow);}
 #revealBtn{background:var(--indigo);color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
 #revealBtn:hover{background:var(--gold);color:#0b0e1a;}
 #result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
 #result.show{opacity:1;}
-.rare{color:#ffd700;font-size:1.9em;text-shadow:0 0 25px #b89f6e;}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.3;}
+.rare{color:#ffd700;font-size:1.9em;text-shadow:0 0 28px #b89f6e;}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.45;}
 .howto{background:rgba(255,255,255,.1);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--gold);}
 .kofi{margin:50px auto;font-size:1.3em;}
 </style>
@@ -57,17 +57,51 @@ const words=[
 
 const archetypes=[
   "",
-  {name:"The Candle Keeper", text:"You carry quiet light into the darkest hours. Others find their way because you refuse to let the night win."},
-  {name:"The Key Guardian", text:"You hold things closed until the exact right moment. Trust is sacred; revelation is your art."},
-  {name:"The Night Librarian", text:"You catalogue wonders no one else notices. Knowledge is your love language, silence is your home."},
-  {name:"The Cathedral Wanderer", text:"Sacred spaces live inside you. Grandeur and reverence are daily bread."},
-  {name:"The Ghost-Story Weaver", text:"Past, present, and future sit around your fire. Every ending is another beginning in disguise."},
-  {name:"The Velvet Midnight", text:"You are the soft darkness everyone secretly wants to fall into. Comfort and mystery in perfect balance."},
-  {name:"The Threshold Witch", text:"Doors obey you. You stand in every doorway between worlds and decide who may pass."},
-  {name:"<span class='rare'>The Cabinet Archivist</span>", text:"Ultra-rare. You are the living memory of every secret this collage ever kept. Past and future curators bow when you walk past the shelves."}
+  {name:"The Candle Keeper", variants:[
+    "You’re learning to carry quiet light into the darkest hours. Some days it feels faint, but you keep tending it—and others find their way because of that steady hand.",
+    "You give warmth without asking for credit. That gentle persistence is turning your small flame into something that outlasts the night.",
+    "Darkness doesn’t win around you. You’re practicing how to let your light touch others without giving all of yours away."
+  ]},
+  {name:"The Key Guardian", variants:[
+    "You hold things closed until the moment feels right. Trust is still a learning curve for you, but you’re getting better at knowing when to turn the lock.",
+    "Revelation is your quiet art, and you’re still discovering the right pauses. That careful timing keeps what’s sacred safe.",
+    "You protect without clutching. Some days the key feels heavy, but you’re lightening it with each choice to wait."
+  ]},
+  {name:"The Night Librarian", variants:[
+    "You catalogue wonders that slip past everyone else. Knowledge is starting to feel like your love language, one silent page at a time.",
+    "Silence is your home, and you’re still stocking the shelves with what matters. Others borrow from your quiet collection without knowing it.",
+    "You notice what no one else does. That gentle archiving is becoming a library only the right people will ever find."
+  ]},
+  {name:"The Cathedral Wanderer", variants:[
+    "Sacred spaces are growing inside you. Grandeur and reverence aren’t always easy to carry, but you’re learning their weight.",
+    "You wander where others fear to tread. Some days the arches feel vast, but you’re finding your steps fit just right.",
+    "Reverence is your daily bread, even when it tastes plain. You’re still mapping the cathedrals that live in your bones."
+  ]},
+  {name:"The Ghost-Story Weaver", variants:[
+    "Past, present, and future sit around your fire. You’re practicing how to weave endings into beginnings without forcing the thread.",
+    "Every story you tell leaves a little light behind. You’re getting better at letting the ghosts speak for themselves.",
+    "You hold time loosely. Some nights the tales tangle, but you’re learning to untie them with a gentler hand."
+  ]},
+  {name:"The Velvet Midnight", variants:[
+    "You’re the soft darkness people want to fall into. Comfort and mystery aren’t always easy to balance, but you’re finding the middle.",
+    "Mystery suits you, and you’re still softening its edges. That quiet pull is becoming your own kind of invitation.",
+    "You hold the night without gripping it. Some shadows linger, but you’re learning to let them drift like velvet."
+  ]},
+  {name:"The Threshold Witch", variants:[
+    "Doors listen when you speak. You’re still deciding who passes through, and that power grows with every choice you make.",
+    "You stand between worlds, learning the language of thresholds. Some crossings feel risky, but you’re trusting your own map.",
+    "Worlds shift around you. You’re practicing how to hold the doorway open without stepping through too soon."
+  ]},
+  {name:"<span class='rare'>The Cabinet Archivist</span>", variants:[
+    "Ultra-rare. You’re becoming the living memory of every secret this collage holds. Past and future curators notice, even if they don’t say it yet.",
+    "Secrets find you because you listen without demanding. You’re still learning how much weight they carry, but you hold them well.",
+    "You archive without judgment. Some shelves fill faster than others, but you’re getting better at the quiet curation."
+  ]}
 ];
 
 let selected=[];
+
+// INIT (shuffles words)
 function init(){
   const list=document.getElementById("wordlist");
   const shuffled=[...words].sort(()=>Math.random()-.5);
@@ -80,37 +114,44 @@ function init(){
     list.appendChild(b);
   });
 }
+
+// CALCULATE WITH RANDOM VARIANT
 function calculate(){
   if(selected.length===0){alert("Please choose at least one word.");return;}
   const unique=[...new Set(selected)];
   let html="";
   if(unique.length>=6){
-    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+    const arch=archetypes[8];
+    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
+    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
   }else{
     const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
     const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
-    html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
+    const arch=archetypes[winner];
+    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
+    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
   }
   const r=document.getElementById("result");
   r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--gold);color:#0b0e1a;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for X/FB)</button></p>`;
   r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
 }
+
 function copyShare(){
   const arch=document.querySelector("#result h2")?.innerText||"my secret name";
   const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities ➤ ${location.href}`;
   navigator.clipboard.writeText(text); alert("Copied! Paste anywhere.");
 }
 
-// Gentle golden smoke + tiny embers
+// GOLDEN SMOKE PARTICLES (MORE VISIBLE: higher opacity, larger size, richer color)
 const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
 let p=[]; 
-function create(){for(let i=0;i<70;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,s:Math.random()*0.8+0.2,o:Math.random()*0.4+0.1});}
+function create(){for(let i=0;i<100;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*1+0.4,o:Math.random()*0.6+0.4});}
 function smoke(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(180,159,110,${e.o})`;ctx.fill();
+  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(184,159,110,${e.o})`;ctx.fill();
     e.y-=e.s; if(e.y+20<0){e.y=canvas.height+20; e.x=Math.random()*canvas.width;}
-    e.x+=Math.sin(e.y/60)*0.8;
+    e.x+=Math.sin(e.y/60)*1;
   });
   requestAnimationFrame(smoke);
 }
