@@ -4,148 +4,46 @@
 <meta charset="UTF-8">
 <title>Jetaime’s Cabinet of Possibilities</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
-:root{--bg:#0f1820;--grad:#1a2a38;--text:#e5f0f0;--accent:#88a8c0;--glow:rgba(140,180,220,0.4);}
-body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
-h1{font-size:2.7em;margin:.5em 0;color:var(--accent);text-shadow:0 0 15px var(--glow);}
-p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
-.collage{max-width:100%;border:12px solid #1c2a38;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 30px var(--glow);margin:30px auto;display:block;}
-.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
-button{background:#1c2a38;color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+:root{--bg-dark:#0f1a1f;--bg-gradient:#1e2a2f;--text:#e5f0f0;--accent:#a8c4d8;--boxes:#2e3d44;--accent-glow:rgba(168,196,216,.5);}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg-dark)0%,var(--bg-gradient)100%);color:var(--text);text-align:center;padding:20px;max-width:820px;margin:auto;min-height:100vh;}
+h1{font-size:2.6em;margin:.5em 0;color:var(--accent);text-shadow:0 0 15px var(--accent-glow);}
+p{line-height:1.7;margin:1.2em 0;color:var(--text);font-size:1.1em;}
+.collage{max-width:100%;border:12px solid var(--boxes);border-radius:16px;box-shadow:0 0 50px rgba(0,0,0,.9),0 0 30px var(--accent-glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:740px;}
+button{background:var(--boxes);color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
 button:hover{background:var(--accent);color:#0d1418;transform:translateY(-3px);}
-button.selected{background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--glow);}
-#revealBtn{background:#1c2a38;color:var(--text);border:3px solid var(--accent);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+button.selected{background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--accent-glow);}
+#revealBtn{background:var(--boxes);color:var(--text);border:3px solid var(--accent);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
 #revealBtn:hover{background:var(--accent);color:#0d1418;}
 #result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
 #result.show{opacity:1;}
+.rare{color:var(--accent);font-size:1.9em;text-shadow:0 0 25px var(--accent);}
 canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.35;}
+.howto{background:rgba(255,255,255,.15);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;font-size:1.2em;line-height:1.8;border:2px solid var(--accent);}
+.kofi{margin:50px auto;font-size:1.3em;}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
 <h1>Jetaime’s Cabinet of Possibilities</h1>
 <p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
-<img src="https://files.catbox.moe/dystgr.jpg" class="collage" alt="04 February 2025 – Misty Ocean Veil">
+<img src="https://files.catbox.moe/dystgr.jpg" class="collage" alt="02 April 2025 – Misty Ocean Veil">
 <div class="words" id="wordlist"></div>
 <button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
-
+<div class="howto"><strong>How to share your result (even my mom can do it now):</strong><br><br>1. Wait for your secret name to appear below<br>2. Click the blue "Copy share text" button<br>3. Paste it straight into Facebook, X, Instagram, or a text<br><br>That's it — your friends will see your name + a link to play!</div>
+<div class="kofi">Loving these daily doors? Keep the candle burning 🕯️<br><a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--accent);text-decoration:underline;">Buy Jetaime a coffee (or a single pearl earring—she only needs one)</a></div>
 <script>
-// WORDS + CLUSTERS (unchanged)
-const words=[
-  ["misty sea",1],["foggy wave",1],["ocean breath",1],["suspended horizon",1],
-  ["veiled figure",2],["lace silhouette",2],["pearl shadow",2],["soft veil",2],
-  ["pearlescent shell",3],["silver lining",3],["delicate armor",3],["quiet pearl",3],
-  ["distant shore",4],["fog memory",4],["unseen edge",4],["horizon pull",4],
-  ["lace current",5],["wave embroidery",5],["fluid thread",5],["sea stitch",5],
-  ["silver whisper",6],["thread connection",6],["quiet link",6],["sea echo",6],
-  ["breath pause",7],["sea hush",7],["suspended air",7],["ocean calm",7]
-];
-
-// ARCHETYPES WITH 3 RANDOMIZED DESCRIPTIONS EACH
-const archetypes=[
-  "",
-  {name:"The Tide Dreamer", variants:[
-    "You’re learning to move with uncertainty instead of against it. The spaces between waves are where you most often find your footing.",
-    "You keep practicing floating a little longer each time. That quiet trust is growing into something steady.",
-    "Uncertainty feels familiar now. You’re starting to notice the calm that lives right in the middle of every wave."
-  ]},
-  {name:"The Veiled Siren", variants:[
-    "You reveal yourself slowly, in fragments, because that feels safest and truest. You’re still discovering how much closeness that can hold.",
-    "Gentle mystery is your way in. Each small glimpse you offer becomes its own kind of invitation.",
-    "You let people see just enough to want to stay. That careful unveiling is becoming your quiet art."
-  ]},
-  {name:"The Pearl Sentinel", variants:[
-    "You protect what matters by wrapping it in quiet, luminous layers. You’re still learning exactly where the boundaries need to be today.",
-    "Careful and deliberate—that’s how you keep the soft things safe. Some days the layers feel just right.",
-    "You don’t claim to be unbreakable, just gentle and watchful. That’s already more than enough."
-  ]},
-  {name:"The Fog Walker", variants:[
-    "You keep walking when the path disappears. Some days trust feels thin, but it still carries you far enough.",
-    "You’ve learned to borrow courage from the next unseen step. Others notice and borrow a little too.",
-    "Trust is your only map, and you’re getting better at reading the places where it fades."
-  ]},
-  {name:"The Current Weaver", variants:[
-    "You take the tangle of feelings and try to find a pattern. Some days it holds, some days it unravels—and you keep threading anyway.",
-    "Meaning usually shows up somewhere in the motion. You’re patient enough to look for it.",
-    "You’re teaching yourself to weave even when the threads feel slippery. That patience is its own kind of craft."
-  ]},
-  {name:"The Silver Thread", variants:[
-    "You stay connected across distance with lines that stretch but refuse to snap. Quiet persistence is how love survives for you.",
-    "Some bonds only need the gentlest tug to stay alive. You’ve learned exactly how light that tug can be.",
-    "Distance doesn’t scare you the way it used to. You’ve found the threads that hold when everything else loosens."
-  ]},
-  {name:"The Breath Keeper", variants:[
-    "You’re practicing the pause between inhale and exhale. Most days you manage a few extra seconds of stillness—and that’s enough.",
-    "Waiting is starting to feel like its own kind of doing. You’re getting better at living in the space between.",
-    "That small pocket of calm you create is growing. Others feel it and breathe a little easier beside you."
-  ]},
-  {name:"<span class='rare'>The Ocean Veil</span>", variants:[
-    "Ultra-rare. You’re still learning how to carry both fluidity and steadiness, mystery and honesty, distance and devotion without letting any of them cancel the others out. Some days you almost manage it.",
-    "You’re slowly becoming the place where opposites can rest beside each other. The sea notices and grows calmer when you try.",
-    "You don’t have it all balanced yet—and that’s okay. The trying itself is already making the water clearer."
-  ]}
-];
-
+const words=[["misty sea",1],["foggy wave",1],["ocean breath",1],["suspended horizon",1],["veiled figure",2],["lace silhouette",2],["pearl shadow",2],["soft veil",2],["pearlescent shell",3],["silver lining",3],["delicate armor",3],["quiet pearl",3],["distant shore",4],["fog memory",4],["unseen edge",4],["horizon pull",4],["lace current",5],["wave embroidery",5],["fluid thread",5],["sea stitch",5],["silver whisper",6],["thread connection",6],["quiet link",6],["sea echo",6],["breath pause",7],["sea hush",7],["suspended air",7],["ocean calm",7]];
+const archetypes=["",{name:"The Tide Dreamer",variants:["You flow with the pull of what cannot be held. Clarity arrives not in answers, but in the rhythm between one wave and the next.","Uncertainty is your oldest friend; you learn its language and find the spaces where it softens into grace.","You drift toward horizons that promise nothing, and that is exactly why they feel like home."]},{name:"The Veiled Siren",variants:["You reveal in fragments, like moonlight on water—enough to draw close, never enough to fully possess.","Intimacy is your quiet art: a glimpse through lace, a whisper carried on salt air.","Mystery is not a mask for you; it's the skin you were born in, soft and unbreakable."]},{name:"The Pearl Sentinel",variants:["You guard the tender core with walls that glow from within. No one enters without seeing their own light reflected.","Luminous boundaries are your gift: they protect without cruelty, invite without demand.","What others call armor, you call home—a shell that holds the whole ocean in silence."]},{name:"The Fog Walker",variants:["You step into what cannot be seen, with trust as your only lantern. The path reveals itself to those who move anyway.","Visibility is overrated; you navigate by the shape of the quiet, the pull of unseen currents.","In the thickest mist, you find direction—not by sight, but by the memory of where you've already been."]},{name:"The Current Weaver",variants:["Chaos is your loom; you gather the threads of tide and turn them into patterns only you can follow.","Meaning emerges from the tangle: one knot at a time, until the whole sea tells a story.","You don't fight the pull—you braid it, until even the wildest wave feels like a friend."]},{name:"The Silver Thread",variants:["You hold the distant with lines too fine to see, too strong to break. Love, for you, is the work of invisible hands.","Across miles of fog, your connections hum like harp strings in the wind.","What binds you is not chains, but whispers—silver and ceaseless, weaving the world whole."]},{name:"The Breath Keeper",variants:["You master the pause: that held space between out and in, where peace pools like deep water.","Waiting is not loss for you; it's the art of allowing the world to catch up.","In the hush of your own lungs, you find the ocean's oldest secret: everything returns."]},{name:"<span class='rare'>The Ocean Veil</span>",variants:["Ultra-rare. You are fluidity and firmness entwined, mystery without cruelty, distance laced with devotion. The sea herself pauses when you pass.","Ultra-rare. Every archetype in this door lives in you without war: the dreamer's drift, the siren's song, the sentinel's glow. Serene balance is your birthright.","Ultra-rare. Jetaime wove this one in the quiet hour before dawn, suspecting it waited for a soul like yours—one who holds the whole misty world in a single breath."]}];
 let selected=[];
-
-// SHUFFLE WORDS
-function init(){
-  const list=document.getElementById("wordlist");
-  const shuffled=[...words].sort(()=>Math.random()-.5);
-  shuffled.forEach(w=>{
-    let b=document.createElement("button"); b.textContent=w[0];
-    b.onclick=()=>{b.classList.toggle("selected");
-      if(b.classList.contains("selected"))selected.push(w[1]);
-      else selected=selected.filter(x=>x!==w[1]);
-    };
-    list.appendChild(b);
-  });
-}
-
-// CALCULATE + RANDOM DESCRIPTION
-function calculate(){
-  if(selected.length===0){alert("Please choose at least one word.");return;}
-  const unique=[...new Set(selected)];
-  let html="";
-  if(unique.length>=6){
-    const arch=archetypes[8];
-    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
-    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
-  }else{
-    const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
-    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
-    const arch=archetypes[winner];
-    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
-    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
-  }
-  const r=document.getElementById("result");
-  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
-  r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
-}
-
-function copyShare(){
-  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
-  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities → ${location.href}`;
-  navigator.clipboard.writeText(text); alert("Copied!");
-}
-
-// MISTY PARTICLES
-const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
-canvas.width=innerWidth; canvas.height=innerHeight;
-let p=[]; 
-for(let i=0;i<90;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1.2+0.3,o:Math.random()*0.6+0.3});
-function fall(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(140,180,220,${e.o})`;ctx.fill();
-    e.y+=e.s; if(e.y>canvas.height){e.y=0;e.x=Math.random()*canvas.width;}
-    e.x+=Math.sin(e.y/50)*.5;
-  });
-  requestAnimationFrame(fall);
-}
-fall();
-window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
-init();
+function init(){const list=document.getElementById("wordlist");const shuffled=[...words].sort(()=>Math.random()-.5);shuffled.forEach(w=>{let b=document.createElement("button");b.textContent=w[0];b.onclick=()=>{b.classList.toggle("selected");if(b.classList.contains("selected"))selected.push(w[1]);else selected=selected.filter(x=>x!==w[1]);};list.appendChild(b);});}
+function calculate(){if(selected.length===0){alert("Please choose at least one word.");return;}const unique=[...new Set(selected)];let html="";if(unique.length>=6){const a=archetypes[8];const v=a.variants[Math.floor(Math.random()*a.variants.length)];html=`<h2>${a.name}</h2><p>${v}</p>`;}else{const counts={};selected.forEach(x=>counts[x]=(counts[x]||0)+1);const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);const a=archetypes[winner];const v=a.variants[Math.floor(Math.random()*a.variants.length)];html=`<h2>${a.name}</h2><p>${v}</p>`;}const r=document.getElementById("result");r.innerHTML=html+`<p style="margin-top:30px;"><button onclick="copyShare()" style="padding:12px 24px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;r.classList.add("show");r.scrollIntoView({behavior:"smooth"});}
+function copyShare(){const arch=document.querySelector("#result h2")?.innerText||"my secret name";const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities\nglimpse the same door → ${location.href}`;navigator.clipboard.writeText(text);alert("Copied! Just paste it anywhere.");}
+const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");canvas.width=innerWidth;canvas.height=innerHeight;let p=[];function create(){for(let i=0;i<90;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1.5+.3,o:Math.random()*0.6+.3});}function mist(){ctx.clearRect(0,0,canvas.width,canvas.height);p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(168,196,216,${e.o})`;ctx.fill();e.x+=e.s;if(e.x>canvas.width){e.x=0;e.y=Math.random()*canvas.height;}e.y+=Math.sin(e.x/50)*.5;});requestAnimationFrame(mist);}create();mist();window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});init();
 </script>
 </body>
 </html>
