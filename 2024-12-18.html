@@ -7,19 +7,19 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
-:root{--bg:#0c1818;--grad:#1a2f2f;--text:#f0e6d6;--accent:#c84c4c;--gold:#d4a574;--glow:rgba(212,165,116,0.5);}
+:root{--bg:#0c1818;--grad:#1a2f2f;--text:#f0e6d6;--red:#c84c4c;--green:#2d6b5e;--gold:#d4a574;--glow:rgba(212,165,116,0.45);}
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
 h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
-p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
 .collage{max-width:100%;border:12px solid #1a2f2f;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
 .words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
-button{background:#1a2f2f;color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
-button:hover{background:var(--accent);color:#0d1418;transform:translateY(-3px);}
-button.selected{background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 25px var(--glow);}
-#revealBtn{background:#1a2f2f;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+button{background:#1a2f2f;color:var(--text);border:2px solid var(--red);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--red);color:#0d1418;}
+button.selected{background:var(--red);color:#0d1418;box-shadow:0 0 25px var(--glow);}
+#revealBtn{background:#1a2f2f;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;}
 #revealBtn:hover{background:var(--gold);color:#0d1418;}
 #result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
 #result.show{opacity:1;}
+.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--gold);font-size:1.2em;line-height:1.8;}
 canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.5;}
 </style>
 </head>
@@ -32,58 +32,67 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.5;}
 <button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
 
+<div class="howto">
+  <strong>How to share (even my mom can do it):</strong><br><br>
+  1. Wait for your secret name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — your friends get your name + the door
+</div>
+<div class="kofi">
+  Loving these nightly doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a vintage Christmas postcard—she’s not fussy)</a>
+</div>
+
 <script>
 const words=[
-  ["victorian greeting",1],["merry christmas",1],["holly sprig",1],["robin redbreast",1],
-  ["sleigh bells",2],["red ribbon",2],["candle glow",2],["yuletide wish",2],
-  ["postcard charm",3],["vintage noel",3],["joyful season",3],["festive heart",3],
-  ["snowy branch",4],["berry crown",4],["winter robin",4],["mistletoe kiss",4],
-  ["old-fashioned cheer",5],["glad tidings",5],["peace on earth",5],["season’s light",5],
-  ["christmas rose",6],["evergreen hope",6],["red bow",6],["golden wish",6],
-  ["new century promise",7],["bright tomorrow",7],["hopeful heart",7],["dawning joy",7]
+  ["christmas red",1],["emerald hush",1],["holly heart",1],["ribbon glow",1],
+  ["candle cream",2],["gas-lamp gold",2],["hearth memory",2],["soft flame",2],
+  ["pastel promise",3],["dawn blush",3],["new century wish",3],["innocent light",3],
+  ["robin breast",4],["snow hush",4],["winter breath",4],["quiet song",4],
+  ["postcard lace",5],["stamped hope",5],["sealed longing",5],["distant hello",5],
+  ["sleigh shadow",6],["bell echo",6],["velvet night",6],["muffled joy",6],
+  ["noel whisper",7],["yuletide sigh",7],["gentle gladness",7],["coming dawn",7]
 ];
 
 const archetypes=[
   "",
-  {name:"The Victorian Caroler", variants:[
-    "You carry the old songs forward with a bright voice and a hopeful heart. Each note feels like a promise that the new century will be kinder than the last.",
-    "You’re bringing yesterday’s warmth into tomorrow’s snow. That gentle mix of nostalgia and optimism is lighting up everyone around you.",
-    "Your cheer has sleigh-bells in it—old-fashioned, unstoppable, and just what the coming year needs."
+  {name:"The Christmas-Red Keeper", variants:[
+    "You carry the deep red of excitement inside a heart that already knows safety is fragile. Some days the colour feels too bright, but you keep it burning anyway.",
+    "Red is the colour you wear when you want to feel alive and safe at the same time. You’re learning how rare that combination is.",
+    "You guard the red that makes winter worth surviving. It costs something, but you pay it quietly."
   ]},
-  {name:"The Ribbon-Bearer", variants:[
-    "You tie little bows of kindness on every package life hands you. Red ribbon hope is your signature gift.",
-    "You’re learning that even the smallest festive touch can make ordinary days feel wrapped in love.",
-    "Wherever you go, something gets gently tied with joy. That quiet talent is growing into something beautiful."
+  {name:"The Emerald Guardian", variants:[
+    "Emerald is your promise that even in the longest night something stays alive underneath. You tend that green the way others tend fires.",
+    "You are the hush of evergreen when everything else has let go. People breathe easier near you without knowing why.",
+    "Safety lives in you like pine needles after snow—sharp if you grab too hard, soft if you simply stand still."
   ]},
-  {name:"The Robin Herald", variants:[
-    "You arrive like the first robin after a long winter—small, bright, and proof that spring always keeps its promise.",
-    "Your presence is the red-breasted reminder that warmth is coming. People notice and breathe easier.",
-    "You’re practicing being the sign of good things ahead. Some days the branch feels cold, but you stay and sing anyway."
+  {name:"The Cream-Lit Dreamer", variants:[
+    "You live in the glow of candle-cream and gas-lamp gold, the colours that made evenings feel eternal once. You still believe they can.",
+    "Cream and gold are the colours of memory trying to stay warm. You keep them lit longer than most.",
+    "You carry the light people used to read by before electric bulbs stole the magic. Some nights you almost manage to give it back."
   ]},
-  {name:"The Postcard Dreamer", variants:[
-    "You still believe in the magic of a stamped wish traveling across miles. Every greeting you send carries real hope.",
-    "You’re turning ordinary moments into keepsakes. Those little cards of joy are starting to pile up in the best way.",
-    "Old-fashioned sentiment suits you. You’re keeping the art of heartfelt messages alive, one postcard at a time."
+  {name:"The Pastel Dawn", variants:[
+    "You wear the soft blush of new beginnings the way children wore it in 1900—wide-eyed, a little afraid, impossibly hopeful.",
+    "Pastel is the colour of the first breath after midnight. You practise it every morning.",
+    "Innocence visits you in faint pinks and powder blues. You don’t try to hold it—you just let it rest on your shoulder a while."
   ]},
-  {name:"The Holly Guardian", variants:[
-    "You protect the season’s joy the way holly guards the doorway—prickly when needed, but always bright with berries of hope.",
-    "You’re growing into the one who keeps Christmas spirit safe, no matter how deep the snow gets.",
-    "Your kindness has sharp edges only for those who’d harm the light. Everyone else just sees the red and green glow."
+  {name:"The Postcard Whisperer", variants:[
+    "You still write the way people did when a postcard was the fastest way to say “I’m thinking of you across the dark.” Your words arrive gently, late, and perfect.",
+    "Distance feels softer because of the lace-edged hopes you send. They land like snowflakes on far-away windows.",
+    "You seal longing with a penny stamp and trust the post to carry it. Some nights you almost hear it arrive."
   ]},
-  {name:"The New-Century Optimist", variants:[
-    "You meet each fresh year with open arms and a heart full of 1900s wonder. The future feels friendlier because you believe it will be.",
-    "You’re practicing hope like it’s a brand-new century every morning. That habit is catching.",
-    "Tomorrow looks brighter when you’re around. You’re still learning how powerful that quiet faith really is."
+  {name:"The Velvet-Night Watcher", variants:[
+    "You sit in the velvet hush between sleigh bells and sleep, listening for the century to turn. The quiet suits you.",
+    "Velvet night is where you keep the joy that is too tender for daylight. You guard it the way others guard sleep.",
+    "Muffled bells and snow-covered roofs are your native country. You visit the day, but you live here."
   ]},
-  {name:"The Mistletoe Weaver", variants:[
-    "You spin chances for connection wherever you go—gentle, old-fashioned, and just hopeful enough to work.",
-    "You’re getting better at creating moments where kisses (literal or kindness) feel natural and welcome.",
-    "Love finds easy doorways around you. That soft magic is growing with every sprig you hang."
+  {name:"The Noel Sigh", variants:[
+    "Noel is the soft exhale after the long Victorian year. You understand it better than most.",
+    "You carry the gentle gladness that doesn’t shout—just rests on the windowsill like a robin waiting for crumbs.",
+    "Your hope is the colour of candle-smoke curling toward a cold star. It doesn’t demand; it simply rises."
   ]},
   {name:"<span class='rare'>The Yuletide Dawn</span>", variants:[
-    "Ultra-rare. You are the quiet promise that after the longest night comes the brightest morning. Victorian hearts and 21st-century hopes live together in you, and the new century can’t wait to see what you’ll light up next.",
-    "You’re becoming the living postcard from 1900 to right now—proof that some joys never go out of season.",
-    "The bells you ring are for a world that hasn’t happened yet. Keep ringing. It’s listening."
+    "Ultra-rare. You are the place where deep Christmas red meets the first pale cream of morning. The 20th century is still learning your name, but it already feels safer because you exist.",
+    "Ultra-rare. You hold the hush between the last carol and the first birdsong of a new hundred years. Some mornings you almost hear both at once.",
+    "Ultra-rare. Pastel promise and emerald safety live in you without contradiction. The light you wait for is already inside you, waiting to be noticed."
   ]}
 ];
 
@@ -104,28 +113,26 @@ function calculate(){
   const unique=[...new Set(selected)];
   let html="";
   if(unique.length>=6){
-    const arch=archetypes[8];
-    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
-    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
+    const a=archetypes[8];const v=a.variants[Math.floor(Math.random()*a.variants.length)];
+    html=`<h2>${a.name}</h2><p>${v}</p>`;
   }else{
     const counts={};selected.forEach(x=>counts[x]=(counts[x]||0)+1);
     const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
-    const arch=archetypes[winner];
-    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
-    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
+    const a=archetypes[winner];const v=a.variants[Math.floor(Math.random()*a.variants.length)];
+    html=`<h2>${a.name}</h2><p>${v}</p>`;
   }
   const r=document.getElementById("result");
-  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--red);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
   r.classList.add("show");r.scrollIntoView({behavior:"smooth"});
 }
 function copyShare(){
   const arch=document.querySelector("#result h2")?.innerText||"my secret name";
-  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities → ${location.href}`;
+  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities\nstep through the same door → ${location.href}`;
   navigator.clipboard.writeText(text);alert("Copied!");
 }
 const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;canvas.height=innerHeight;
-let p=[];for(let i=0;i<110;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.8+0.3,o:Math.random()*0.6+0.4});
+let p=[];for(let i=0;i<120;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.8+0.3,o:Math.random()*0.6+0.4});
 function snow(){ctx.clearRect(0,0,canvas.width,canvas.height);
   p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,230,220,${e.o})`;ctx.fill();
     e.y+=e.s;if(e.y>canvas.height){e.y=0;e.x=Math.random()*canvas.width;}
