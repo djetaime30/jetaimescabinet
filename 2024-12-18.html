@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
+<style>
+:root{--bg:#0c1818;--grad:#1a2f2f;--text:#f0e6d6;--accent:#c84c4c;--gold:#d4a574;--glow:rgba(212,165,116,0.5);}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
+h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
+p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
+.collage{max-width:100%;border:12px solid #1a2f2f;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
+button{background:#1a2f2f;color:var(--text);border:2px solid var(--accent);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--accent);color:#0d1418;transform:translateY(-3px);}
+button.selected{background:var(--accent);color:#0d1418;font-weight:bold;box-shadow:0 0 25px var(--glow);}
+#revealBtn{background:#1a2f2f;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--gold);color:#0d1418;}
+#result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+#result.show{opacity:1;}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.5;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+<img src="https://files.catbox.moe/j537mo.jpg" class="collage" alt="Victorian Noel">
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<script>
+const words=[
+  ["victorian greeting",1],["merry christmas",1],["holly sprig",1],["robin redbreast",1],
+  ["sleigh bells",2],["red ribbon",2],["candle glow",2],["yuletide wish",2],
+  ["postcard charm",3],["vintage noel",3],["joyful season",3],["festive heart",3],
+  ["snowy branch",4],["berry crown",4],["winter robin",4],["mistletoe kiss",4],
+  ["old-fashioned cheer",5],["glad tidings",5],["peace on earth",5],["season’s light",5],
+  ["christmas rose",6],["evergreen hope",6],["red bow",6],["golden wish",6],
+  ["new century promise",7],["bright tomorrow",7],["hopeful heart",7],["dawning joy",7]
+];
+
+const archetypes=[
+  "",
+  {name:"The Victorian Caroler", variants:[
+    "You carry the old songs forward with a bright voice and a hopeful heart. Each note feels like a promise that the new century will be kinder than the last.",
+    "You’re bringing yesterday’s warmth into tomorrow’s snow. That gentle mix of nostalgia and optimism is lighting up everyone around you.",
+    "Your cheer has sleigh-bells in it—old-fashioned, unstoppable, and just what the coming year needs."
+  ]},
+  {name:"The Ribbon-Bearer", variants:[
+    "You tie little bows of kindness on every package life hands you. Red ribbon hope is your signature gift.",
+    "You’re learning that even the smallest festive touch can make ordinary days feel wrapped in love.",
+    "Wherever you go, something gets gently tied with joy. That quiet talent is growing into something beautiful."
+  ]},
+  {name:"The Robin Herald", variants:[
+    "You arrive like the first robin after a long winter—small, bright, and proof that spring always keeps its promise.",
+    "Your presence is the red-breasted reminder that warmth is coming. People notice and breathe easier.",
+    "You’re practicing being the sign of good things ahead. Some days the branch feels cold, but you stay and sing anyway."
+  ]},
+  {name:"The Postcard Dreamer", variants:[
+    "You still believe in the magic of a stamped wish traveling across miles. Every greeting you send carries real hope.",
+    "You’re turning ordinary moments into keepsakes. Those little cards of joy are starting to pile up in the best way.",
+    "Old-fashioned sentiment suits you. You’re keeping the art of heartfelt messages alive, one postcard at a time."
+  ]},
+  {name:"The Holly Guardian", variants:[
+    "You protect the season’s joy the way holly guards the doorway—prickly when needed, but always bright with berries of hope.",
+    "You’re growing into the one who keeps Christmas spirit safe, no matter how deep the snow gets.",
+    "Your kindness has sharp edges only for those who’d harm the light. Everyone else just sees the red and green glow."
+  ]},
+  {name:"The New-Century Optimist", variants:[
+    "You meet each fresh year with open arms and a heart full of 1900s wonder. The future feels friendlier because you believe it will be.",
+    "You’re practicing hope like it’s a brand-new century every morning. That habit is catching.",
+    "Tomorrow looks brighter when you’re around. You’re still learning how powerful that quiet faith really is."
+  ]},
+  {name:"The Mistletoe Weaver", variants:[
+    "You spin chances for connection wherever you go—gentle, old-fashioned, and just hopeful enough to work.",
+    "You’re getting better at creating moments where kisses (literal or kindness) feel natural and welcome.",
+    "Love finds easy doorways around you. That soft magic is growing with every sprig you hang."
+  ]},
+  {name:"<span class='rare'>The Yuletide Dawn</span>", variants:[
+    "Ultra-rare. You are the quiet promise that after the longest night comes the brightest morning. Victorian hearts and 21st-century hopes live together in you, and the new century can’t wait to see what you’ll light up next.",
+    "You’re becoming the living postcard from 1900 to right now—proof that some joys never go out of season.",
+    "The bells you ring are for a world that hasn’t happened yet. Keep ringing. It’s listening."
+  ]}
+];
+
+let selected=[];
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  shuffled.forEach(w=>{let b=document.createElement("button");b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    const arch=archetypes[8];
+    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
+    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
+  }else{
+    const counts={};selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    const arch=archetypes[winner];
+    const variant=arch.variants[Math.floor(Math.random()*arch.variants.length)];
+    html=`<h2>${arch.name}</h2><p>${variant}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--accent);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
+  r.classList.add("show");r.scrollIntoView({behavior:"smooth"});
+}
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities → ${location.href}`;
+  navigator.clipboard.writeText(text);alert("Copied!");
+}
+const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let p=[];for(let i=0;i<110;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.8+0.3,o:Math.random()*0.6+0.4});
+function snow(){ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,230,220,${e.o})`;ctx.fill();
+    e.y+=e.s;if(e.y>canvas.height){e.y=0;e.x=Math.random()*canvas.width;}
+    e.x+=Math.sin(e.y/60)*0.8;
+  });
+  requestAnimationFrame(snow);
+}
+snow();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+init();
+</script>
+</body>
+</html>
