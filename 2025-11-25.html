@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
+<style>
+:root{--bg:#0d1418;--grad:#1e252e;--text:#e8ecef;--ice:#d0dce5;--amber:#b89f6e;--glow:rgba(184,159,110,0.3);}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
+h1{font-size:2.7em;margin:.5em 0;color:var(--ice);text-shadow:0 0 15px var(--glow);}
+.collage{max-width:100%;border:12px solid var(--grad);border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 30px var(--glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
+button{background:var(--grad);color:var(--text);border:2px solid var(--ice);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--ice);color:#0d1418;transform:translateY(-3px);}
+button.selected{background:var(--ice);color:#0d1418;font-weight:bold;box-shadow:0 0 20px var(--glow);}
+#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--amber);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--amber);color:#0d1418;}
+#result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+#result.show{opacity:1;}
+.rare{color:var(--amber);font-size:1.9em;text-shadow:0 0 25px var(--amber);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.28;}
+.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--ice);font-size:1.2em;line-height:1.8;}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+<img src="https://files.catbox.moe/ye7d9j.jpg" class="collage" alt="First Snow Lull – 04 December 2025">
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<div class="howto">
+<strong>How to share (even my mom can do it):</strong><br><br>
+1. Wait for your name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — friends get name + door
+</div>
+<div class="kofi">
+Loving these nightly doors? Keep the candle burning 🕯️<br>
+<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--amber);text-decoration:underline;">Buy Jetaime a coffee (or a match struck in a snowed-in house—she only needs the one)</a>
+</div>
+
+<script>
+const words=[
+["curled fox",1],["soft retreat",1],["warm sleep",1],["hibernation wish",1],
+["frost lace",2],["window veil",2],["grandmother curtain",2],["memory glass",2],
+["snowed-in roof",3],["buried barn",3],["paused village",3],["silent street",3],
+["tiny bird",4],["stubborn ember",4],["window glow",4],["one lit pane",4],
+["winter crone",5],["snow figure",5],["frozen watcher",5],["white hair drift",5],
+["first snowfall",6],["quiet blanket",6],["world on mute",6],["hush arrival",6],
+["match light",7],["waiting thaw",7],["hidden pulse",7],["slow return",7]
+];
+
+const archetypes=["",
+{name:"The Curled Fox",variants:["You know when to disappear into yourself. Rest is not laziness; it is strategy.","Withdrawal is your native language. You trust that spring always finds the ones who know how to sleep.","You give permission for the long inward winter. The world can wait."]},
+{name:"The Lace Guardian",variants:["You look at everything through the soft filter of memory. Nostalgia is both comfort and prison.","The past sits at your window like frost patterns. You read it daily.","Some curtains never need to be opened. The light still finds its way through."]},
+{name:"The Snowed-In Village",variants:["Time stops when you decide it does. The adult world can stay buried for now.","Civilisation is negotiable. A deep drift is sometimes the kindest answer.","You have mastered the art of the cancelled day."]},
+{name:"The Stubborn Ember",variants:["One small light is enough. You refuse to let winter have the final word.","Even in the longest cold, something in you stays warm on purpose.","You are the proof that life persists in miniature."]},
+{name:"The Winter Crone",variants:["You have already met the part of you that could freeze solid and feel at home.","Age and ice are old friends. You do not fear becoming the landscape.","The scary white figure in the yard is just you on a day you admit how powerful you are."]},
+{name:"The First Snow",variants:["You arrive quietly and change everything. Silence is your signature.","You are the moment the world presses pause and exhales.","Nothing feels urgent when you are falling."]},
+{name:"The Match Striker",variants:["You carry the single spark that outlasts the storm. One strike is all it ever takes.","Waiting is your practice. You know thaw is not a gift; it is physics.","The smallest flame still owns the dark."]},
+{name:"<span class='rare'>The Snow-Lulled Heart</span>",variants:["Ultra-rare. You hold hibernation and quiet fire in the same chest without conflict. Winter is not your enemy; it is your oldest teacher.","Ultra-rare. The fox sleeps curled around the match. The crone smiles at the bird. You contain the entire season.","Ultra-rare. You have solved the paradox: total retreat and total persistence are the same motion, viewed from different distances."]}
+];
+
+let selected=[];
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  shuffled.forEach(w=>{let b=document.createElement("button");b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let
