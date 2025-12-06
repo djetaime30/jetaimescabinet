@@ -7,93 +7,61 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
-:root{--bg:#0c1818;--grad:#1a2f2f;--text:#f0e6d6;--red:#c84c4c;--green:#2d6b5e;--gold:#d4a574;--glow:rgba(212,165,116,0.45);}
-body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
-h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
-.collage{max-width:100%;border:12px solid #1a2f2f;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
-.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
-button{background:#1a2f2f;color:var(--text);border:2px solid var(--red);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
-button:hover{background:var(--red);color:#0d1418;}
-button.selected{background:var(--red);color:#0d1418;box-shadow:0 0 25px var(--glow);}
-#revealBtn{background:#1a2f2f;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;}
-#revealBtn:hover{background:var(--gold);color:#0d1418;}
+:root{--bg:#14181e;--grad:#261d22;--text:#e8d9c9;--red:#9c2a2a;--green:#3a4a3a;--brass:#b89f6e;--glow:rgba(184,159,110,0.35);}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:860px;margin:auto;min-height:100vh;}
+h1{font-size:2.7em;margin:.5em 0;color:var(--brass);text-shadow:0 0 18px var(--glow);}
+.collage{max-width:100%;border:14px solid var(--grad);border-radius:18px;box-shadow:0 0 70px rgba(0,0,0,.9),0 0 40px var(--glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:40px auto;max-width:780px;}
+button{background:var(--grad);color:var(--text);border:2px solid var(--brass);padding:16px 10px;font-size:1.22em;cursor:pointer;border-radius:14px;transition:all .3s;}
+button:hover{background:var(--brass);color:#14181e;transform:translateY(-3px);}
+button.selected{background:var(--brass);color:#14181e;font-weight:bold;box-shadow:0 0 25px var(--glow);}
+#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--red);padding:22px 55px;font-size:1.55em;margin:50px auto;border-radius:16px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--red);color:#e8d9c9;}
 #result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
 #result.show{opacity:1;}
-.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--gold);font-size:1.2em;line-height:1.8;}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.5;}
+.rare{color:var(--brass);font-size:1.9em;text-shadow:0 0 30px var(--brass);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.32;}
+.howto,.kofi{background:rgba(255,255,255,.09);padding:26px;border-radius:16px;margin:60px auto;max-width:680px;border:2px solid var(--brass);font-size:1.2em;line-height:1.8;}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
 <h1>Jetaime’s Cabinet of Possibilities</h1>
 <p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
-<img src="https://files.catbox.moe/j537mo.jpg" class="collage" alt="Victorian Noel">
+<img src="https://files.catbox.moe/j537mo.jpg" class="collage" alt="Velvet Yuletide – 18 December 2025">
 <div class="words" id="wordlist"></div>
 <button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
 
 <div class="howto">
-  <strong>How to share (even my mom can do it):</strong><br><br>
-  1. Wait for your secret name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — your friends get your name + the door
+<strong>How to share (even my mom can do it):</strong><br><br>
+1. Wait for your name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — friends get name + door
 </div>
 <div class="kofi">
-  Loving these nightly doors? Keep the candle burning 🕯️<br>
-  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a vintage Christmas postcard—she’s not fussy)</a>
+Loving these nightly doors? Keep the candle burning 🕯️<br>
+<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--brass);text-decoration:underline;">Buy Jetaime a coffee (or a brass key that opens nothing—she collects the useless ones)</a>
 </div>
 
 <script>
 const words=[
-  ["christmas red",1],["emerald hush",1],["holly heart",1],["ribbon glow",1],
-  ["candle cream",2],["gas-lamp gold",2],["hearth memory",2],["soft flame",2],
-  ["pastel promise",3],["dawn blush",3],["new century wish",3],["innocent light",3],
-  ["robin breast",4],["snow hush",4],["winter breath",4],["quiet song",4],
-  ["postcard lace",5],["stamped hope",5],["sealed longing",5],["distant hello",5],
-  ["sleigh shadow",6],["bell echo",6],["velvet night",6],["muffled joy",6],
-  ["noel whisper",7],["yuletide sigh",7],["gentle gladness",7],["coming dawn",7]
+["velvet hush",1],["brass whisper",1],["candle parchment",1],["antique wish",1],
+["holly heart",2],["berry glow",2],["robin breast",2],["winter rose",2],
+["tarnished key",3],["locked memory",3],["secret drawer",3],["forgotten page",3],
+["red sleigh",4],["gilded runner",4],["midnight ride",4],["snow carriage",4],
+["yule smoke",5],["incense curl",5],["spice breath",5],["warm dark",5],
+["noel script",6],["victorian greeting",6],["merry ink",6],["peace lace",6],
+["embered green",7],["pine shadow",7],["quiet joy",7],["slow bell",7]
 ];
 
-const archetypes=[
-  "",
-  {name:"The Christmas-Red Keeper", variants:[
-    "You carry the deep red of excitement inside a heart that already knows safety is fragile. Some days the colour feels too bright, but you keep it burning anyway.",
-    "Red is the colour you wear when you want to feel alive and safe at the same time. You’re learning how rare that combination is.",
-    "You guard the red that makes winter worth surviving. It costs something, but you pay it quietly."
-  ]},
-  {name:"The Emerald Guardian", variants:[
-    "Emerald is your promise that even in the longest night something stays alive underneath. You tend that green the way others tend fires.",
-    "You are the hush of evergreen when everything else has let go. People breathe easier near you without knowing why.",
-    "Safety lives in you like pine needles after snow—sharp if you grab too hard, soft if you simply stand still."
-  ]},
-  {name:"The Cream-Lit Dreamer", variants:[
-    "You live in the glow of candle-cream and gas-lamp gold, the colours that made evenings feel eternal once. You still believe they can.",
-    "Cream and gold are the colours of memory trying to stay warm. You keep them lit longer than most.",
-    "You carry the light people used to read by before electric bulbs stole the magic. Some nights you almost manage to give it back."
-  ]},
-  {name:"The Pastel Dawn", variants:[
-    "You wear the soft blush of new beginnings the way children wore it in 1900—wide-eyed, a little afraid, impossibly hopeful.",
-    "Pastel is the colour of the first breath after midnight. You practise it every morning.",
-    "Innocence visits you in faint pinks and powder blues. You don’t try to hold it—you just let it rest on your shoulder a while."
-  ]},
-  {name:"The Postcard Whisperer", variants:[
-    "You still write the way people did when a postcard was the fastest way to say “I’m thinking of you across the dark.” Your words arrive gently, late, and perfect.",
-    "Distance feels softer because of the lace-edged hopes you send. They land like snowflakes on far-away windows.",
-    "You seal longing with a penny stamp and trust the post to carry it. Some nights you almost hear it arrive."
-  ]},
-  {name:"The Velvet-Night Watcher", variants:[
-    "You sit in the velvet hush between sleigh bells and sleep, listening for the century to turn. The quiet suits you.",
-    "Velvet night is where you keep the joy that is too tender for daylight. You guard it the way others guard sleep.",
-    "Muffled bells and snow-covered roofs are your native country. You visit the day, but you live here."
-  ]},
-  {name:"The Noel Sigh", variants:[
-    "Noel is the soft exhale after the long Victorian year. You understand it better than most.",
-    "You carry the gentle gladness that doesn’t shout—just rests on the windowsill like a robin waiting for crumbs.",
-    "Your hope is the colour of candle-smoke curling toward a cold star. It doesn’t demand; it simply rises."
-  ]},
-  {name:"<span class='rare'>The Yuletide Dawn</span>", variants:[
-    "Ultra-rare. You are the place where deep Christmas red meets the first pale cream of morning. The 20th century is still learning your name, but it already feels safer because you exist.",
-    "Ultra-rare. You hold the hush between the last carol and the first birdsong of a new hundred years. Some mornings you almost hear both at once.",
-    "Ultra-rare. Pastel promise and emerald safety live in you without contradiction. The light you wait for is already inside you, waiting to be noticed."
-  ]}
+const archetypes=["",
+{name:"The Velvet Listener",variants:["You absorb stories the way velvet absorbs light — softly, completely, without echo.","Silence is your native tongue; you speak in textures instead.","People confess to you because your presence feels like a closed, candle-lit room."]},
+{name:"The Holly Keeper",variants:["You carry the bright red heart of winter without apology. Joy is your quiet rebellion.","The berries are proof that life insists, even in the coldest month.","You are the living reminder that winter was made for warmth."]},
+{name:"The Shadow Archivist",variants:["You catalogue what everyone else has forgotten. Old keys, pressed flowers, unsent letters — they are all still alive in your care.","Some collections are heavier than furniture. You carry yours lightly.","The past trusts you because you never force it to explain itself."]},
+{name:"The Sleigh Dreamer",variants:["You hear bells that haven’t rung yet. Forward motion disguised as nostalgia.","Red and gold are your colours you wear when you want the world to move with you.","You turn memory into momentum."]},
+{name:"The Smoke Weaver",variants:["You breathe in the dark and exhale something warmer. Incense, spice, secrets — same difference.","Your warmth is indirect, like fire seen through frosted glass.","People lean toward you the way moths lean toward hidden candles."]},
+{name:"The Noel Scribe",variants:["You still believe words can bless. Every greeting card you send is a tiny spell.","Victorian sentiment lives in your handwriting. It always will.","You keep the old phrases alive because someone has to."]},
+{name:"The Embered Evergreen",variants:["You are the tree that refuses to drop its needles. Quiet, persistent joy.","Green in December is a political act. You wear it without comment.","Some lights only show when everything else has gone dark."]},
+{name:"<span class='rare'>The Brass Eternity</span>",variants:["Ultra-rare. You hold the key that opens nothing and everything at once. Time bends around your collections, your velvet silences, your single red berry in a world gone white.","Ultra-rare. The sleigh and the archive, the smoke and the evergreen — they coexist in you without contradiction. You are the entire quiet century in one breath.","Ultra-rare. This door waited for the person who can love rust as much as gold. You arrived exactly on time."]}
 ];
 
 let selected=[];
@@ -122,7 +90,7 @@ function calculate(){
     html=`<h2>${a.name}</h2><p>${v}</p>`;
   }
   const r=document.getElementById("result");
-  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--red);color:#0d1418;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:13px 30px;background:var(--red);color:#e8d9c9;border:none;border-radius:12px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
   r.classList.add("show");r.scrollIntoView({behavior:"smooth"});
 }
 function copyShare(){
@@ -130,17 +98,22 @@ function copyShare(){
   const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities\nstep through the same door → ${location.href}`;
   navigator.clipboard.writeText(text);alert("Copied!");
 }
+
 const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;canvas.height=innerHeight;
-let p=[];for(let i=0;i<120;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.8+0.3,o:Math.random()*0.6+0.4});
-function snow(){ctx.clearRect(0,0,canvas.width,canvas.height);
-  p.forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,230,220,${e.o})`;ctx.fill();
-    e.y+=e.s;if(e.y>canvas.height){e.y=0;e.x=Math.random()*canvas.width;}
-    e.x+=Math.sin(e.y/60)*0.8;
+let p=[];for(let i=0;i<110;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*4+2,s:Math.random()*0.9+0.3,o:Math.random()*0.6+0.3,type:Math.random()>0.5?"snow":"ember"});
+function drift(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{
+    ctx.beginPath();ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fillStyle=e.type==="ember"?`rgba(220,100,60,${e.o})`:`rgba(240,235,225,${e.o})`;
+    ctx.fill();
+    e.y+=e.s;e.x+=Math.sin(e.y/90)*0.8;
+    if(e.y>canvas.height){e.y=-10;e.x=Math.random()*canvas.width;}
   });
-  requestAnimationFrame(snow);
+  requestAnimationFrame(drift);
 }
-snow();
+drift();
 window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
 init();
 </script>
