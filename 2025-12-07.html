@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Jetaime’s Cabinet – Midnight Christmas</title>
+<title>Jetaime’s Cabinet of Possibilities</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZTMR0CBL5"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZTMR0CBL5');</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PZTMR0CBL5');
+</script>
+
 <style>
-:root{--bg:#0d0818;--grad:#1c1530;--text:#e8e0e5;--pink:#c8a8d8;--rose:#b698c8;--gold:#d8c298;--glow:rgba(200,168,216,0.4);}
+:root{--bg:#1a1418;--grad:#2b1e24;--text:#f5e8ed;--pink:#e8b8c8;--rose:#d898b0;--gold:#d6c2a8;--glow:rgba(232,184,200,0.42);}
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:860px;margin:auto;min-height:100vh;}
 h1{font-size:2.8em;margin:.5em 0;color:var(--pink);text-shadow:0 0 22px var(--glow);}
 .collage{max-width:100%;border:14px solid var(--grad);border-radius:20px;box-shadow:0 0 70px rgba(0,0,0,.9),0 0 45px var(--glow);margin:30px auto;display:block;}
@@ -15,131 +23,99 @@ h1{font-size:2.8em;margin:.5em 0;color:var(--pink);text-shadow:0 0 22px var(--gl
 button{background:var(--grad);color:var(--text);border:2px solid var(--pink);padding:16px 10px;font-size:1.24em;cursor:pointer;border-radius:14px;transition:all .3s;}
 button:hover{background:var(--pink);color:#1a1418;transform:translateY(-3px);}
 button.selected{background:var(--rose);color:#1a1418;font-weight:bold;box-shadow:0 0 28px var(--glow);}
-#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--gold);padding:22px 55px;font-size:1.55em;margin:30px auto;border-radius:16px;cursor:pointer;display:inline-block;}
+#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--gold);padding:22px 55px;font-size:1.55em;margin:50px auto;border-radius:16px;cursor:pointer;display:inline-block;}
 #revealBtn:hover{background:var(--gold);color:#1a1418;}
-#result,#correspondence{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
-#result.show,#correspondence.show{opacity:1;}
+#result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+#result.show{opacity:1;}
 .rare{color:var(--gold);font-size:2em;text-shadow:0 0 32px var(--gold);}
 canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.38;}
-.howto,.kofi,.corr{background:rgba(255,255,255,.09);padding:26px;border-radius:16px;margin:60px auto;max-width:680px;border:2px solid var(--pink);font-size:1.2em;line-height:1.8;}
+.howto,.kofi{background:rgba(255,255,255,.09);padding:26px;border-radius:16px;margin:60px auto;max-width:680px;border:2px solid var(--pink);font-size:1.2em;line-height:1.8;}
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
-<h1>Jetaime’s Cabinet of Possibilities<br><small>Midnight Christmas 2025</small></h1>
-<p>Sit with the collage for a moment.<br>Then touch every word that already belongs to you tonight.</p>
-<img src="https://files.catbox.moe/d6dxrw.jpg" class="collage" alt="Midnight Christmas 2025">
-
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+<img src="https://files.catbox.moe/dmblib.jpg" class="collage" alt="Romantic Pink Winter – 07 December 2025">
 <div class="words" id="wordlist"></div>
-<button id="revealBtn" onclick="calculate()">Reveal Who I Am at Midnight</button>
-
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
 <div id="result"></div>
-<div id="correspondence"></div>
-
-<div class="corr" id="corrSection" style="display:none;">
-<strong>Your Correspondence So Far</strong><br><br>
-<span id="corrText"></span><br><br>
-<button onclick="downloadHistory()" style="background:var(--rose);color:#1a1418;">Download Cabinet_correspondence.txt</button>
-</div>
 
 <div class="howto">
-<strong>How to share:</strong><br>1. Wait for your name<br>2. Tap “Copy share text”<br>3. Paste anywhere
+<strong>How to share (even my mom can do it):</strong><br><br>
+1. Wait for your name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — friends get name + door
 </div>
 <div class="kofi">
-The candle still burns because of kind humans 🕯️<br>
-<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a midnight marshmallow)</a>
+Loving these nightly doors? Keep the candle burning 🕯️<br>
+<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or one extra-pink marshmallow—she believes in excess)</a>
 </div>
 
 <script>
-// 28 words – 7 groups of 4
 const words=[
-["gilded quiet",1],["sanctuary star",1],["velvet midnight",1],["pearl solitude",1],
-["hidden crown",2],["candlelit castle",2],["fur-warmed hearth",2],["secret celebration",2],
-["midnight rose",3],["lilac fireworks",3],["dusky sparkle",3],["silver silence",3],
-["ancient fairy",4],["winged guardian",4],["snow-dusted wings",4],["quiet majesty",4],
-["distant city glow",5],["warm window",5],["one lit tower",5],["safe horizon",5],
-["cat on silk",6],["curled luxury",6],["purring guardian",6],["soft dominion",6],
-["held grief",7],["gentle gold",7],["earned warmth",7],["still sovereign",7]
+["powder snow",1],["rose sunrise",1],["cashmere dawn",1],["blush horizon",1],
+["cozy blanket",2],["hot cocoa",2],["fireside nook",2],["soft hygge",2],
+["playful snowball",3],["twirl skirt",3],["giggle frost",3],["pink mittens",3],
+["candle glow",4],["hidden warmth",4],["secret sparkle",4],["winter sunbeam",4],
+["childhood sled",5],["snow angel",5],["candy-cane wish",5],["fairytale flake",5],
+["velvet ribbon",6],["marabou trim",6],["princess coat",6],["fluffy crown",6],
+["rose quartz heart",7],["gentle romance",7],["sweet whisper",7],["tender dream",7]
 ];
 
 const archetypes=["",
-{name:"The Gilded Hermit",short:"Gilded Hermit", variants:["You are the quiet gold in a world of noise. Midnight is your library, solitude your crown.","Others chase fireworks; you curate the glow that lasts until dawn.","Your sanctuary is built one star at a time, and it holds everything."]},
-{name:"The Candlelit Sovereign",short:"Candlelit Sovereign", variants:["You rule from the hearth, not the throne. One flame, one cat, one hidden door — that's your entire kingdom.","The castle bends to your rhythm: slow, deliberate, warm.","Sovereignty isn't declared; it's the way you light the wick without fanfare."]},
-{name:"The Midnight Rose",short:"Midnight Rose", variants:["You bloom in the dark, petals edged in frost and fire. Lilac sparks and silver quiet are your perfume.","The world sees thorns; you know the silk underneath.","Every petal is a memory you chose to keep, not one you were handed."]},
-{name:"The Winged Ancient",short:"Winged Ancient", variants:["Wings dusted in snow, eyes that have seen every solstice. You guard the thresholds no one else remembers.","Majesty isn't loud; it's the way you fold your wings and wait.","The fairy in you knows: flight is optional, but presence is everything."]},
-{name:"The Distant Light",short:"Distant Light", variants:["You are the tower on the horizon, the window that promises home without demanding you knock.","Glow without glare, warmth without weight.","In a sky full of stars, you are the one that feels like direction."]},
-{name:"The Cat on Silk",short:"Cat on Silk", variants:["Curled in luxury, purring dominion over the entire velvet night. You claim space without a sound.","The guardian who sleeps through the storm and wakes to rule the dawn.","Silk isn't indulgence; it's the throne you were born to stretch across."]},
-{name:"The Earned Warmth",short:"Earned Warmth", variants:["You hold the grief like a velvet glove, and the gold slips through anyway. Warmth isn't given; it's forged.","Sovereign because you stayed through the cold.","Every candle you light is a contract with yourself: this far, no further."]},
-{name:"<span class='rare'>The Dusky Winter Queen</span>",short:"Dusky Winter Queen", variants:["You hold every shade at once — the cold, the grief, the gold, the cat, the crown — and none of them cancel the others out. This is not fragile balance; this is quiet, absolute dominion.","Ultra-rare. You turned midnight itself into a throne room and still left one candle burning for anyone else who needs to find the way home.","Ultra-rare. The realm is safe because you finally decided you are allowed to be both wounded and sovereign. Christmas bends to your rules now."]}
+{name:"The Blush Dawn",variants:["You greet even the coldest morning with soft optimism. Pink is your promise that light always returns.","Others see grey; you see the first blush of sunrise.","Your hope is quiet, persistent, and irresistibly contagious."]},
+{name:"The Hygge Haven",variants:["Master of turning any space into instant comfort. Blankets, cocoa, and quiet laughter are your superpowers.","You don’t chase happiness — you build the perfect nest and let it land.","Home is a verb, and you’re fluent."]},
+{name:"The Snow-Day Sprite",variants:["You never lost the ability to find pure fun in winter. Snowballs, spinning until dizzy, pink cheeks are your medicine.","Play is your spiritual practice, and winter is your playground.","You make adults remember they were once fearless with joy."]},
+{name:"The Hidden Ember",variants:["You instinctively locate warmth when everyone else sees only cold. Your gift is reminding people the sun is still there.","You carry summer in your pocket and lend it out in tiny sparks.","Even the smallest candle feels like a bonfire around you."]},
+{name:"The Inner Child in Pink",variants:["Winter is one long playground for the little girl who still lives in you. Sledding, snow angels, candy canes are serious spiritual practice.","You kept the wonder and simply grew the wardrobe to match.","Magic isn’t something you believe in — it’s someone you never stopped being."]},
+{name:"The Fluffy Coquette",variants:["You wrap yourself in marabou and ribbon the way others wear confidence. Flirtation is your cheerful rebellion against grey skies.","You wink at the world and the world blushes back.","Pink is political when you wear it in December."]},
+{name:"The Rose-Quartz Romantic",variants:["Gentle, dreamy, tender-hearted. You believe love should feel like being wrapped in a rose-petal blanket, and you make it real.","Your affection is soft, steady snowfall — impossible to rush, impossible to ignore.","You love the way winter loves: slowly, completely, and without apology."]},
+{name:"<span class='rare'>The Pink Winter Phoenix</span>",variants:["Ultra-rare. Cozy comfort, playful joy, hidden warmth, childlike wonder, gentle flirtation, and tender romance live in perfect balance inside you. Winter doesn’t dim you — it turns you incandescent.","Ultra-rare. You are the living proof that softness can be the strongest force in any season.","Ultra-rare. This door was waiting for the heart that turns December into a perpetual dawn. You walked straight in wearing pink and smiling."]}
 ];
 
 let selected=[];
-
-// ────── Persistence engine (same as before, slightly tweaked voice) ──────
-function saveDraw(cardIndex, chosenWords) {
-  const draw = {
-    date: new Date().toISOString().split('T')[0],
-    archetype: archetypes[cardIndex].name.replace(/<[^>]*>/g,'').trim(),
-    short: archetypes[cardIndex].short,
-    words: chosenWords
-  };
-  let history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  history.push(draw);
-  localStorage.setItem("cabinetHistory", JSON.stringify(history));
-  updateCorrespondence();
-}
-
-function updateCorrespondence() {
-  const history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  if (history.length === 0) return;
-  document.getElementById("corrSection").style.display = "block";
-  let text = `The Blue Hour has written to you ${history.length} time${history.length>1?'s':''} across the seasons.\n\n`;
-  history.forEach(d => text += `${d.date} – ${d.archetype}\n`);
-  if (history.length >= 7) {
-    const counts = {}; history.forEach(d => counts[d.short]=(counts[d.short]||0)+1);
-    const recurring = Object.keys(counts).filter(k=>counts[k]>1).join(", ");
-    text += `\n\nRecurring guardians: ${recurring||'none yet'}.\nThey have decided you are worth guarding. The Cabinet is only the messenger.`;
-    if (history.length >= 21) text += `\n\nTwenty-one letters is no longer coincidence; it is coronation.\nThe throne was waiting. You sat down without noticing.`;
-  }
-  document.getElementById("corrText").textContent = text;
-  document.getElementById("correspondence").innerHTML = "<p><em>" + text.replace(/\n/g,"<br>") + "</em></p>";
-  document.getElementById("correspondence").classList.add("show");
-}
-
-function downloadHistory() {
-  const history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  let txt = "Jetaime’s Cabinet of Possibilities – Private Correspondence\n\n";
-  history.forEach(d => txt += `${d.date} – ${d.archetype}\nChosen words: ${d.words.join(", ")}\n\n`);
-  const blob = new Blob([txt], {type:"text/plain"});
-  const url = URL.createObjectURL(blob); const a = document.createElement("a");
-  a.href = url; a.download = "Cabinet_correspondence.txt"; a.click();
-}
-
-// ────── Game logic ──────
 function init(){
   const list=document.getElementById("wordlist");
   const shuffled=[...words].sort(()=>Math.random()-.5);
   shuffled.forEach(w=>{let b=document.createElement("button");b.textContent=w[0];
     b.onclick=()=>{b.classList.toggle("selected");
-      if(b.classList.contains("selected"))selected.push(w[0]);
-      else selected=selected.filter(x=>x!==w[0]);
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
     };
     list.appendChild(b);
   });
 }
-
 function calculate(){
-  if(selected.length===0){alert("Choose at least one word that belongs to you tonight.");return;}
-  const uniqueCounts={}; selected.forEach(w=>uniqueCounts[words.find(w2=>w2[0]===w)[1]]=(uniqueCounts[words.find(w2=>w2[0]===w)[1]]||0)+1);
-  const unique=[...new Set(selected.map(w=>words.find(w2=>w2[0]===w)[1]))];
-  let cardIndex = unique.length>=6 ? 8 : Object.keys(uniqueCounts).reduce((a,b)=>uniqueCounts[a]>uniqueCounts[b]?a:b);
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    const a=archetypes[8];const v=a.variants[Math.floor(Math.random()*a.variants.length)];
+    html=`<h2>${a.name}</h2><p>${v}</p>`;
+  }else{
+    const counts={};selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    const a=archetypes[winner];const v=a.variants[Math.floor(Math.random()*a.variants.length)];
+    html=`<h2>${a.name}</h2><p>${v}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:13px 30px;background:var(--rose);color:#1a1418;border:none;border-radius:12px;cursor:pointer;font-size:1.1em;">Copy share text (ready for Facebook/X)</button></p>`;
+  r.classList.add("show");r.scrollIntoView({behavior:"smooth"});
+}
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities\nstep through the same door → ${location.href}`;
+  navigator.clipboard.writeText(text);alert("Copied!");
+}
 
-  const a=archetypes[cardIndex];
-  const variant = a.variants 
-    ? a.variants[Math.floor(Math.random()*a.variants.length)]
-    : "You are the living proof that midnight can be warm.";
-
-  const html=`<h2>${a.name}</h2><p>${variant}</p>`;
-  document.getElementById("result").innerHTML=html+
-    `<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:13px 30px;background:var(--rose);color:#1a1418;border:none;border-radius:12px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
-  document.getElementById("result").classList.add("
+const canvas=document.getElementById("particles");const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let bursts=[];let burstTimer=0;
+function createBurst(){if(Math.random()<0.3){const cx=canvas.width*Math.random();const cy=canvas.height*Math.random();for(let i=0;i<8;i++){bursts.push({x:cx,y:cy,vx:(Math.random()-0.5)*4,vy:(Math.random()-0.5)*4,r:2,o:0.8,life:60});}}}
+function fireworks(){ctx.clearRect(0,0,canvas.width,canvas.height);burstTimer++;if(burstTimer>10){createBurst();burstTimer=0;}
+bursts.forEach((b,i)=>{ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle=`rgba(232,184,200,${b.o})`;ctx.fill();
+b.x+=b.vx;b.y+=b.vy;b.r+=0.5;b.o-=0.013;b.life--;if(b.life<=0||b.o<=0){bursts.splice(i,1);}});
+requestAnimationFrame(fireworks);}
+fireworks();window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});init();
+</script>
+</body>
+</html>
