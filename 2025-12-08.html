@@ -7,21 +7,30 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZTMR0CBL5"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZTMR0CBL5');</script>
 <style>
-:root{--bg:#1a0000;--grad:#2d0000;--text:#e8e0e5;--rose:#a82828;--crimson:#b62828;--gold:#d8c298;--glow:rgba(168,40,40,0.42);}
+:root{
+  --bg:#181010;          /* deep black-red shadow from the collage backgrounds */
+  --grad:#2b1e1a;        /* warmer dark red-brown */
+  --text:#f0e6e0;        /* candlelit cream */
+  --soft-red:#b04848;    /* muted vintage red from ribbons & capes */
+  --deep-red:#a03038;    /* darker velvet red */
+  --gold:#d6c2a0;        /* exact antique gold from ornaments & text */
+  --green:#3a5848;       /* soft holly/evergreen from wreaths */
+  --glow:rgba(208,160,120,0.35); /* warm golden-red glow */
+}
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:860px;margin:auto;min-height:100vh;}
-h1{font-size:2.8em;margin:.5em 0;color:var(--rose);text-shadow:0 0 22px var(--glow);}
-.collage{max-width:100%;border:14px solid var(--grad);border-radius:20px;box-shadow:0 0 70px rgba(0,0,0,.9),0 0 45px var(--glow);margin:30px auto;display:block;}
+h1{font-size:2.8em;margin:.5em 0;color:var(--soft-red);text-shadow:0 0 20px var(--glow);}
+.collage{max-width:100%;border:16px solid var(--grad);border-radius:20px;box-shadow:0 0 70px rgba(0,0,0,.9),inset 0 0 40px rgba(208,160,120,0.15);margin:30px auto;display:block;}
 .words{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:40px auto;max-width:780px;}
-button{background:var(--grad);color:var(--text);border:2px solid var(--rose);padding:16px 10px;font-size:1.24em;cursor:pointer;border-radius:14px;transition:all .3s;}
-button:hover{background:var(--rose);color:#1a0000;transform:translateY(-3px);}
-button.selected{background:var(--crimson);color:#1a0000;font-weight:bold;box-shadow:0 0 28px var(--glow);}
-#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--gold);padding:22px 55px;font-size:1.55em;margin:30px auto;border-radius:16px;cursor:pointer;display:inline-block;}
-#revealBtn:hover{background:var(--gold);color:#1a0000;}
-#result,#correspondence{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+button{background:var(--grad);color:var(--text);border:2px solid var(--soft-red);padding:16px 10px;font-size:1.24em;cursor:pointer;border-radius:14px;transition:all .35s;}
+button:hover{background:var(--soft-red);color:#180000;transform:translateY(-3px);}
+button.selected{background:var(--deep-red);color:#f0e6e0;font-weight:bold;box-shadow:0 0 28px var(--glow);}
+#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--gold);padding:22px 55px;font-size:1.55em;margin:50px auto;border-radius:16px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--gold);color:#180000;}
+#result,#correspondence{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.6s;}
 #result.show,#correspondence.show{opacity:1;}
-.rare{color:var(--gold);font-size:2em;text-shadow:0 0 32px var(--gold);}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.28;}
-.howto,.kofi,.corr{background:rgba(255,255,255,.09);padding:26px;border-radius:16px;margin:60px auto;max-width:680px;border:2px solid var(--rose);font-size:1.2em;line-height:1.8;}
+.rare{color:var(--gold);font-size:2.1em;text-shadow:0 0 32px var(--gold);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.38;}
+.howto,.kofi,.corr{background:rgba(255,255,255,.07);padding:26px;border-radius:16px;margin:60px auto;max-width:680px;border:2px solid var(--soft-red);font-size:1.2em;line-height:1.8;}
 </style>
 </head>
 <body>
@@ -33,11 +42,13 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.28;}
 <button id="revealBtn" onclick="calculate()">Reveal Who I Am at Midnight</button>
 <div id="result"></div>
 <div id="correspondence"></div>
+
 <div class="corr" id="corrSection" style="display:none;">
 <strong>Your Correspondence So Far (all games, all seasons)</strong><br><br>
 <span id="corrText"></span><br><br>
-<button onclick="downloadHistory()" style="background:var(--crimson);color:#1a0000;padding:12px 24px;border:none;border-radius:12px;cursor:pointer;">Download Cabinet_correspondence.txt</button>
+<button onclick="downloadHistory()" style="background:var(--deep-red);color:#f0e6e0;padding:12px 24px;border:none;border-radius:12px;cursor:pointer;">Download Cabinet_correspondence.txt</button>
 </div>
+
 <div class="howto">
 <strong>How to share:</strong><br>1. Wait for your midnight name<br>2. Tap “Copy share text”<br>3. Paste anywhere
 </div>
@@ -45,141 +56,23 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.28;}
 The candle still burns because of kind humans<br>
 <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a midnight marshmallow)</a>
 </div>
+
 <script>
-// 28 words – 7 groups of 4, generated from collage motifs
+// 28 words – 7 groups of 4, drawn straight from the collage
 const words = [
-  ["midnight fur",1],["snow veiled",1],["candle throne",1],["gilded paw",1],
-  ["velvet exile",2],["rose lit",2],["whispered solstice",2],["ermine shadow",2],
-  ["regal gaze",3],["black ribbon",3],["purring veil",3],["silk sentinel",3],
-  ["fairy dusted",4],["reindeer hush",4],["winged frost",4],["vintage bloom",4],
-  ["lit threshold",5],["pub warmth",5],["staircase glow",5],["horizon hush",5],
-  ["doll quiet",6],["ornament sigh",6],["tree veiled",6],["child fur",6],
-  ["grief gold",7],["solitary crown",7],["earned hush",7],["still bloom",7]
+  ["midnight fur",1],["snow-veiled gaze",1],["candle throne",1],["gilded paw",1],
+  ["velvet exile",2],["rose-lit hearth",2],["whispered solstice",2],["ermine shadow",2],
+  ["regal feline",3],["black ribbon crown",3],["purring sentinel",3],["silk dominion",3],
+  ["fairy-dusted reindeer",4],["vintage bloom",4],["winged hush",4],["ornament sigh",4],
+  ["grand staircase glow",5],["pub doorway warmth",5],["single lit tower",5],["horizon candle",5],
+  ["child in fur",6],["doll’s quiet",6],["tree-veiled wonder",6],["reindeer hush",6],
+  ["grief turned gold",7],["solitary crown",7],["earned hush",7],["still-blooming heart",7]
 ];
+
 const archetypes = ["",
-  {name:"The Furred Exile",short:"Furred Exile", variants:["You wrap solitude in sable and red, a duchess displaced by dawn. The snow falls, but your hearth remembers every exiled solstice.","Others seek crowds; you claim the quiet corridor, where cats guard the unsaid."]},
-  {name:"The Rose Lit Sovereign",short:"Rose Lit Sovereign", variants:["Petals of frost and flicker rule your realm—one velvet glove over a hidden wound, one candle defying the endless night.","Sovereignty whispers: you light the wick not for light, but for the shadow it carves just right."]},
-  {name:"The Gilded Sentinel",short:"Gilded Sentinel", variants:["Eyes like polished onyx in fur, you perch on the edge of wonder and watch without mercy or malice. The paw that strokes is the one that claims.","Guardian of thresholds: not the door slammed, but the one left ajar for ghosts who earned their key."]},
-  {name:"The Frost Winged Dreamer",short:"Frost Winged Dreamer", variants:["Wings etched in snow and old Vogue ink, you hover over staircases no one climbs. Fairy tales aren't read; they drift down like your quiet feathers.","Dreams aren't chased; they settle on your lashes, heavy with the majesty of what was almost real."]},
-  {name:"The Threshold Whisper",short:"Threshold Whisper", variants:["You are the single window aglow in the city's sigh, the pub door cracked for wanderers who know not to knock too loud.","In the hush of horizons, you promise arrival without the ache of journey—warmth earned by looking, not entering."]},
-  {name:"The Veiled Child Keeper",short:"Veiled Child Keeper", variants:["Doll in red sash, reindeer hushed mid-leap: you cradle the innocence that survived the fur and frost, turning ornaments into talismans.","Keeper of blooms half-buried— the inner child who learned to purr through the storm, soft but unyielding."]},
-  {name:"The Hushed Crowned",short:"Hushed Crowned", variants:["Grief gilt-edged, solitude your scepter: you wear the crown of what remains, blooming still in the solstice's reluctant gold.","The hush isn't silence; it's the bloom after fracture, sovereign because you chose the thorns."]},
-  {name:"<span class='rare'>The Midnight Matriarch</span>",short:"Midnight Matriarch", variants:[
-    "You weave every thread—fur, frost, flicker, feline, faded child—into a tapestry that warms without consuming. Midnight yields; you are the quiet axis where exile becomes empire.",
-    "Ultra-rare. The collage lives in you: cats crown the chaos, snow softens the sovereign wounds. Holidays kneel now, disguised as home.",
-    "Ultra-rare. From veiled gazes to gilded grief, you claimed it all. The cabinet opens wider; you step through, not as guest, but as the dream that built it."
-  ]}
-];
-let selected = [];
-// ==================== DRIFTING SNOW ANIMATION ====================
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width = innerWidth; canvas.height = innerHeight;
-let snowflakes = [];
-class Snowflake {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = -10;
-    this.size = Math.random() * 4 + 2;
-    this.speed = Math.random() * 1 + 0.5;
-    this.swing = Math.random() * 0.02 + 0.005; // subtle horizontal sway
-    this.dir = Math.random() < 0.5 ? 1 : -1;
-    this.life = 100; // fade over time
-    this.color = Math.random() < 0.9 ? "#f0f8ff" : "#d8c298"; // mostly white, occasional gold
-  }
-  update() {
-    this.y += this.speed;
-    this.x += Math.sin(this.y * this.swing) * this.dir * 0.5; // wind-like drift
-    this.life -= 0.1;
-    if (this.y > canvas.height || this.life <= 0) return false;
-    return true;
-  }
-  draw() {
-    ctx.globalAlpha = this.life / 100;
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  }
-}
-function animate() {
-  ctx.fillStyle = "rgba(26,0,0,0.04)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  if (Math.random() < 0.1) snowflakes.push(new Snowflake()); // steady, gentle spawn
-  snowflakes = snowflakes.filter(s => s.update());
-  snowflakes.forEach(s => s.draw());
-  requestAnimationFrame(animate);
-}
-animate();
-window.addEventListener("resize", () => { canvas.width = innerWidth; canvas.height = innerHeight; });
-// ==================== Persistence & game logic ====================
-function saveDraw(cardIndex, chosenWords) {
-  const draw = {date: new Date().toISOString().split('T')[0], archetype: archetypes[cardIndex].name.replace(/<[^>]*>/g, '').trim(),
-    short: archetypes[cardIndex].short, words: chosenWords};
-  let history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  history.push(draw); localStorage.setItem("cabinetHistory", JSON.stringify(history));
-  updateCorrespondence();
-}
-function updateCorrespondence() {
-  const history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  if (history.length === 0) return;
-  document.getElementById("corrSection").style.display = "block";
-  let text = `The Midnight Hour has written to you ${history.length} time${history.length > 1 ? 's' : ''} across the seasons.\n\n`;
-  history.forEach(d => text += `${d.date} – ${d.archetype}\n`);
-  if (history.length >= 7) {
-    const counts = {}; history.forEach(d => counts[d.short] = (counts[d.short] || 0) + 1);
-    const recurring = Object.keys(counts).filter(k => counts[k] > 1).join(", ");
-    text += `\n\nRecurring guardians: ${recurring || 'none yet'}.\nThey have decided you are worth guarding. The Cabinet is only the messenger.`;
-    if (history.length >= 21) text += "\n\nTwenty-one letters is no longer coincidence; it is coronation.\nThe throne was waiting. You sat down without noticing.";
-  }
-  document.getElementById("corrText").textContent = text;
-  document.getElementById("correspondence").innerHTML = "<p><em>" + text.replace(/\n/g, "<br>") + "</em></p>";
-  document.getElementById("correspondence").classList.add("show");
-}
-function downloadHistory() {
-  const history = JSON.parse(localStorage.getItem("cabinetHistory") || "[]");
-  let txt = "Jetaime’s Cabinet of Possibilities – Private Correspondence\n\n";
-  history.forEach(d => txt += `${d.date} – ${d.archetype}\nChosen words: ${d.words.join(", ")}\n\n`);
-  const blob = new Blob([txt], {type: "text/plain"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a"); a.href = url; a.download = "Cabinet_correspondence.txt"; a.click();
-}
-function init() {
-  const list = document.getElementById("wordlist");
-  const shuffled = [...words].sort(() => Math.random() - 0.5);
-  shuffled.forEach(w => {
-    let b = document.createElement("button"); b.textContent = w[0];
-    b.onclick = () => { b.classList.toggle("selected");
-      if (b.classList.contains("selected")) selected.push(w[0]);
-      else selected = selected.filter(x => x !== w[0]);
-    };
-    list.appendChild(b);
-  });
-}
-function calculate() {
-  if (selected.length === 0) { alert("Choose at least one word that belongs to you tonight."); return; }
-  const counts = {}; selected.forEach(w => counts[words.find(w2 => w2[0] === w)[1]] = (counts[words.find(w2 => w2[0] === w)[1]] || 0) + 1);
-  const unique = [...new Set(selected.map(w => words.find(w2 => w2[0] === w)[1]))];
-  const cardIndex = unique.length >= 6 ? 8 : Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-  const a = archetypes[cardIndex];
-  const variant = a.variants[Math.floor(Math.random() * a.variants.length)];
-  const html = `<h2>${a.name}</h2><p>${variant}</p>`;
-  document.getElementById("result").innerHTML = html +
-    `<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:13px 30px;background:var(--crimson);color:#1a0000;border:none;border-radius:12px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
-  document.getElementById("result").classList.add("show");
-  document.getElementById("result").scrollIntoView({behavior: "smooth"});
-  saveDraw(cardIndex, selected);
-  selected = [];
-  document.querySelectorAll(".selected").forEach(b => b.classList.remove("selected"));
-}
-function copyShare() {
-  const arch = document.querySelector("#result h2")?.innerText || "my midnight name";
-  const text = `I just drew "${arch}" in Jetaime’s Midnight Christmas Cabinet\nstep through the same door → ${location.href}`;
-  navigator.clipboard.writeText(text); alert("Copied!");
-}
-init();
-updateCorrespondence();
-</script>
-</body>
-</html>
+  {name:"The Furred Exile",short:"Furred Exile", variants:["You wrap solitude in sable and candlelight, a displaced aristocrat who made midnight itself a palace.","Snow falls; you simply adjust your crown and let the cats keep watch."]},
+  {name:"The Rose-Lit Sovereign",short:"Rose-Lit Sovereign", variants:["One candle, one velvet glove, one hidden wound. You rule the longest night without ever raising your voice.","Sovereignty is the quiet way you choose which shadows are allowed to stay."]},
+  {name:"The Gilded Sentinel",short:"Gilded Sentinel", variants:["Perched on silk and memory, you guard thresholds no one else remembers. The paw that rests on velvet is still the one that draws the line."]},
+  {name:"The Winged Dreamer",short:"Winged Dreamer", variants:["Snow-dusted wings, reindeer frozen mid-leap, fairy tales drifting down like silent blessings. You never stopped believing; you just wrapped the wonder in fur."]},
+  {name:"The Threshold Keeper",short:"Threshold Keeper", variants:["You are the single warm window in the city’s sigh, the pub door left ajar, the staircase that promises grandeur without demanding you climb."]},
+  {name:"The Veiled Child",short:"Veiled Child", variants:["The little girl in red ribbons survived every winter.
