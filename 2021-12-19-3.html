@@ -76,6 +76,68 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;}
 
 <canvas id="snow"></canvas>
 
+  <!-- MIDNIGHT CAT (add this once, anywhere in <body>) -->
+<div id="midnightCat" style="position:fixed; bottom:80px; left:-120px; width:100px; height:100px; pointer-events:none; z-index:2; opacity:0; transition:opacity 1s;">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- simple but regal animated cat -->
+    <g id="cat">
+      <!-- body -->
+      <ellipse cx="50" cy="70" rx="36" ry="22" fill="#0f0c1a"/>
+      <!-- head -->
+      <circle cx="50" cy="42" r="24" fill="#0f0c1a"/>
+      <!-- ears -->
+      <path d="M30 34 L40 20 L50 34 Z" fill="#0f0c1a"/>
+      <path d="M70 34 L60 20 L50 34 Z" fill="#0f0c1a"/>
+      <!-- eyes (glowing gold) -->
+      <circle cx="42" cy="40" r="4" fill="#c9b08a">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="58" cy="40" r="4" fill="#c9b08a">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>
+      <!-- tail (wagging) -->
+      <path d="M70 75 Q90 60 85 85" stroke="#0f0c1a" stroke-width="14" fill="none">
+        <animate attributeName="d" values="M70 75 Q90 60 85 85; M70 75 Q95 55 90 80; M70 75 Q90 60 85 85" dur="4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </svg>
+</div>
+
+<script>
+// Midnight cat appears after 30 seconds, stays 5 seconds, then exits
+setTimeout(() => {
+  const cat = document.getElementById("midnightCat");
+  cat.style.opacity = "1";
+  cat.style.transition = "left 8s linear, opacity 1s";
+  cat.style.left = "calc(50% - 50px)";          // walk to center
+  
+  // after reaching center, play for 5 seconds
+  setTimeout(() => {
+    // tiny paw swipes at snow (optional sparkle burst)
+    for(let i=0; i<12; i++){
+      setTimeout(() => {
+        particles.push({
+          x: innerWidth/2 + Math.random()*60-30,
+          y: innerHeight - 120,
+          size: Math.random()*3+2,
+          speedY: -Math.random()*4-2,
+          speedX: Math.random()*4-2,
+          opacity:1,
+          isGold: true
+        });
+      }, i*80);
+    }
+  }, 4000);
+
+  // exit stage right like the queen she is
+  setTimeout(() => {
+    cat.style.left = "110%";
+    cat.style.opacity = "0";
+  }, 9000);
+
+}, 30000);
+</script>
+
 <h1>Jetaime’s Cabinet of Possibilities<br><small>Celestial Christmas 2021–2025</small></h1>
 <p>Let the collage rest in your eyes for a moment.<br>Then touch every phrase that already feels like home tonight.</p>
 
@@ -257,4 +319,5 @@ init();
 updateCorrespondence();
 </script>
 </body>
+
 </html>
