@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet – Celestial Christmas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZTMR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZTMR0CBL5');</script>
+
+<style>
+:root{
+  --bg:#0b0814;
+  --deep:#12101f;
+  --ink:#1a1728;
+  --text:#e0dbe3;
+  --gold:#c9b08a;
+  --oldgold:#a08c6b;
+  --frost:#b8c2d8;
+  --glow:#c9b08a44;
+}
+body{margin:0;font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--deep)100%);color:var(--text);text-align:center;padding:20px 15px;min-height:100vh;overflow-x:hidden;}
+h1{font-size:2.7em;margin:0.6em 0 0.3em;color:var(--frost);text-shadow:0 0 20px var(--glow);}
+h1 small{font-size:0.48em;display:block;color:var(--gold);}
+.collage{max-width:920px;width:100%;margin:30px auto;border:16px solid var(--ink);border-radius:22px;box-shadow:0 0 80px rgba(0,0,0,0.95),0 0 50px var(--glow);display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(156px,1fr));gap:18px;margin:50px auto;max-width:860px;}
+button{background:var(--ink);color:var(--text);border:2px solid #1e1a2e;padding:18px 12px;font-size:1.28em;cursor:pointer;border-radius:16px;transition:all .38s;box-shadow:0 4px 12px rgba(0,0,0,0.6);}
+button:hover{background:#1e1a2e;transform:translateY(-4px);}
+button.selected{background:var(--gold);color:#0f0c1a;border-color:var(--oldgold);font-weight:bold;box-shadow:0 0 32px var(--glow);}
+#revealBtn{background:var(--ink);color:var(--frost);border:3px solid var(--gold);padding:24px 60px;font-size:1.7em;margin:40px auto;border-radius:18px;display:inline-block;cursor:pointer;}
+#revealBtn:hover{background:var(--gold);color:#0f0c1a;}
+#result,#correspondence{margin-top:70px;font-size:1.6em;line-height:1.8;opacity:0;transition:opacity 1.6s;}
+#result.show,#correspondence.show{opacity:1;}
+.rare{color:var(--gold);font-size:2.1em;text-shadow:0 0 38px var(--gold);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;}
+.howto,.kofi,.corr{background:rgba(30,26,46,.44);padding:28px;border-radius:18px;margin:70px auto;max-width:720px;border:2px solid var(--frost);font-size:1.22em;line-height:1.8;}
+</style>
+</head>
+<body>
+
+<canvas id="snow"></canvas>
+
+<!-- THE MIDNIGHT CAT -->
+<div id="midnightCat" style="position:fixed; bottom:80px; left:-120px; width:100px; height:100px; pointer-events:none; z-index:2; opacity:0; transition:opacity 1s;">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g id="cat">
+      <ellipse cx="50" cy="70" rx="36" ry="22" fill="#0f0c1a"/>
+      <circle cx="50" cy="42" r="24" fill="#0f0c1a"/>
+      <path d="M30 34 L40 20 L50 34 Z" fill="#0f0c1a"/>
+      <path d="M70 34 L60 20 L50 34 Z" fill="#0f0c1a"/>
+      <circle cx="42" cy="40" r="4" fill="#c9b08a">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="58" cy="40" r="4" fill="#c9b08a">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>
+      <path d="M70 75 Q90 60 85 85" stroke="#0f0c1a" stroke-width="14" fill="none">
+        <animate attributeName="d" values="M70 75 Q90 60 85 85; M70 75 Q95 55 90 80; M70 75 Q90 60 85 85" dur="4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </svg>
+</div>
+
+<h1>Jetaime’s Cabinet of Possibilities<br><small>Celestial Christmas 2021–2025</small></h1>
+<p>Let the collage rest in your eyes for a moment.<br>Then touch every phrase that already feels like home tonight.</p>
+
+<img src="https://files.catbox.moe/smzrhr.jpg" class="collage" alt="Celestial Christmas">
+
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Celestial Name</button>
+
+<div id="result"></div>
+<div id="correspondence"></div>
+
+<div class="corr" id="corrSection" style="display:none;">
+  <strong>Your private correspondence with the Midnight Blue</strong><br><br>
+  <span id="corrText"></span><br><br>
+  <button onclick="downloadHistory()">Download Cabinet_correspondence.txt</button>
+</div>
+
+<div class="howto">
+<strong>How to share:</strong><br>1. Wait for your celestial name<br>2. Tap “Copy share text”<br>3. Send it into the night
+</div>
+<div class="kofi">
+The candle still burns because of kind hearts<br>
+<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);">Leave a midnight star for Jetaime</a>
+</div>
+
+<script>
+// 28 phrases born from this exact collage
+const words = [
+  ["gilded solitude",1],["vaulted silence",1],["solitary beam",1],["cabinet of wonders",1],
+  ["bronze astrolabe",2],["black candle smoke",2],["owl in velvet",2],["crypt door",2],
+  ["celestial dome",3],["midnight zodiac",3],["gold-leaf stars",3],["astral mirror",3],
+  ["ribboned medallion",4],["antique comb",4],["mourning silk",4],["alchemical rose",4],
+  ["snowlit altar",5],["hanging star",5],["light from above",5],["sacred descent",5],
+  ["tower library",6],["books of night",6],["feathered watcher",6],["quiet throne",6],
+  ["held in darkness",7],["gentle gold",7],["earned radiance",7],["still sovereign",7]
+];
+
+const archetypes = ["", 
+  {name:"The Keeper of the Gilded Solitude", poem:"I locked the world outside the brass-bound door,<br>sat alone with the echo of my name,<br>and found the silence wearing my own crown.<br>No footsteps ever come here anymore;<br>only candle-flame bows when I walk through the corridor<br>of everything I chose not to give away."},
+  {name:"The Watcher at the Crypt Door", poem:"Seven black candles know my grief by heart.<br>I keep their smoke like incense for the dead.<br>The stones remember every tear I shed;<br>I remember every word they never said.<br>Midnight leans against the iron gate<br>and waits for me to finish my vigil.<br>I always do.<br>I always will."},
+  {name:"The Celestial Navigator", poem:"I drew the winter sky across my skin<br>with gold that still remembers being sun.<br>Orion hunts the dark, but I have won<br>a quieter war: I know where I have been<br>by tracing every star that called me “come.”<br>Tonight the heavens rhyme with what I am."},
+  {name:"The Guardian of Forbidden Relics", poem:"The comb still holds a stranger’s midnight hair;<br>the ribbon still mourns a throat it kissed.<br>I keep them in a drawer lined with black velvet<br>and every Christmas Eve I open it<br>to let the centuries breathe against my wrist.<br>Some loves are safer when they stay unlived."},
+  {name:"The Beam That Remembers the Sun", poem:"One shaft of light slipped through the dome at dawn<br>and found me waiting where the dark was deep.<br>I caught it in my hands like something warm<br>that once belonged to summer, fast asleep.<br>All year I keep it folded in my chest;<br>on the longest night I set it free<br>and suddenly the whole cathedral is blessed."},
+  {name:"The Librarian of the Hidden Tower", poem:"The owl and I have an agreement made of hush.<br>She turns the pages with her wing; I turn the years.<br>Between us, every book still holds its tears<br>and every margin keeps the things we never said.<br>When the clock strikes twelve on Christmas night<br>we close the final volume, blow the candle out,<br>and rule the dark by knowing it by heart."},
+  {name:"The Sovereign of Earned Gold", poem:"I carried sorrow until it learned my weight<br>and turned to metal in my hollow bones.<br>Now every coin I spend is forged from thrones<br>I abdicated so that I could wait<br>in quieter halls for truer crowns.<br>Grief paid its debt in molten gold;<br>I wear it lightly what it cost me to hold."},
+  {name:"<span class='rare'>The Dusky Celestial Sovereign</span>", poem:"I am the pause between the bells at midnight,<br>the breath the snow forgets to fall.<br>The vault, the crypt, the tower, and the light<br>all kneel inside my chest tonight.<br>I do not ask the dark to be less dark;<br>I simply leave one candle in the hall<br>so even midnight knows its way back home<br>when it is tired of being all alone."}
+];
+
+let selected = [];
+
+// SNOW + GOLD SPARKLES
+const canvas = document.getElementById("snow");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth; canvas.height = innerHeight;
+let particles = [];
+
+class SnowFlake {
+  constructor(){this.x=Math.random()*canvas.width;this.y=-10;this.size=Math.random()*2.8+0.8;this.speedY=Math.random()*1.6+0.6;this.speedX=Math.random()*0.8-0.4;this.opacity=Math.random()*0.6+0.3;this.isGold=Math.random()<0.07;}
+  update(){this.y+=this.speedY;this.x+=this.speedX;if(this.y>canvas.height+10){this.y=-10;this.x=Math.random()*canvas.width;}}
+  draw(){ctx.globalAlpha=this.opacity;ctx.fillStyle=this.isGold?"#c9b08a":"#e0e8f8";ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+}
+for(let i=0;i<160;i++) particles.push(new SnowFlake());
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+animate();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+
+// THE QUEEN CAT APPEARS AFTER 30 SECONDS
+setTimeout(() => {
+  const cat = document.getElementById("midnightCat");
+  cat.style.opacity = "1";
+  cat.style.transition = "left 8s linear, opacity 1s";
+  cat.style.left = "calc(50% - 50px)";                // walk to centre
+
+  // playful paw swipe → golden snow burst
+  setTimeout(() => {
+    for(let i=0;i<15;i++){
+      particles.push({
+        x: innerWidth/2 + Math.random()*80-40,
+        y: innerHeight-140,
+        size: Math.random()*4+3,
+        speedY: -Math.random()*6-3,
+        speedX: Math.random()*8-4,
+        opacity:1,
+        isGold: true
+      });
+    }
+  }, 4000);
+
+  // exit like royalty
+  setTimeout(() => {
+    cat.style.left = "110%";
+    cat.style.opacity = "0";
+  }, 9000);
+}, 30000);
+
+// GAME LOGIC
+function saveDraw(idx,chosen){const draw={date:new Date().toISOString().split('T')[0],archetype:archetypes[idx].name.replace(/<[^>]*>/g,'').trim(),words:chosen};let h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");h.push(draw);localStorage.setItem("cabinetHistory",JSON.stringify(h));updateCorrespondence();}
+function updateCorrespondence(){const h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");if(h.length===0)return;document.getElementById("corrSection").style.display="block";let text=`The Midnight Blue has spoken to you ${h.length} time${h.length>1?'s':''} across the years.\n\n`;h.forEach(d=>text+=`${d.date} – ${d.archetype}\n`);document.getElementById("corrText").textContent=text;document.getElementById("correspondence").innerHTML=`<p><em>${text.replace(/\n/g,"<br>")}</em></p>`;document.getElementById("correspondence").classList.add("show");}
+function downloadHistory(){const h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");let txt="Jetaime’s Cabinet – Private Correspondence\n\n";h.forEach(d=>txt+=`${d.date} – ${d.archetype}\nWords: ${d.words.join(", ")}\n\n`);const blob=new Blob([txt],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Cabinet_correspondence.txt";a.click();}
+function init(){const list=document.getElementById("wordlist");const shuffled=[...words].sort(()=>Math.random()-0.5);shuffled.forEach(w=>{const b=document.createElement("button");b.textContent=w[0];b.onclick=()=>{b.classList.toggle("selected");if(b.classList.contains("selected"))selected.push(w[0]);else selected=selected.filter(x=>x!==w[0]);};list.appendChild(b);});}
+function calculate(){
+  if(selected.length===0){alert("Touch at least one phrase that already belongs to you tonight.");return;}
+  const counts={};selected.forEach(w=>{const g=words.find(arr=>arr[0]===w)[1];counts[g]=(counts[g]||0)+1)+1;});
+  const unique=[...new Set(selected.map(w=>words.find(arr=>arr[0]===w)[1]))];
+  const idx=unique.length>=6?8:Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+  const arch=archetypes[idx];
+  const poem=arch.poem;
+  const html=`<h2>${arch.name}</h2><p>${poem}</p><p style="margin-top:50px;"><button onclick="copyShare()" style="padding:14px 36px;background:var(--gold);color:#0f0c1a;border:none;border-radius:14px;font-size:1.2em;">Copy share text</button></p>`;
+  document.getElementById("result").innerHTML=html;
+  document.getElementById("result").classList.add("show");
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  saveDraw(idx,selected);
+  selected=[];document.querySelectorAll(".selected").forEach(b=>b.classList.remove("selected"));
+}
+function copyShare(){
+  const name=document.querySelector("#result h2")?.innerText || "my celestial name";
+  const text=`I just became "${name}" in Jetaime’s Celestial Christmas Cabinet\nWalk through the same door → ${location.href}`;
+  navigator.clipboard.writeText(text);alert("Copied to clipboard");
+}
+init();
+updateCorrespondence();
+</script>
+</body>
+</html>
