@@ -4,29 +4,19 @@
 <meta charset="UTF-8">
 <title>Jetaime’s Cabinet – Celestial Christmas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZTMR0CBL5"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZTMR0CBL5');</script>
-
 <style>
 :root{
-  --bg:#0b0814;
-  --deep:#12101f;
-  --ink:#1a1728;
-  --text:#e0dbe3;
-  --gold:#c9b08a;
-  --oldgold:#a08c6b;
-  --frost:#b8c2d8;
-  --glow:#c9b08a44;
+  --bg:#0b0814;--deep:#12101f;--ink:#1a1728;--text:#e0dbe3;--gold:#c9b08a;--frost:#b8c2d8;--glow:#c9b08a44;
 }
 body{margin:0;font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--deep)100%);color:var(--text);text-align:center;padding:20px 15px;min-height:100vh;overflow-x:hidden;}
 h1{font-size:2.7em;margin:0.6em 0 0.3em;color:var(--frost);text-shadow:0 0 20px var(--glow);}
 h1 small{font-size:0.48em;display:block;color:var(--gold);}
-.collage{max-width:920px;width:100%;margin:30px auto;border:16px solid var(--ink);border-radius:22px;box-shadow:0 0 80px rgba(0,0,0,0.95),0 0 50px var(--glow);display:block;}
+.collage{max-width:920px;width:100%;margin:30px auto;border:16px solid var(--ink);border-radius:22px;box-shadow:0 0 80px rgba(0,0,0,.95),0 0 50px var(--glow);display:block;}
 .words{display:grid;grid-template-columns:repeat(auto-fit,minmax(156px,1fr));gap:18px;margin:50px auto;max-width:860px;}
-button{background:var(--ink);color:var(--text);border:2px solid #1e1a2e;padding:18px 12px;font-size:1.28em;cursor:pointer;border-radius:16px;transition:all .38s;box-shadow:0 4px 12px rgba(0,0,0,0.6);}
+button{background:var(--ink);color:var(--text);border:2px solid #1e1a2e;padding:18px 12px;font-size:1.28em;cursor:pointer;border-radius:16px;transition:all .38s;box-shadow:0 4px 12px rgba(0,0,0,.6);}
 button:hover{background:#1e1a2e;transform:translateY(-4px);}
-button.selected{background:var(--gold);color:#0f0c1a;border-color:var(--oldgold);font-weight:bold;box-shadow:0 0 32px var(--glow);}
-#revealBtn{background:var(--ink);color:var(--frost);border:3px solid var(--gold);padding:24px 60px;font-size:1.7em;margin:40px auto;border-radius:18px;display:inline-block;cursor:pointer;}
+button.selected{background:var(--gold);color:#0f0c1a;border-color:#a08c6b;font-weight:bold;box-shadow:0 0 32px var(--glow);}
+#revealBtn{background:var(--ink);color:var(--frost);border:3px solid var(--gold);padding:24px 60px;font-size:1.7em;margin:margin:40px auto;border-radius:18px;display:inline-block;cursor:pointer;}
 #revealBtn:hover{background:var(--gold);color:#0f0c1a;}
 #result,#correspondence{margin-top:70px;font-size:1.6em;line-height:1.8;opacity:0;transition:opacity 1.6s;}
 #result.show,#correspondence.show{opacity:1;}
@@ -39,22 +29,18 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;}
 
 <canvas id="snow"></canvas>
 
-<!-- THE MIDNIGHT CAT -->
-<div id="midnightCat" style="position:fixed; bottom:80px; left:-120px; width:100px; height:100px; pointer-events:none; z-index:2; opacity:0; transition:opacity 1s;">
+<!-- Midnight Cat -->
+<div id="midnightCat" style="position:fixed;bottom:80px;left:-120px;width:100px;height:100px;pointer-events:none;z-index:2;opacity:0;transition:opacity 1s;">
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <g id="cat">
+    <g>
       <ellipse cx="50" cy="70" rx="36" ry="22" fill="#0f0c1a"/>
       <circle cx="50" cy="42" r="24" fill="#0f0c1a"/>
-      <path d="M30 34 L40 20 L50 34 Z" fill="#0f0c1a"/>
-      <path d="M70 34 L60 20 L50 34 Z" fill="#0f0c1a"/>
-      <circle cx="42" cy="40" r="4" fill="#c9b08a">
-        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="58" cy="40" r="4" fill="#c9b08a">
-        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s"/>
-      </circle>
+      <path d="M30 34 L40 20 L50 34Z" fill="#0f0c1a"/>
+      <path d="M70 34 L60 20 L50 34Z" fill="#0f0c1a"/>
+      <circle cx="42" cy="40" r="4" fill="#c9b08a"><animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="58" cy="40" r="4" fill="#c9b08a"><animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s"/></circle>
       <path d="M70 75 Q90 60 85 85" stroke="#0f0c1a" stroke-width="14" fill="none">
-        <animate attributeName="d" values="M70 75 Q90 60 85 85; M70 75 Q95 55 90 80; M70 75 Q90 60 85 85" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="d" values="M70 75 Q90 60 85 85;M70 75 Q95 55 90 80;M70 75 Q90 60 85 85" dur="4s" repeatCount="indefinite"/>
       </path>
     </g>
   </svg>
@@ -66,7 +52,7 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;}
 <img src="https://files.catbox.moe/smzrhr.jpg" class="collage" alt="Celestial Christmas">
 
 <div class="words" id="wordlist"></div>
-<button id="revealBtn" onclick="calculate()">Reveal My Celestial Name</button>
+<button id="revealBtn">Reveal My Celestial Name</button>
 
 <div id="result"></div>
 <div id="correspondence"></div>
@@ -77,16 +63,13 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;}
   <button onclick="downloadHistory()">Download Cabinet_correspondence.txt</button>
 </div>
 
-<div class="howto">
-<strong>How to share:</strong><br>1. Wait for your celestial name<br>2. Tap “Copy share text”<br>3. Send it into the night
-</div>
-<div class="kofi">
-The candle still burns because of kind hearts<br>
-<a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);">Leave a midnight star for Jetaime</a>
+<div class="howto"><strong>How to share:</strong><br>1. Wait for your celestial name<br>2. Tap “Copy share text”<br>3. Send it into the night</div>
+<div class="kofi">The candle still burns because of kind hearts<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);">Leave a midnight star for Jetaime</a>
 </div>
 
 <script>
-// 28 phrases born from this exact collage
+// 28 phrases
 const words = [
   ["gilded solitude",1],["vaulted silence",1],["solitary beam",1],["cabinet of wonders",1],
   ["bronze astrolabe",2],["black candle smoke",2],["owl in velvet",2],["crypt door",2],
@@ -110,38 +93,69 @@ const archetypes = ["",
 
 let selected = [];
 
-// SNOW + GOLD SPARKLES
+// Snow + gold motes
 const canvas = document.getElementById("snow");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth; canvas.height = innerHeight;
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 let particles = [];
 
 class SnowFlake {
-  constructor(){this.x=Math.random()*canvas.width;this.y=-10;this.size=Math.random()*2.8+0.8;this.speedY=Math.random()*1.6+0.6;this.speedX=Math.random()*0.8-0.4;this.opacity=Math.random()*0.6+0.3;this.isGold=Math.random()<0.07;}
-  update(){this.y+=this.speedY;this.x+=this.speedX;if(this.y>canvas.height+10){this.y=-10;this.x=Math.random()*canvas.width;}}
-  draw(){ctx.globalAlpha=this.opacity;ctx.fillStyle=this.isGold?"#c9b08a":"#e0e8f8";ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * -100 - 10;
+    this.size = Math.random() * 2.8 + 0.8;
+    this.speedY = Math.random() * 1.6 + 0.8;
+    this.speedX = Math.random() * 0.8 - 0.4;
+    this.opacity = Math.random() * 0.6 + 0.4;
+    this.isGold = Math.random() < 0.07;
+  }
+  update() {
+    this.y += this.speedY;
+    this.x += this.speedX;
+    if (this.y > canvas.height + 10) {
+      this.y = -20;
+      this.x = Math.random() * canvas.width;
+    }
+  }
+  draw() {
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = this.isGold ? "#c9b08a" : "#e0e8f8";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
-for(let i=0;i<160;i++) particles.push(new SnowFlake());
-function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
-animate();
-window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+for (let i = 0; i < 160; i++) particles.push(new SnowFlake());
 
-// THE QUEEN CAT APPEARS AFTER 30 SECONDS
+function animateSnow() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateSnow);
+}
+animateSnow();
+
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+
+// Midnight Cat appears after 30 seconds
 setTimeout(() => {
   const cat = document.getElementById("midnightCat");
   cat.style.opacity = "1";
   cat.style.transition = "left 8s linear, opacity 1s";
-  cat.style.left = "calc(50% - 50px)";                // walk to centre
+  cat.style.left = "calc(50% - 50px)";
 
-  // playful paw swipe → golden snow burst
+  // playful golden burst
   setTimeout(() => {
-    for(let i=0;i<15;i++){
+    for(let i=0;i<18;i++){
       particles.push({
-        x: innerWidth/2 + Math.random()*80-40,
+        x: innerWidth/2 + Math.random()*100-50,
         y: innerHeight-140,
-        size: Math.random()*4+3,
-        speedY: -Math.random()*6-3,
-        speedX: Math.random()*8-4,
+        size: Math.random()*5+3,
+        speedY: -Math.random()*8-4,
+        speedX: Math.random()*10-5,
         opacity:1,
         isGold: true
       });
@@ -155,32 +169,53 @@ setTimeout(() => {
   }, 9000);
 }, 30000);
 
-// GAME LOGIC
-function saveDraw(idx,chosen){const draw={date:new Date().toISOString().split('T')[0],archetype:archetypes[idx].name.replace(/<[^>]*>/g,'').trim(),words:chosen};let h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");h.push(draw);localStorage.setItem("cabinetHistory",JSON.stringify(h));updateCorrespondence();}
-function updateCorrespondence(){const h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");if(h.length===0)return;document.getElementById("corrSection").style.display="block";let text=`The Midnight Blue has spoken to you ${h.length} time${h.length>1?'s':''} across the years.\n\n`;h.forEach(d=>text+=`${d.date} – ${d.archetype}\n`);document.getElementById("corrText").textContent=text;document.getElementById("correspondence").innerHTML=`<p><em>${text.replace(/\n/g,"<br>")}</em></p>`;document.getElementById("correspondence").classList.add("show");}
-function downloadHistory(){const h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");let txt="Jetaime’s Cabinet – Private Correspondence\n\n";h.forEach(d=>txt+=`${d.date} – ${d.archetype}\nWords: ${d.words.join(", ")}\n\n`);const blob=new Blob([txt],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Cabinet_correspondence.txt";a.click();}
-function init(){const list=document.getElementById("wordlist");const shuffled=[...words].sort(()=>Math.random()-0.5);shuffled.forEach(w=>{const b=document.createElement("button");b.textContent=w[0];b.onclick=()=>{b.classList.toggle("selected");if(b.classList.contains("selected"))selected.push(w[0]);else selected=selected.filter(x=>x!==w[0]);};list.appendChild(b);});}
+// Game logic
+function init(){
+  const list = document.getElementById("wordlist");
+  const shuffled = [...words].sort(()=>Math.random()-0.5);
+  shuffled.forEach(w=>{
+    const b = document.createElement("button");
+    b.textContent = w[0];
+    b.onclick = ()=>{ b.classList.toggle("selected");
+      if(b.classList.contains("selected")) selected.push(w[0]);
+      else selected = selected.filter(x=>x!==w[0]);
+    };
+    list.appendChild(b);
+  });
+}
+
 function calculate(){
   if(selected.length===0){alert("Touch at least one phrase that already belongs to you tonight.");return;}
-  const counts={};selected.forEach(w=>{const g=words.find(arr=>arr[0]===w)[1];counts[g]=(counts[g]||0)+1)+1;});
-  const unique=[...new Set(selected.map(w=>words.find(arr=>arr[0]===w)[1]))];
-  const idx=unique.length>=6?8:Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
-  const arch=archetypes[idx];
-  const poem=arch.poem;
-  const html=`<h2>${arch.name}</h2><p>${poem}</p><p style="margin-top:50px;"><button onclick="copyShare()" style="padding:14px 36px;background:var(--gold);color:#0f0c1a;border:none;border-radius:14px;font-size:1.2em;">Copy share text</button></p>`;
-  document.getElementById("result").innerHTML=html;
+  const counts={};
+  selected.forEach(w=>{
+    const g=words.find(arr=>arr[0]===w)[1];
+    counts[g] = (counts[g]||0) +1;
+  });
+  const uniqueGroups = [...new Set(selected.map(w=>words.find(arr=>arr[0]===w)[1]))];
+  const idx = uniqueGroups.length >=6 ? 8 : Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+  const arch = archetypes[idx];
+  document.getElementById("result").innerHTML = `
+    <h2>${arch.name}</h2>
+    <p>${arch.poem}</p>
+    <p style="margin-top:50px;"><button onclick="copyShare()" style="padding:14px 36px;background:var(--gold);color:#0f0c1a;border:none;border-radius:14px;font-size:1.2em;">Copy share text</button></p>
+  `;
   document.getElementById("result").classList.add("show");
   document.getElementById("result").scrollIntoView({behavior:"smooth"});
-  saveDraw(idx,selected);
-  selected=[];document.querySelectorAll(".selected").forEach(b=>b.classList.remove("selected"));
+  // save
+  const draw={date:new Date().toISOString().split('T')[0],archetype:arch.name.replace(/<[^>]*>/g,'').trim(),words:selected};
+  let h=JSON.parse(localStorage.getItem("cabinetHistory")||"[]"); h.push(draw); localStorage.setItem("cabinetHistory",JSON.stringify(h));
+  selected=[]; document.querySelectorAll(".selected").forEach(b=>b.classList.remove("selected"));
 }
+
 function copyShare(){
-  const name=document.querySelector("#result h2")?.innerText || "my celestial name";
-  const text=`I just became "${name}" in Jetaime’s Celestial Christmas Cabinet\nWalk through the same door → ${location.href}`;
-  navigator.clipboard.writeText(text);alert("Copied to clipboard");
+  const name = document.querySelector("#result h2")?.innerText || "my celestial name";
+  navigator.clipboard.writeText(`I just became "${name}" in Jetaime’s Celestial Christmas Cabinet → ${location.href}`);
+  alert("Copied!");
 }
+
 init();
-updateCorrespondence();
+updateCorrespondence(); // in case they visited before
+document.getElementById("revealBtn").addEventListener("click", calculate);
 </script>
 </body>
 </html>
