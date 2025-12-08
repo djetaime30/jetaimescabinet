@@ -8,14 +8,14 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZTMR0CBL5');</script>
 <style>
 :root{
-  --bg:#181010;          /* deep black-red shadow from the collage backgrounds */
-  --grad:#2b1e1a;        /* warmer dark red-brown */
-  --text:#f0e6e0;        /* candlelit cream */
-  --soft-red:#b04848;    /* muted vintage red from ribbons & capes */
-  --deep-red:#a03038;    /* darker velvet red */
-  --gold:#d6c2a0;        /* exact antique gold from ornaments & text */
-  --green:#3a5848;       /* soft holly/evergreen from wreaths */
-  --glow:rgba(208,160,120,0.35); /* warm golden-red glow */
+  --bg:#181010;
+  --grad:#2b1e1a;
+  --text:#f0e6e0;
+  --soft-red:#b04848;
+  --deep-red:#a03038;
+  --gold:#d6c2a0;
+  --green:#3a5848;
+  --glow:rgba(208,160,120,0.35);
 }
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:860px;margin:auto;min-height:100vh;}
 h1{font-size:2.8em;margin:.5em 0;color:var(--soft-red);text-shadow:0 0 20px var(--glow);}
@@ -35,6 +35,7 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:0.38;}
 </head>
 <body>
 <canvas id="particles"></canvas>
+
 <h1>Jetaime’s Cabinet of Possibilities<br><small>Midnight Christmas 2025</small></h1>
 <p>Sit with the collage for a moment.<br>Then touch every word that already belongs to you tonight.</p>
 <img src="https://files.catbox.moe/99rch0.jpg" class="collage" alt="Midnight Christmas Collage">
@@ -58,7 +59,7 @@ The candle still burns because of kind humans<br>
 </div>
 
 <script>
-// 28 words – 7 groups of 4, drawn straight from the collage
+// 28 words – 7 groups of 4
 const words = [
   ["midnight fur",1],["snow-veiled gaze",1],["candle throne",1],["gilded paw",1],
   ["velvet exile",2],["rose-lit hearth",2],["whispered solstice",2],["ermine shadow",2],
@@ -75,4 +76,134 @@ const archetypes = ["",
   {name:"The Gilded Sentinel",short:"Gilded Sentinel", variants:["Perched on silk and memory, you guard thresholds no one else remembers. The paw that rests on velvet is still the one that draws the line."]},
   {name:"The Winged Dreamer",short:"Winged Dreamer", variants:["Snow-dusted wings, reindeer frozen mid-leap, fairy tales drifting down like silent blessings. You never stopped believing; you just wrapped the wonder in fur."]},
   {name:"The Threshold Keeper",short:"Threshold Keeper", variants:["You are the single warm window in the city’s sigh, the pub door left ajar, the staircase that promises grandeur without demanding you climb."]},
-  {name:"The Veiled Child",short:"Veiled Child", variants:["The little girl in red ribbons survived every winter.
+  {name:"The Veiled Child",short:"Veiled Child", variants:["The little girl in red ribbons survived every winter. You kept her wonder and simply gave her better furs."]},
+  {name:"The Hushed Crowned",short:"Hushed Crowned", variants:["Grief polished into gold, solitude worn like an ermine cloak. You bloom where others merely endure."]},
+  {name:"<span class='rare'>The Midnight Matriarch</span>",short:"Midnight Matriarch", variants:[
+    "Ultra-rare. Every fur, every candle, every cat, every lost child, every gilded grief—you hold them all in perfect balance. Midnight kneels.",
+    "Ultra-rare. The collage was always a portrait of you. Christmas simply caught up.",
+    "Ultra-rare. You turned exile into empire and still left one candle burning for anyone else who needs to find their way home."
+  ]}
+];
+
+let selected = [];
+
+// WORKING GENTLE LUMINOUS SNOW (130 flakes, exactly like your pink game)
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let flakes = [];
+for(let i = 0; i < 130; i++){
+  flakes.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 5 + 3,
+    s: Math.random() * 0.7 + 0.3,
+    o: Math.random() * 0.5 + 0.3
+  });
+}
+
+function snow(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  flakes.forEach(f => {
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(240, 230, 210, ${f.o})`;   // soft candlelit white with faint gold tint
+    ctx.fill();
+
+    f.y += f.s;
+    f.x += Math.sin(f.y / 75) * 0.9;   // gentle sway
+    if(f.y > canvas.height){
+      f.y = -15;
+      f.x = Math.random() * canvas.width;
+    }
+  });
+  requestAnimationFrame(snow);
+}
+snow();
+
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+
+// GAME LOGIC
+function saveDraw(cardIndex, chosenWords) {
+  const draw = {date:new Date().toISOString().split('T')[0], archetype:archetypes[cardIndex].name.replace(/<[^>]*>/g,'').trim(),
+    short:archetypes[cardIndex].short, words:chosenWords};
+  let history = JSON.parse(localStorage.getItem("cabinetHistory")||"[]");
+  history.push(draw); localStorage.setItem("cabinetHistory",JSON.stringify(history));
+  updateCorrespondence();
+}
+
+function updateCorrespondence() {
+  const history = JSON.parse(localStorage.getItem("cabinetHistory")||"[]");
+  if (history.length===0) return;
+  document.getElementById("corrSection").style.display="block";
+  let text = `The Midnight Hour has written to you ${history.length} time${history.length>1?'s':''} across the seasons.\n\n`;
+  history.forEach(d=>text+=`${d.date} – ${d.archetype}\n`);
+  if (history.length>=7) {
+    const counts={}; history.forEach(d=>counts[d.short]=(counts[d.short]||0)+1);
+    const recurring=Object.keys(counts).filter(k=>counts[k]>1).join(", ");
+    text+=`\n\nRecurring guardians: ${recurring||'none yet'}.\nThey have decided you are worth guarding.`;
+  }
+  document.getElementById("corrText").textContent=text;
+  document.getElementById("correspondence").innerHTML="<p><em>"+text.replace(/\n/g,"<br>")+"</em></p>";
+  document.getElementById("correspondence").classList.add("show");
+}
+
+function downloadHistory() {
+  const history=JSON.parse(localStorage.getItem("cabinetHistory")||"[]");
+  let txt="Jetaime’s Cabinet of Possibilities – Private Correspondence\n\n";
+  history.forEach(d=>txt+=`${d.date} – ${d.archetype}\nChosen words: ${d.words.join(", ")}\n\n`);
+  const blob=new Blob([txt],{type:"text/plain"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url; a.download="Cabinet_correspondence.txt"; a.click();
+}
+
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button"); 
+    b.textContent=w[0];
+    b.onclick=()=>{ 
+      b.classList.toggle("selected");
+      if(b.classList.contains("selected")) selected.push(w[0]);
+      else selected=selected.filter(x=>x!==w[0]);
+    };
+    list.appendChild(b);
+  });
+}
+
+function calculate(){
+  if(selected.length===0){alert("Choose at least one word that belongs to you tonight.");return;}
+  const counts={}; 
+  selected.forEach(w=>counts[words.find(w2=>w2[0]===w)[1]]=(counts[words.find(w2=>w2[0]===w)[1]]||0)+1);
+  const unique=[...new Set(selected.map(w=>words.find(w2=>w2[0]===w)[1]))];
+  const cardIndex=unique.length>=6?8:Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+  const a=archetypes[cardIndex];
+  const variant=a.variants[Math.floor(Math.random()*a.variants.length)];
+  const html=`<h2>${a.name}</h2><p>${variant}</p>`;
+  document.getElementById("result").innerHTML=html+
+    `<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:13px 30px;background:var(--deep-red);color:#f0e6e0;border:none;border-radius:12px;cursor:pointer;font-size:1.1em;">Copy share text</button></p>`;
+  document.getElementById("result").classList.add("show");
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  saveDraw(cardIndex,selected);
+  selected=[];
+  document.querySelectorAll(".selected").forEach(b=>b.classList.remove("selected"));
+}
+
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my midnight name";
+  const text=`I just drew "${arch}" in Jetaime’s Midnight Christmas Cabinet\nstep through the same door → ${location.href}`;
+  navigator.clipboard.writeText(text); 
+  alert("Copied!");
+}
+
+init();
+updateCorrespondence();
+</script>
+</body>
+</html>
