@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet of Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
+<style>
+:root{
+  --bg:#0d161f;--grad:#1a2a38;--text:#e8e2d8;--gold:#b89f6e;--amber:#d4a574;--glow:rgba(212,165,116,0.45);--snow:rgba(255,248,240,0.7);
+}
+body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
+h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
+p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
+.collage{max-width:100%;border:12px solid #1a2a38;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
+button{background:#1a2a38;color:var(--text);border:2px solid var(--gold);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--gold);color:#0d161f;transform:translateY(-3px);}
+button.selected{background:var(--gold);color:#0d161f;font-weight:bold;box-shadow:0 0 25px var(--glow);}
+#revealBtn{background:#1a2a38;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--gold);color:#0d161f;}
+#result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
+#result.show{opacity:1;}
+.rare{color:#ffd7a8;font-size:1.9em;text-shadow:0 0 25px var(--gold);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.45;}
+.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--gold);font-size:1.2em;line-height:1.8;}
+#animationOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 1s,visibility 1s;}
+#animationOverlay video{max-width:90%;max-height:90%;border-radius:16px;box-shadow:0 0 60px var(--glow);}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<div id="animationOverlay">
+  <video src="https://files.catbox.moe/ay47lu.mp4" autoplay muted playsinline></video>
+</div>
+
+<h1>Jetaime’s Cabinet of Possibilities</h1>
+<p>Gaze quietly for a moment.<br>Then touch every word that already belongs to you.</p>
+<img src="https://files.catbox.moe/iyl8ss.jpg" class="collage" alt="13 December 2025 – Winter Fairytale">
+
+<div class="words" id="wordlist"></div>
+<button id="revealBtn" onclick="calculate()">Reveal My Secret Name</button>
+<div id="result"></div>
+
+<div class="howto">
+  <strong>How to share (even my mom can do it):</strong><br><br>
+  1. Wait for your secret name below<br>2. Tap “Copy share text”<br>3. Paste anywhere — your friends get your name + the door
+</div>
+<div class="kofi">
+  Loving these nightly doors? Keep the candle burning 🕯️<br>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a single sleigh bell that only rings in dreams—she hears it anyway)</a>
+</div>
+
+<script>
+const words=[
+  ["snowy dawn",1],["blush horizon",1],["first light",1],["quiet promise",1],
+  ["lilac silk",2],["unworn elegance",2],["optional beauty",2],["delicate victory",2],
+  ["sleigh silhouette",3],["reindeer flight",3],["midnight delivery",3],["wrapped joy",3],
+  ["lit tree",4],["golden glow",4],["chosen warmth",4],["early magic",4],
+  ["open door",5],["spilling light",5],["welcome glow",5],["available home",5],
+  ["candle path",6],["glass lanterns",6],["snow-lit way",6],["prepared passage",6],
+  ["floral lamp",7],["amber shade",7],["interior streetlight",7],["dual warmth",7]
+];
+
+const archetypes=[
+  "",
+  {name:"The Dawn Watcher",text:"You linger in the hush of earned warmth, eyes on the first pale blush beyond the frost. Hope arrives not as thunder, but as the slow creep of light you finally trust to stay."},
+  {name:"The Unworn Elegance",text:"Lilac silk hangs in perfect folds, mountains silent and distant behind. You have woven beauty from what once cut deep—yet you wear it only when the moment calls; the rest of the time, it waits, patient as snow."},
+  {name:"The Christmas Eve Believer",text:"Somewhere above the quiet roofs, gifts travel through cold night on faith alone. You know the hush before bells, the sweet ache of almost—anticipation tastes like starlight on the tongue."},
+  {name:"The Magic Maker",text:"One tree glows while others sleep in darkness. You are the hand that strung the lights before anyone stirred, the secret architect of wonder in an indifferent world."},
+  {name:"The Open Door Keeper",text:"Light spills from thresholds left gently ajar—cathedral, cottage, heart. You understand that warmth can wait in silence, available without demand, even when no one steps through tonight."},
+  {name:"The Path Preparer",text:"Candles in glass line the snow, fragile flames defying the dark for a future footstep. You light the way for the self who will walk here later—small acts of devotion to your own tomorrow."},
+  {name:"The Dual Light Bearer",text:"One flame serves both window and street—intimate glow within, guiding beacon without. You hold the boundary soft, letting warmth cross when it wishes."},
+  {name:"<span class='rare'>The Winter Fairytale</span>",text:"Ultra-rare. You stand at the threshold where midnight hush turns to dawn promise, where past peaks fade behind unworn silk, where solitary lights become shared magic. Melancholy brushes your sleeve like falling snow, but hope—quiet, active, earned—keeps you warm."}
+];
+
+let selected=[];
+
+function init(){
+  const list=document.getElementById("wordlist");
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  shuffled.forEach(w=>{
+    let b=document.createElement("button"); b.textContent=w[0];
+    b.onclick=()=>{b.classList.toggle("selected");
+      if(b.classList.contains("selected"))selected.push(w[1]);
+      else selected=selected.filter(x=>x!==w[1]);
+    };
+    list.appendChild(b);
+  });
+}
+
+function calculate(){
+  if(selected.length===0){alert("Please choose at least one word.");return;}
+  const unique=[...new Set(selected)];
+  let html="";
+  if(unique.length>=6){
+    html=`<h2>${archetypes[8].name}</h2><p>${archetypes[8].text}</p>`;
+  }else{
+    const counts={}; selected.forEach(x=>counts[x]=(counts[x]||0)+1);
+    const winner=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+    html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
+  }
+  const r=document.getElementById("result");
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--gold);color:#0d161f;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for X/FB)</button></p>`;
+  r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
+}
+
+function copyShare(){
+  const arch=document.querySelector("#result h2")?.innerText||"my secret name";
+  const text=`I just drew "${arch}" in Jetaime's Cabinet of Possibilities\nstep through the same door → ${location.href}`;
+  navigator.clipboard.writeText(text);alert("Copied!");
+}
+
+// Snow particles
+const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let p=[]; for(let i=0;i<140;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.9+0.4,o:Math.random()*0.6+0.4});
+function snow(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{
+    ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fillStyle=`${var(--snow).replace('0.7',e.o)}`; ctx.fill();
+    e.y+=e.s; if(e.y>canvas.height){e.y=0; e.x=Math.random()*canvas.width;}
+    e.x+=Math.sin(e.y/60)*0.7;
+  });
+  requestAnimationFrame(snow);
+}
+snow();
+window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
+
+// 30-second animation overlay (plays once, then fades out)
+setTimeout(()=>{
+  const overlay=document.getElementById("animationOverlay");
+  overlay.style.opacity=1; overlay.style.visibility="visible";
+  const vid=overlay.querySelector("video");
+  vid.play();
+  vid.onended=()=>{
+    overlay.style.opacity=0;
+    setTimeout(()=>{overlay.style.visibility="hidden";},1000);
+  };
+},30000);
+
+init();
+</script>
+</body>
+</html>
