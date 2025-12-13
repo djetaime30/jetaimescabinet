@@ -8,23 +8,23 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
 :root{
-  --bg:#0d161f;--grad:#1a2a38;--text:#e8e2d8;--gold:#b89f6e;--amber:#d4a574;--glow:rgba(212,165,116,0.45);
+  --bg:#0f1822;--grad:#1e2838;--text:#e8e0d8;--lilac:#c8bdd8;--blush:#e8c8c0;--warm-gold:#e8b890;--glow:rgba(232,200,192,0.45);
 }
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
-h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
+h1{font-size:2.7em;margin:.5em 0;color:var(--warm-gold);text-shadow:0 0 18px var(--glow);}
 p{line-height:1.7;margin:1.2em 0;font-size:1.1em;}
-.collage{max-width:100%;border:12px solid #1a2a38;border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
+.collage{max-width:100%;border:12px solid var(--grad);border-radius:16px;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 35px var(--glow);margin:30px auto;display:block;}
 .words{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:15px;margin:40px auto;max-width:760px;}
-button{background:#1a2a38;color:var(--text);border:2px solid var(--gold);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
-button:hover{background:var(--gold);color:#0d161f;transform:translateY(-3px);}
-button.selected{background:var(--gold);color:#0d161f;font-weight:bold;box-shadow:0 0 25px var(--glow);}
-#revealBtn{background:#1a2a38;color:var(--text);border:3px solid var(--gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
-#revealBtn:hover{background:var(--gold);color:#0d161f;}
+button{background:var(--grad);color:var(--text);border:2px solid var(--blush);padding:15px 10px;font-size:1.2em;cursor:pointer;border-radius:12px;transition:all .3s;}
+button:hover{background:var(--blush);color:#1e2838;transform:translateY(-3px);}
+button.selected{background:var(--blush);color:#1e2838;font-weight:bold;box-shadow:0 0 25px var(--glow);}
+#revealBtn{background:var(--grad);color:var(--text);border:3px solid var(--warm-gold);padding:20px 50px;font-size:1.5em;margin:50px auto;border-radius:14px;cursor:pointer;display:inline-block;}
+#revealBtn:hover{background:var(--warm-gold);color:#1e2838;}
 #result{margin-top:60px;font-size:1.5em;line-height:1.8;opacity:0;transition:opacity 1.4s;}
 #result.show{opacity:1;}
-.rare{color:#ffd7a8;font-size:1.9em;text-shadow:0 0 25px var(--gold);}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.45;}
-.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--gold);font-size:1.2em;line-height:1.8;}
+.rare{color:var(--lilac);font-size:1.9em;text-shadow:0 0 25px var(--warm-gold);}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.5;}
+.howto,.kofi{background:rgba(255,255,255,.08);padding:25px;border-radius:16px;margin:60px auto;max-width:650px;border:2px solid var(--warm-gold);font-size:1.2em;line-height:1.8;}
 #animationOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 1s,visibility 1s;}
 #animationOverlay video{max-width:90%;max-height:90%;border-radius:16px;box-shadow:0 0 60px var(--glow);}
 </style>
@@ -50,7 +50,7 @@ canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.45;}
 </div>
 <div class="kofi">
   Loving these nightly doors? Keep the candle burning 🕯️<br>
-  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--gold);text-decoration:underline;">Buy Jetaime a coffee (or a single sleigh bell that only rings in dreams—she hears it anyway)</a>
+  <a href="https://ko-fi.com/jetaimes" target="_blank" style="color:var(--warm-gold);text-decoration:underline;">Buy Jetaime a coffee (or a single sleigh bell that only rings in dreams—she hears it anyway)</a>
 </div>
 
 <script>
@@ -103,7 +103,7 @@ function calculate(){
     html=`<h2>${archetypes[winner].name}</h2><p>${archetypes[winner].text}</p>`;
   }
   const r=document.getElementById("result");
-  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--gold);color:#0d161f;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for X/FB)</button></p>`;
+  r.innerHTML=html+`<p style="margin-top:40px;"><button onclick="copyShare()" style="padding:12px 28px;background:var(--warm-gold);color:#1e2838;border:none;border-radius:10px;cursor:pointer;font-size:1.1em;">Copy share text (ready for X/FB)</button></p>`;
   r.classList.add("show"); r.scrollIntoView({behavior:"smooth"});
 }
 
@@ -113,7 +113,7 @@ function copyShare(){
   navigator.clipboard.writeText(text);alert("Copied!");
 }
 
-// Fixed snow particles – direct rgba, variable opacity
+// Snow particles – soft cream with warm tint
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
@@ -132,7 +132,7 @@ function snow(){
   p.forEach(e=>{
     ctx.beginPath();
     ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,248,240,${e.o})`;
+    ctx.fillStyle=`rgba(255,245,235,${e.o})`;
     ctx.fill();
     e.y+=e.s;
     if(e.y>canvas.height){e.y=0; e.x=Math.random()*canvas.width;}
