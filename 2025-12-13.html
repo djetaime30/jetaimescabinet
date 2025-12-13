@@ -5,7 +5,12 @@
 <title>Jetaime’s Cabinet of Possibilities</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ7MR0CBL5"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PZ7MR0CBL5');
+</script>
 <style>
 :root{
   --bg:#0f1822;--grad:#1e2838;--text:#e8e0d8;--lilac:#c8bdd8;--blush:#e8c8c0;--warm-gold:#e8b890;--glow:rgba(232,200,192,0.45);
@@ -113,7 +118,7 @@ function copyShare(){
   navigator.clipboard.writeText(text);alert("Copied!");
 }
 
-// Snow particles – soft cream with warm tint
+// Snow particles – soft warm-tinted cream
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
@@ -144,7 +149,7 @@ snow();
 
 window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
 
-// 30-second animation overlay (plays once, then fades)
+// 30-second animation overlay
 setTimeout(()=>{
   const overlay=document.getElementById("animationOverlay");
   overlay.style.opacity=1;
