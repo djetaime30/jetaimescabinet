@@ -8,7 +8,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PZ7MR0CBL5');</script>
 <style>
 :root{
-  --bg:#0d161f;--grad:#1a2a38;--text:#e8e2d8;--gold:#b89f6e;--amber:#d4a574;--glow:rgba(212,165,116,0.45);--snow:rgba(255,248,240,0.7);
+  --bg:#0d161f;--grad:#1a2a38;--text:#e8e2d8;--gold:#b89f6e;--amber:#d4a574;--glow:rgba(212,165,116,0.45);
 }
 body{font-family:georgia,serif;background:linear-gradient(180deg,var(--bg)0%,var(--grad)100%);color:var(--text);text-align:center;padding:20px;max-width:840px;margin:auto;min-height:100vh;}
 h1{font-size:2.7em;margin:.5em 0;color:var(--gold);text-shadow:0 0 18px var(--glow);}
@@ -113,28 +113,44 @@ function copyShare(){
   navigator.clipboard.writeText(text);alert("Copied!");
 }
 
-// Snow particles
-const canvas=document.getElementById("particles"); const ctx=canvas.getContext("2d");
+// Fixed snow particles – direct rgba, variable opacity
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
 canvas.width=innerWidth; canvas.height=innerHeight;
-let p=[]; for(let i=0;i<140;i++)p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1.5,s:Math.random()*0.9+0.4,o:Math.random()*0.6+0.4});
+let p=[];
+for(let i=0;i<140;i++){
+  p.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*3+1.5,
+    s:Math.random()*0.9+0.4,
+    o:Math.random()*0.6+0.4
+  });
+}
 function snow(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   p.forEach(e=>{
-    ctx.beginPath(); ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
-    ctx.fillStyle=`${var(--snow).replace('0.7',e.o)}`; ctx.fill();
-    e.y+=e.s; if(e.y>canvas.height){e.y=0; e.x=Math.random()*canvas.width;}
+    ctx.beginPath();
+    ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,248,240,${e.o})`;
+    ctx.fill();
+    e.y+=e.s;
+    if(e.y>canvas.height){e.y=0; e.x=Math.random()*canvas.width;}
     e.x+=Math.sin(e.y/60)*0.7;
   });
   requestAnimationFrame(snow);
 }
 snow();
+
 window.addEventListener("resize",()=>{canvas.width=innerWidth;canvas.height=innerHeight;});
 
-// 30-second animation overlay (plays once, then fades out)
+// 30-second animation overlay (plays once, then fades)
 setTimeout(()=>{
   const overlay=document.getElementById("animationOverlay");
-  overlay.style.opacity=1; overlay.style.visibility="visible";
+  overlay.style.opacity=1;
+  overlay.style.visibility="visible";
   const vid=overlay.querySelector("video");
+  vid.currentTime=0;
   vid.play();
   vid.onended=()=>{
     overlay.style.opacity=0;
