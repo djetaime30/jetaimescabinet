@@ -1,2 +1,429 @@
 <!DOCTYPE html>
-<html><head><title>Test</title></head><body><h1>Jetaime’s Cabinet Loose Pages is live!</h1><p>The full version with all poems and magic is being added now. Refresh in a minute.</p></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jetaime’s Cabinet • Loose Pages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root { --mist: #0f0f1a; --ink: #e8d5b7; --gold: #d4af37; }
+  body { margin:0; font-family: Georgia, serif; background:var(--mist); color:var(--ink); line-height:1.65; }
+  header { text-align:center; padding:2.5rem 1rem 1.5rem; border-bottom:1px solid #333; }
+  h1 { font-size:2.4rem; letter-spacing:4px; margin:0 0 0.3rem; }
+  .subtitle { font-style:italic; opacity:0.75; font-size:1.05rem; }
+  .controls { padding:1.2rem; display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; background:#111; position:sticky; top:0; z-index:10; }
+  button { background:#222; color:var(--ink); border:1px solid #444; padding:0.75rem 1.4rem; border-radius:999px; cursor:pointer; font-size:0.95rem; transition:all 0.2s; }
+  button:hover { background:#333; border-color:var(--gold); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.8rem; padding:2.5rem; max-width:1400px; margin:0 auto; }
+  .card { border-radius:10px; overflow:hidden; box-shadow:0 12px 35px rgba(0,0,0,0.65); transition:transform 0.3s cubic-bezier(0.23,1,0.32,1); cursor:pointer; position:relative; background:#111; }
+  .card:hover { transform:scale(1.045); }
+  .card img { width:100%; height:300px; object-fit:cover; display:block; }
+  .card .title { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,#000000cc); padding:1.1rem 1rem 0.9rem; font-size:1.05rem; line-height:1.3; }
+  .modal { display:none; position:fixed; inset:0; background:rgba(5,5,15,0.97); align-items:center; justify-content:center; padding:1rem; z-index:100; }
+  .modal-content { max-width:1200px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; background:#111; border-radius:14px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.8); }
+  .modal img { width:100%; height:100%; object-fit:contain; background:#0a0a12; }
+  .poem { padding:2.2rem 2.5rem; overflow-y:auto; max-height:85vh; font-size:1.05rem; }
+  .poem h2 { margin-top:0; color:var(--gold); font-size:1.35rem; }
+  .progress { text-align:center; padding:0.8rem; font-size:0.95rem; opacity:0.85; }
+  footer { text-align:center; padding:2rem 1rem; font-size:0.85rem; opacity:0.6; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Jetaime’s Cabinet</h1>
+  <p class="subtitle">Loose Pages • Let them find you</p>
+</header>
+
+<div class="controls">
+  <button onclick="shuffleDeck()">🌀 Shuffle the Deck</button>
+  <button onclick="drawRandom()">🌙 Draw One for Tonight</button>
+  <button onclick="showViewed()">📖 My Whispered Pages</button>
+</div>
+
+<div class="progress" id="progress">0 of 12 pages have already found you</div>
+
+<div class="grid" id="gallery"></div>
+
+<div id="modal" class="modal" onclick="if(event.target.id==='modal')hideModal()">
+  <div class="modal-content" onclick="event.stopImmediatePropagation()">
+    <img id="modalImage" alt="">
+    <div class="poem" id="modalPoem"></div>
+  </div>
+</div>
+
+<footer>
+  Non-commercial • For the ones who need the quiet magic • Made in the Cabinet 🕯️
+</footer>
+
+<script>
+// ====================== YOUR PAGES — FULL POEMS INCLUDED ======================
+const pages = [
+  { 
+    id: "deeper", 
+    title: "Deeper, always deeper", 
+    img: "deeper-always-deeper.png", 
+    text: `He stumbled,
+jagged rocks clawing,
+as lighting fractured the night:
+
+The dream of her,
+lying, curled in frigid water—
+Dragon handle slick, under his grasp:
+
+Running, always running,
+into the vaulted dark—
+
+Lightning cracked the sky,
+again, coins scattering underfoot—
+
+Books tumbling from shelves like accusations—
+no time, no pause|
+
+The candle guttered low—
+
+The bird’s cry pierced the new quiet—
+Twisted bough lit by moonlit waves:
+
+Deeper, always deeper—
+
+Past scales that were waves,
+past chalked wings of left behind—
+
+He seized the sword
+from the stone angel’s clasp,
+heavy as regret,
+sharp as the ache—
+
+Forward, always forward,
+depths where secrets uncoiled,
+no turning back now,
+the wild calling his name.` 
+  },
+  { 
+    id: "every-ending", 
+    title: "every ending bloomed", 
+    img: "every-ending-bloomed.png", 
+    text: `In the whispering glades where the ancient oaks intertwined their roots like forgotten spells, the old woman wandered with a crown of woven thorns and amber leaves, her steps light as the mist that curled around her ankles, carrying the faint perfume of dew-kissed ferns. She paused by a crystal brook, where an owl perched on gnarled branches, eyes like moons reflecting secrets she had long since learned to cherish. With a gentle wave of her veined hand, she coaxed forth a shimmer of light from the water, watching as it danced into shapes of fluttering moths with wings of emerald and flame, each one a memory unfurling in the soft twilight air.
+
+As the sun dipped lower, painting the canopy in hues of gold and shadow, she found a mossy hollow cradled by twisting vines, and there she settled, her robes pooling like petals around her, drawing close the small creatures of the wood—a sleepy vole nestling in her palm, its tiny breaths syncing with the rhythm of distant adventures. Mushrooms unfurling their luminous caps like lanterns for souls that wander. She hummed an old melody, one that echoed through the underbrush where bones lay like sacred relics, overgrown with vibrant life, and in that song, the black flowers bowed their heads, releasing droplets that sparkled like stars fallen to earth, each one a promise of renewal whispered on the breeze.
+
+Deeper into the eve, as fireflies began their silent waltz, she reached toward the veiled gate of wrought iron and glowing glass, its arches framing visions of paths yet untrodden, and with a smile that held the wisdom of countless seasons, she scattered seeds from her satchel—tiny sparks that burrowed into the soil, sprouting tendrils of green that wove around her like loving arms, obscuring the fading light with a tapestry of eternal spring. The owl hooted softly, guardian of her quiet revelry, as the forest enveloped her in its timeless embrace, a place where every ending bloomed.` 
+  },
+  { 
+    id: "garden", 
+    title: "Garden had always known her", 
+    img: "garden-had-always-known-her.png", 
+    text: `The garden had always known her.
+
+This time,
+she felt the murmur of poppies
+parting crimson lips,
+daisies exhaling
+untroubled dawns,
+scents weaving threads from other lives.
+
+This wandering led her deeper;
+as she neared,
+bubbles ascended from the fountain uncalled,
+each one holding glimpses of other worlds
+—drifting selves, other ages.
+
+A butterfly alighted on her outstretched hand,
+mirroring the lace shadows on her skin,
+for a moment, she felt the pull of transformation,
+hair flowing like rivers of fire in the soft breeze.
+
+Kneeling, she showed the child how to listen—to the flowers' silent bloom, to the heart's quiet ache for what might come next, or never had.
+
+The cat, auburn as her hair, watched from the brambles, indifferent yet curious.
+The garden's edges softened, boundaries blurring into endless trails.` 
+  },
+  { 
+    id: "bartered", 
+    title: "Bartered for enigma", 
+    img: "bartered-for-enigma.png", 
+    text: `She had transcended the clamor of salons and the whisper of potions, withdrawing at last to the tower where essence brewed its curiosities.
+
+On the sill lay the crystal she once wore beneath a younger skin, beside shards of mirrored visions—vein, feather, thorn—charting forms she had brewed, and botched, to heal. The roses carved from quartz above had bloomed through winters she could still feel in her veins, their petal-sharp edges now mute testaments to her own unraveling.
+
+The mist exhaled slower, its vapor curling like the final sigh of a transmuted elixir. In its haze the pearl infants shimmered in their opal box, small and flawless, evoking origins she had conjured for queens but never wholly embraced for herself.
+
+From the vine-twisted shadows the raven observed, unflinching, as if it alone recalled the spell she had bartered for enigma. Outside the arched casement, autumn mist mirrored itself in silvered pools, gold fading into haze—a vista she no longer yearned to claim.
+
+She twisted the eye-shaped brooch in her grasp, fingernail tracing the fissure that had never quite matched any tear she shed.
+
+Inside: void.
+Or perhaps all— a presence molded like yearning, cool as the satin chaise lingering behind her.
+
+No rush.
+
+She sealed the vial softly, letting dew condense a droplet she would not uncork. Somewhere in the husk, feathers quivered against frost, and the mist bent toward its own dissolving, satisfied to reveal only what endured.` 
+  },
+  { 
+    id: "dreams", 
+    title: "Dream’s soft glow", 
+    img: "dreams-soft-glow.png", 
+    text: `She had dreamed of a castle veiled in golden light, birds whispering secrets from floral crowns, and a vase that sang of places beyond the garden's edge—places where horses of pure gold galloped through water, and stairs led to skies full of ravens carrying promises on their wings.
+
+The pull was soft but insistent,
+drawing her from her bed
+to the window,
+where the moon hung low and inviting,
+urging her to slip out and explore
+just a little farther than before.
+
+Her parents slept soundly down the hall, their breaths even in the familiar rhythm of home—if they knew of this quiet wanderlust stirring in her, worry would crease their faces, memories of their own far-off paths flickering like shadows. But she didn't think of that now;
+
+only the allure,
+the ethereal magic
+that made her heart flutter.
+
+Slipping on her cloak, she stepped into the night, the dream's soft glow guiding her onward, one quiet footfall at a time, toward whatever lay just beyond the horizon—haunting, beautiful,
+
+hers to discover.` 
+  },
+  { 
+    id: "merlin", 
+    title: "Merlin his own unfolding", 
+    img: "merlin-his-own-unfolding.png", 
+    text: `He had outlived the noise of courts and the clamor of spells, retreating at last to the chamber where memory kept its specimens.
+
+On the desk lay the skull he once wore beneath a younger face,
+beside pages of careful drawings—muscle, nerve, wing—
+mapping bodies he had tried, and failed, to mend.
+
+The monarchs pinned above had flown through summers he could still taste
+on the air, their dust-soft wings now silent witnesses
+to his own unfolding.
+
+The candle burned lower, its flame trembling
+like the last of a forgotten
+incantation.
+
+In its light, the ivory infants slept in their cedar box, small and perfect, reminding him of beginnings he had advised kings about
+but never quite claimed
+for himself.
+
+From the branched shadows the owl watched, unblinking,
+as if it alone
+remembered the name he had traded
+for wisdom.
+
+Outside the arched window, the autumn forest mirrored itself in black water,
+gold bleeding into dusk
+—a horizon he no longer needed to reach.
+
+He turned the heart-shaped locket in his palm, thumb tracing the keyhole that had never quite fit any key he owned. Inside: nothing. Or perhaps everything—an absence shaped like longing, warm as the velvet chair waiting behind him.
+
+No hurry.
+
+He closed the book softly, letting wax drip seal a page he would not reopen. Somewhere in the husk, wings stirred against pins, and the candle leaned toward its own ending, content to illuminate only what remained.` 
+  },
+  { 
+    id: "nightmare", 
+    title: "Nightmare wake festival lanterns", 
+    img: "nightmare-wake-festival-lanterns.png", 
+    text: `He bolted upright in the tangled sheets, heart pounding from the dream's grip—serpents coiling around lanterns that flickered out one by one, leaving him blind in endless snow.
+
+But as his eyes adjusted to the dawn filtering through the curtains, everything snapped back to ordinary: the alarm clock ticking on the nightstand, the faint scent of coffee brewing downstairs, his wife's soft breathing beside him unbroken. No ethereal procession, no piercing gaze—just the mundane rhythm of a Friday morning in their cozy suburb.
+
+Shaking off the chill, he swung his legs over the bed, the floorboards creaking familiarly underfoot. Down in the kitchen, his daughter hummed off-key while stringing paper lanterns for the neighborhood festival that night, her small hands deft with glue and ribbon, while his son rummaged through the drawer for batteries, chattering about how they'd glow brighter than last year. His wife smiled over her mug, handing him a plate of toast—"Bad dream again? You'll feel better after coffee." They moved through the routine with easy chatter: packing the lanterns into neat stacks. No shadows lurked in the corners, no strange whispers in the air—just the warmth of family, the promise of laughter under string lights, the simple joy of a community gathering where everyone knew everyone's name.
+
+Yet, as he tied the last ribbon, a faint unease prickled at his neck—like a gaze from an unseen window, or the echo of a step that didn't belong.` 
+  },
+  { 
+    id: "stopped", 
+    title: "Stopped locking the gates", 
+    img: "stopped-locking-the-gates.png", 
+    text: `She had long ago stopped locking the gates, though the key still hung from a velvet ribbon at her throat.
+
+The ironwork had learned to breathe on its own, curling filigree into frost flowers each dawn, exhaling rust like quiet incense.
+
+From the piano's warm flank, the black cat regarded her.
+Its tail flicked once—a metronome for a piece no fingers would ever play again, evoking parlors she had danced through as a girl, laughter dissolving into unheard steps.
+
+Beyond the gate, the bridge hung in mist, swaying gently from no wind. Statues kept their poses, half-sunk in blue silence, as if listening for footsteps that belonged to a different century.
+
+She stepped through the open gate, boots brushing dew from overgrown thistles, a faint ache blooming in her chest—like the pull of an unseen thread.
+
+A black cat—mirror-eyed, shadow-furred—watched from the broken bench, the ornamental grate. Their gaze traveling the length of the path she had just left.
+
+No cat followed.
+None needed to.
+
+The fog parted just enough to show the spire's faint silhouette, then closed again like that velvet curtain. Somewhere inside the hush, keys settled into final silence, and the house exhaled one last chord that tasted of leaf mold and distant rain, laced with the sweet sting of roads not taken.
+
+She walked on, carrying nothing but the echo of their unblinking permission.` 
+  },
+  { 
+    id: "hearth", 
+    title: "Stay the hearth whispered", 
+    img: "stay-the-hearth-whispered.png", 
+    text: `The evening milk was still warm from the cow when she carried it inside, steam curling past her chin like lazy questions.
+
+The cat met her at the threshold, weaving figure-eights between her ankles until she sat by the hearth and opened her lap like a familiar book.
+
+He settled there at once, heavy, purring so deeply the vibration traveled through wool skirt and petticoat into her bones.
+
+Her mother hummed in the kitchen, bread rising under a cloth, the smell of yeast and woodsmoke thick enough to lean against.
+
+Outside, frost sketched delicate ladders on the window glass.
+
+The owl on the barn wall watched the moon rise, orange eyes steady, as if keeping count of something only owls remember.
+
+She stroked the cat's ears, felt the small engine of his contentment, and for a moment the room held her the way soil holds roots—gentle, certain, ancient in its patience.
+
+Stay, the hearth whispered.
+Stay, the bread murmured.
+Stay, the cat's purr insisted, rising and falling like slow tides.
+
+But under the warmth, far under, a colder current moved.` 
+  },
+  { 
+    id: "sky", 
+    title: "Sky lowered to meet her", 
+    img: "sky-lowered-to-meet-her.png", 
+    text: `She had reached the age where lost things no longer announced their names. They simply sat in the chest like smooth stones worn by years of turning over without discovery.
+
+She walked the forest edge at the hour when day and night shared the sky equally, lantern raised though she could not recall why she had brought it. The leaves underfoot gave off the scent of endings—sweet rot, distant smoke, something almost remembered.
+
+An owl turned its head somewhere in the dark trunks, eyes catching her light and throwing it back cooler.
+
+Ahead, the path divided without reason: one way moonlit snow on a mountain she had never climbed, the other deeper woods where stars already showed between branches.
+
+She paused, lantern swaying, casting gold on bark and frost alike. The missing thing stirred again—not a memory, not an object, but the shape of an absence she had carried since girlhood. She felt it in the throat, a soft melancholy that tasted of blue dusk and lantern smoke.
+
+No hurry.
+
+No name for what was gone.
+Only the quiet sorrow of having lived long enough to misplace parts of herself without noticing the theft.
+
+Then, without decision, without thought—
+She stepped onto the path that had not been there a breath earlier.
+Leaves fell upward around her, or perhaps the sky lowered to meet her.
+
+The owl blinked once, approving or warning, impossible to tell.
+She walked on, light held high, into the cold bright unknown.
+
+The melancholy lingered, but lighter now, like a shawl she no longer needed to clutch.` 
+  },
+  { 
+    id: "green", 
+    title: "Exactly where the green wanted him", 
+    img: "exactly-where-the-green-wanted-him.png", 
+    text: `He woke with the taste of moss on his tongue and no memory of having lain down.
+
+The fern had grown through his sleeve overnight, fronds unfurling against his wrist like green fingers testing for a pulse.
+
+Above him the owl watched without blinking, orange eye steady as a coal someone forgot to bank.
+
+He sat up slowly so as not to tear the leaves that had stitched themselves to his coat.
+
+Somewhere nearby water dripped in perfect rhythm—plink, plink—like a clock that had decided time could be gentle.
+
+A white stag stepped between the trunks, antlers catching stray shafts of light and scattering them like spilled coins.
+
+It regarded him for the length of three breaths, then dipped its head once, as if granting permission.
+
+He laughed—quiet, surprised, the sound foreign in his own throat.
+The moss laughed back, or perhaps the ferns did; everything felt suddenly complicit.
+
+Butterfly wings brushed his eyelids from the inside, showing him colors he had no names for.
+
+He stood.
+
+The forest leaned in, listening.
+For the first time in any life he could recall, he was not late.
+He was exactly where the green wanted him.` 
+  },
+  { 
+    id: "entrances", 
+    title: "Preferred entrances to rooms", 
+    img: "preferred-entrances-to-rooms.png", 
+    text: `She had always preferred entrances to rooms.
+
+The grand archway with its half-erased name welcomed her the way certain mirrors do: by showing less than was there.
+She stepped through carrying nothing but the bloom already bruising in her grasp.
+
+Inside, the air tasted of metal and old perfume, the kind that clings to velvet long after the wearer has gone.
+A bowl waited on a pedestal too delicate for its own weight, empty, etched with vines that writhe just out of sight.
+
+Somewhere above, she could feel the weight of the empty tower, windows like eyes searching the frozen landscapes that flickered and were replaced with ever more.
+
+She took the stairs, curling upward like a lover’s wave from the retreating train. Pearlescent branches snagged at her hair, wallpaper come alive.
+
+At the landing the vista opened wide.
+She paused, almost remembering.
+Then closed her eyes and
+off the cliff.` 
+  }
+];
+
+// ====================== THE MAGIC ======================
+let viewed = JSON.parse(localStorage.getItem('viewedPages')) || {};
+
+function renderGallery(filtered = pages) {
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = '';
+  filtered.forEach(page => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    const isViewed = viewed[page.id] ? '✓ whispered' : '';
+    div.innerHTML = `
+      <img src="${page.img}" alt="${page.title}">
+      <div class="title">${page.title}<br><small style="opacity:0.65">${isViewed}</small></div>
+    `;
+    div.onclick = () => openPage(page);
+    gallery.appendChild(div);
+  });
+  updateProgress();
+}
+
+function openPage(page) {
+  viewed[page.id] = true;
+  localStorage.setItem('viewedPages', JSON.stringify(viewed));
+  document.getElementById('modalImage').src = page.img;
+  document.getElementById('modalPoem').innerHTML = `<h2>${page.title}</h2><pre style="white-space:pre-wrap;font-family:inherit">${page.text}</pre>`;
+  document.getElementById('modal').style.display = 'flex';
+  updateProgress();
+  renderGallery();
+}
+
+function hideModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+function shuffleDeck() {
+  const shuffled = [...pages].sort(() => Math.random() - 0.5);
+  renderGallery(shuffled);
+}
+
+function drawRandom() {
+  const random = pages[Math.floor(Math.random() * pages.length)];
+  openPage(random);
+}
+
+function showViewed() {
+  const seen = pages.filter(p => viewed[p.id]);
+  if (seen.length === 0) {
+    alert("You haven’t opened any pages yet. Go explore the deck!");
+    return;
+  }
+  let html = `<h2 style="margin-top:0">Pages that have whispered to you</h2><ul style="line-height:2">`;
+  seen.forEach(p => html += `<li>${p.title}</li>`);
+  html += `</ul><p style="margin-top:1.5rem;opacity:0.7">These are saved only in your browser. Clear your cache and they reset.</p>`;
+  const win = window.open("", "ViewedPages", "width=500,height=600");
+  win.document.body.innerHTML = `<div style="padding:2rem;font-family:Georgia,serif;background:#111;color:#e8d5b7">${html}</div>`;
+}
+
+function updateProgress() {
+  const total = pages.length;
+  const seen = Object.keys(viewed).length;
+  document.getElementById('progress').innerHTML = `${seen} of ${total} pages have already found you <span style="font-size:1.3rem">🕯️</span>`;
+}
+
+// Boot everything
+renderGallery();
+</script>
+</body>
+</html>
